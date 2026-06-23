@@ -6,7 +6,7 @@
 -- 3. inserisci il suo UUID in public.staff_users;
 -- 4. sostituisci il valore app.test_admin_uuid qui sotto.
 
-select set_config('app.test_admin_uuid', '00000000-0000-0000-0000-000000000000', false);
+select set_config('app.test_admin_uuid', '6ecd41b0-fbf8-46f6-8180-76c3a4c84bc5', false);
 
 create or replace function public.test_assert_true(p_condition boolean, p_message text)
 returns void
@@ -40,6 +40,24 @@ $$;
 
 grant execute on function public.test_assert_true(boolean, text) to anon, authenticated;
 grant execute on function public.test_expect_sqlstate(text, text, text) to anon, authenticated;
+
+create or replace function public.test_set_request_claims()
+returns void
+language plpgsql
+as $$
+declare
+  v_role text := coalesce(current_setting('request.jwt.claim.role', true), 'anon');
+  v_sub text := current_setting('request.jwt.claim.sub', true);
+begin
+  perform set_config(
+    'request.jwt.claims',
+    json_build_object('role', v_role, 'sub', v_sub)::text,
+    true
+  );
+end;
+$$;
+
+grant execute on function public.test_set_request_claims() to anon, authenticated;
 
 -- Seed di test idempotente lato database.
 delete from public.clients
@@ -149,6 +167,7 @@ begin;
 set local role authenticated;
 select set_config('request.jwt.claim.role', 'authenticated', true);
 select set_config('request.jwt.claim.sub', current_setting('app.test_admin_uuid'), true);
+select public.test_set_request_claims();
 
 select public.test_assert_true(
   public.is_staff(auth.uid()),
@@ -166,6 +185,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_expect_sqlstate(
   'select count(*) from public.clients'::text,
@@ -179,6 +199,7 @@ begin;
 set local role authenticated;
 select set_config('request.jwt.claim.role', 'authenticated', true);
 select set_config('request.jwt.claim.sub', current_setting('app.test_admin_uuid'), true);
+select public.test_set_request_claims();
 
 select public.test_assert_true(
   (select count(*) from public.clients where card_code like 'FDA-2099-%') = 5,
@@ -191,6 +212,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 with login_ok as (
   select *
@@ -219,6 +241,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_assert_true(
   exists (
@@ -244,6 +267,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_expect_sqlstate(
   $$select * from public.get_client_profile('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'::uuid)$$::text,
@@ -257,6 +281,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_assert_true(
   exists (
@@ -274,6 +299,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_assert_true(
   exists (
@@ -302,6 +328,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_assert_true(
   exists (
@@ -322,6 +349,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_assert_true(
   exists (
@@ -346,6 +374,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 with login_watch as (
   select *
@@ -359,6 +388,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_expect_sqlstate(
   format(
@@ -383,6 +413,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_expect_sqlstate(
   $$select * from public.create_booking_vip('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'::uuid, current_date + 1, 'MATTINA', 2, 0, 'Test', 'Suspended booking')$$::text,
@@ -396,6 +427,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_expect_sqlstate(
   format(
@@ -412,6 +444,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_expect_sqlstate(
   format(
@@ -428,6 +461,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_assert_true(
   exists (
@@ -449,6 +483,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_expect_sqlstate(
   format(
@@ -465,6 +500,7 @@ begin;
 set local role authenticated;
 select set_config('request.jwt.claim.role', 'authenticated', true);
 select set_config('request.jwt.claim.sub', current_setting('app.test_admin_uuid'), true);
+select public.test_set_request_claims();
 
 select public.test_assert_true(
   exists (
@@ -482,6 +518,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_expect_sqlstate(
   $$select * from public.verify_client_by_staff('FDA-2099-900001')$$::text,
@@ -495,6 +532,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_assert_true(
   (select count(*) from storage.objects where bucket_id = 'client-photos') = 0,
@@ -507,6 +545,7 @@ begin;
 set local role authenticated;
 select set_config('request.jwt.claim.role', 'authenticated', true);
 select set_config('request.jwt.claim.sub', current_setting('app.test_admin_uuid'), true);
+select public.test_set_request_claims();
 
 select public.test_assert_true(
   (select count(*) from storage.objects where bucket_id = 'client-photos') >= 0,
@@ -555,6 +594,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_expect_sqlstate(
   'select count(*) from public.beach_spots'::text,
@@ -568,6 +608,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_assert_true(
   exists (
@@ -586,6 +627,7 @@ begin;
 set local role authenticated;
 select set_config('request.jwt.claim.role', 'authenticated', true);
 select set_config('request.jwt.claim.sub', current_setting('app.test_admin_uuid'), true);
+select public.test_set_request_claims();
 
 select public.test_assert_true(
   exists (
@@ -603,6 +645,7 @@ begin;
 set local role authenticated;
 select set_config('request.jwt.claim.role', 'authenticated', true);
 select set_config('request.jwt.claim.sub', current_setting('app.test_admin_uuid'), true);
+select public.test_set_request_claims();
 
 select public.test_assert_true(
   exists (
@@ -627,6 +670,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 with spot_booking as (
   select *
@@ -662,6 +706,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_expect_sqlstate(
   format(
@@ -679,6 +724,7 @@ begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+select public.test_set_request_claims();
 
 select public.test_expect_sqlstate(
   format(
@@ -737,3 +783,4 @@ select public.test_assert_true(
 
 drop function if exists public.test_assert_true(boolean, text);
 drop function if exists public.test_expect_sqlstate(text, text, text);
+drop function if exists public.test_set_request_claims();
