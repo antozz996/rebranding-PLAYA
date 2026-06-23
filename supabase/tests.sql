@@ -82,6 +82,8 @@ grant execute on function public.test_uuid_setting(text) to anon, authenticated;
 create or replace function public.test_spot_uuid(p_spot_code text)
 returns uuid
 language plpgsql
+security definer
+set search_path = public
 as $$
 declare
   v_spot_id uuid;
