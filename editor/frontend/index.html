@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playa Luna | Dashboard Editor</title>
+    <!-- Premium Typography and Tailwind CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        gold: {
+                            DEFAULT: '#C9A84C',
+                            light: '#E8C97A',
+                            dark: '#A68433',
+                        },
+                        sand: '#E0D4BB',
+                        brandDark: '#1A1208',
+                        brandBlack: '#0F0A04',
+                        brandOffWhite: '#F9F7F2',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0F0A04;
+        }
+        /* Glassmorphism scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(201, 168, 76, 0.3);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(201, 168, 76, 0.6);
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-200 min-h-screen flex flex-col overflow-hidden">
+
+    <!-- HEADER / TOP NAV -->
+    <header class="sticky top-0 z-50 bg-brandBlack border-b border-gold/10 px-8 py-4 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3">
+            <span class="text-gold font-serif text-2xl tracking-[4px] uppercase">Playa<span class="text-white">Luna</span></span>
+            <span class="text-[9px] uppercase tracking-widest bg-gold/10 text-gold px-2 py-0.5 border border-gold/20 rounded font-semibold">Visual Editor</span>
+        </div>
+        
+        <!-- Viewport Resize Controls -->
+        <div class="flex items-center bg-brandDark/50 border border-gold/20 rounded-full p-1 gap-1">
+            <button onclick="resizePreview('desktop')" id="btn-view-desktop" class="px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest transition-all bg-gold text-brandDark">
+                Desktop
+            </button>
+            <button onclick="resizePreview('tablet')" id="btn-view-tablet" class="px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest transition-all text-gray-400 hover:text-white">
+                Tablet
+            </button>
+            <button onclick="resizePreview('mobile')" id="btn-view-mobile" class="px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest transition-all text-gray-400 hover:text-white">
+                Mobile
+            </button>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <span id="active-page-label" class="text-xs uppercase tracking-widest text-sand font-medium">Nessuna Pagina Selezionata</span>
+            <button onclick="saveCurrentPage()" id="btn-save" class="bg-gradient-to-r from-gold to-gold-light text-brandDark font-semibold text-xs uppercase tracking-[2px] px-6 py-3 rounded border border-gold-light/20 hover:brightness-110 active:scale-95 transition-all shadow-[0_4px_15px_rgba(201,168,76,0.2)]">
+                Salva Modifiche
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <div class="flex flex-1 overflow-hidden">
+        
+        <!-- SIDEBAR -->
+        <aside class="w-80 bg-brandBlack/60 border-r border-gold/10 flex flex-col shrink-0 overflow-y-auto p-6 gap-6">
+            
+            <!-- TABS NAVIGATION -->
+            <div class="flex border-b border-gold/10 pb-2 gap-2">
+                <button onclick="switchTab('pages')" id="tab-btn-pages" class="flex-1 py-2 text-center text-[10px] uppercase tracking-[2px] font-bold border border-gold/20 rounded transition-all bg-gold text-brandDark">
+                    Pagine
+                </button>
+                <button onclick="switchTab('sections')" id="tab-btn-sections" class="flex-1 py-2 text-center text-[10px] uppercase tracking-[2px] font-bold border border-transparent rounded text-gray-400 hover:text-white transition-all">
+                    Sezioni
+                </button>
+                <button onclick="switchTab('elements')" id="tab-btn-elements" class="flex-1 py-2 text-center text-[10px] uppercase tracking-[2px] font-bold border border-transparent rounded text-gray-400 hover:text-white transition-all">
+                    Elementi
+                </button>
+            </div>
+            
+            <!-- TAB CONTENT: PAGES -->
+            <div id="tab-content-pages" class="flex flex-col gap-6">
+                <!-- PAGES SECTION -->
+                <div>
+                    <h3 class="text-[10px] uppercase tracking-[3px] text-gold font-bold mb-4">Seleziona Pagina</h3>
+                    <ul id="pages-list" class="flex flex-col gap-2">
+                        <div class="text-gray-500 text-xs italic">Caricamento pagine...</div>
+                    </ul>
+                </div>
+                
+                <hr class="border-gold/10">
+
+                <!-- MEDIA UPLOADER SECTION -->
+                <div>
+                    <h3 class="text-[10px] uppercase tracking-[3px] text-gold font-bold mb-4">Carica Nuovi File</h3>
+                    
+                    <div class="flex flex-col gap-4">
+                        <!-- Dropzone -->
+                        <div id="dropzone" class="border-2 border-dashed border-gold/20 hover:border-gold/60 bg-brandDark/20 rounded-lg p-6 text-center cursor-pointer transition-all">
+                            <input type="file" id="file-input" class="hidden" accept="image/*,video/*">
+                            <svg class="mx-auto h-8 w-8 text-gold/60 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                            <p class="text-xs text-gray-300 font-medium">Trascina o clicca per caricare</p>
+                            <p class="text-[9px] text-gray-500 mt-1 uppercase tracking-wider">Immagini o Video (MP4/WebM)</p>
+                        </div>
+
+                        <!-- Upload Progress -->
+                        <div id="upload-status" class="hidden text-xs bg-gold/10 border border-gold/20 rounded p-3 text-center text-gold">
+                            Caricamento in corso...
+                        </div>
+
+                        <!-- Media Shelf -->
+                        <div class="mt-2">
+                            <h4 class="text-[9px] uppercase tracking-[2px] text-sand mb-2 font-semibold">Asset Caricati di Recente</h4>
+                            <div id="recent-assets" class="flex flex-col gap-2 max-h-48 overflow-y-auto">
+                                <div class="text-[10px] text-gray-600 italic">Nessun file caricato in questa sessione.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- TAB CONTENT: SECTIONS -->
+            <div id="tab-content-sections" class="hidden flex flex-col gap-4">
+                <h3 class="text-[10px] uppercase tracking-[3px] text-gold font-bold mb-2">Aggiungi Sezione</h3>
+                <p class="text-[10px] text-gray-400 mb-4 uppercase tracking-wider">Fai clic su una sezione per inserirla sotto alla sezione attiva nella pagina.</p>
+                
+                <div class="flex flex-col gap-3">
+                    <button onclick="addSection('intro')" draggable="true" ondragstart="dragStartSidebar(event, 'section', 'intro')" ondragend="dragEndSidebar(event)" class="group text-left p-4 rounded bg-brandDark/40 border border-gold/10 hover:border-gold/50 transition-all flex flex-col gap-1">
+                        <span class="text-xs font-bold text-gold uppercase tracking-wider group-hover:text-gold-light">Testo Centrato (Intro)</span>
+                        <span class="text-[9px] text-gray-400 leading-normal">Paragrafo centrato ideale per citazioni o introduzioni.</span>
+                    </button>
+                    <button onclick="addSection('split')" draggable="true" ondragstart="dragStartSidebar(event, 'section', 'split')" ondragend="dragEndSidebar(event)" class="group text-left p-4 rounded bg-brandDark/40 border border-gold/10 hover:border-gold/50 transition-all flex flex-col gap-1">
+                        <span class="text-xs font-bold text-gold uppercase tracking-wider group-hover:text-gold-light">Testo e Immagine</span>
+                        <span class="text-[9px] text-gray-400 leading-normal">Layout a due colonne affiancato ad un'immagine laterale.</span>
+                    </button>
+                    <button onclick="addSection('services')" draggable="true" ondragstart="dragStartSidebar(event, 'section', 'services')" ondragend="dragEndSidebar(event)" class="group text-left p-4 rounded bg-brandDark/40 border border-gold/10 hover:border-gold/50 transition-all flex flex-col gap-1">
+                        <span class="text-xs font-bold text-gold uppercase tracking-wider group-hover:text-gold-light">Tre Colonne Servizi</span>
+                        <span class="text-[9px] text-gray-400 leading-normal">Tre schede ideali per presentare servizi o caratteristiche.</span>
+                    </button>
+                    <button onclick="addSection('cta')" draggable="true" ondragstart="dragStartSidebar(event, 'section', 'cta')" ondragend="dragEndSidebar(event)" class="group text-left p-4 rounded bg-brandDark/40 border border-gold/10 hover:border-gold/50 transition-all flex flex-col gap-1">
+                        <span class="text-xs font-bold text-gold uppercase tracking-wider group-hover:text-gold-light">Call to Action (Scuro)</span>
+                        <span class="text-[9px] text-gray-400 leading-normal">Messaggio a tutto schermo con un grande bottone dorato.</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT: ELEMENTS -->
+            <div id="tab-content-elements" class="hidden flex flex-col gap-4">
+                <h3 class="text-[10px] uppercase tracking-[3px] text-gold font-bold mb-2">Aggiungi Elemento</h3>
+                <p class="text-[10px] text-gray-400 mb-4 uppercase tracking-wider">Fai clic su un elemento per inserirlo in fondo alla sezione attiva.</p>
+                
+                <div class="flex flex-col gap-3">
+                    <button onclick="addElement('title')" draggable="true" ondragstart="dragStartSidebar(event, 'element', 'title')" ondragend="dragEndSidebar(event)" class="group text-left p-4 rounded bg-brandDark/40 border border-gold/10 hover:border-gold/50 transition-all flex flex-col gap-1">
+                        <span class="text-xs font-bold text-gold uppercase tracking-wider group-hover:text-gold-light">Intestazione (Titolo)</span>
+                        <span class="text-[9px] text-gray-400 leading-normal">Aggiunge un titolo in stile 'Playfair Display'.</span>
+                    </button>
+                    <button onclick="addElement('paragraph')" draggable="true" ondragstart="dragStartSidebar(event, 'element', 'paragraph')" ondragend="dragEndSidebar(event)" class="group text-left p-4 rounded bg-brandDark/40 border border-gold/10 hover:border-gold/50 transition-all flex flex-col gap-1">
+                        <span class="text-xs font-bold text-gold uppercase tracking-wider group-hover:text-gold-light">Testo (Paragrafo)</span>
+                        <span class="text-[9px] text-gray-400 leading-normal">Aggiunge un paragrafo di testo in stile 'Montserrat'.</span>
+                    </button>
+                    <button onclick="addElement('button')" draggable="true" ondragstart="dragStartSidebar(event, 'element', 'button')" ondragend="dragEndSidebar(event)" class="group text-left p-4 rounded bg-brandDark/40 border border-gold/10 hover:border-gold/50 transition-all flex flex-col gap-1">
+                        <span class="text-xs font-bold text-gold uppercase tracking-wider group-hover:text-gold-light">Bottone Dorato</span>
+                        <span class="text-[9px] text-gray-400 leading-normal">Aggiunge un pulsante dorato per inviti all'azione.</span>
+                    </button>
+                    <button onclick="addElement('image')" draggable="true" ondragstart="dragStartSidebar(event, 'element', 'image')" ondragend="dragEndSidebar(event)" class="group text-left p-4 rounded bg-brandDark/40 border border-gold/10 hover:border-gold/50 transition-all flex flex-col gap-1">
+                        <span class="text-xs font-bold text-gold uppercase tracking-wider group-hover:text-gold-light">Contenitore Immagine</span>
+                        <span class="text-[9px] text-gray-400 leading-normal">Aggiunge un'immagine riempitiva di default.</span>
+                    </button>
+                    <button onclick="addElement('video')" draggable="true" ondragstart="dragStartSidebar(event, 'element', 'video')" ondragend="dragEndSidebar(event)" class="group text-left p-4 rounded bg-brandDark/40 border border-gold/10 hover:border-gold/50 transition-all flex flex-col gap-1">
+                        <span class="text-xs font-bold text-gold uppercase tracking-wider group-hover:text-gold-light">Contenitore Video</span>
+                        <span class="text-[9px] text-gray-400 leading-normal">Aggiunge un video autoplay di default.</span>
+                    </button>
+                </div>
+            </div>
+            
+        </aside>
+
+        <!-- PREVIEW VIEWER FRAME -->
+        <main class="flex-1 bg-brandDark/40 flex items-center justify-center p-6 overflow-hidden">
+            <div id="iframe-container" class="w-full h-full rounded border border-gold/10 bg-white overflow-hidden shadow-2xl transition-all duration-300">
+                <iframe id="preview-iframe" class="w-full h-full border-none" src="about:blank"></iframe>
+            </div>
+        </main>
+        
+    </div>
+
+    <!-- SWAP MEDIA MODAL (POPUP) -->
+    <div id="media-modal" class="fixed inset-0 bg-brandBlack/80 backdrop-blur-sm z-[99999] flex items-center justify-center hidden">
+        <div class="bg-brandDark border border-gold/30 rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl flex flex-col gap-6">
+            <div>
+                <h3 class="text-lg font-serif text-gold font-medium mb-1" id="modal-title">Sostituisci Elemento</h3>
+                <p class="text-xs text-gray-400" id="modal-subtitle">Seleziona o carica il nuovo file per rimpiazzare l'elemento.</p>
+            </div>
+
+            <!-- Upload option inside modal -->
+            <div onclick="document.getElementById('modal-file-input').click()" class="border border-dashed border-gold/30 hover:border-gold bg-brandBlack/40 rounded-lg p-8 text-center cursor-pointer transition-all">
+                <input type="file" id="modal-file-input" class="hidden" accept="image/*,video/*">
+                <span class="text-xs text-gold uppercase tracking-wider font-semibold">Carica Nuovo File</span>
+            </div>
+            
+            <div class="text-center text-xs text-gray-500 uppercase tracking-widest font-semibold">— Oppure inserisci URL —</div>
+            
+            <!-- Manual URL option -->
+            <div class="flex flex-col gap-1.5">
+                <label class="text-[10px] text-sand uppercase tracking-wider">URL Relativo o Assoluto</label>
+                <input type="text" id="modal-url-input" class="bg-brandBlack border border-gold/20 rounded p-3 text-xs text-white focus:outline-none focus:border-gold" placeholder="es. assets/images/location.webp">
+            </div>
+
+            <!-- Modal Actions -->
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="closeMediaModal()" class="text-gray-400 hover:text-white text-xs uppercase tracking-widest font-semibold px-4 py-2">
+                    Annulla
+                </button>
+                <button onclick="applyMediaSwap()" class="bg-gold text-brandDark text-xs uppercase tracking-widest font-bold px-6 py-2.5 rounded hover:brightness-110">
+                    Applica
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-brandDark border border-gold text-gold text-xs uppercase tracking-widest font-semibold px-6 py-4 rounded-lg shadow-2xl transition-all duration-300 opacity-0 translate-y-4 pointer-events-none z-[999999]">
+        Modifica salvata!
+    </div>
+
+    <!-- MAIN LOGIC -->
+    <script>
+        const iframe = document.getElementById('preview-iframe');
+        const iframeContainer = document.getElementById('iframe-container');
+        let activePage = "";
+        let pendingMediaSwap = null; // Stores target element info for swap
+        
+        // 1. Fetch available pages on load
+        async function fetchPages() {
+            try {
+                const res = await fetch('/api/pages');
+                const pages = await res.json();
+                const list = document.getElementById('pages-list');
+                list.innerHTML = "";
+                
+                // Group pages by folder/language
+                const groups = {};
+                pages.forEach(page => {
+                    const parts = page.split('/');
+                    let groupName = "ITALIANO";
+                    let displayName = page.replace('.html', '').replace('_', ' ');
+                    
+                    if (parts.length > 1) {
+                        groupName = parts[0].toUpperCase();
+                        displayName = parts.slice(1).join('/').replace('.html', '').replace('_', ' ');
+                    }
+                    
+                    if (!groups[groupName]) {
+                        groups[groupName] = [];
+                    }
+                    groups[groupName].push({ path: page, name: displayName });
+                });
+
+                let autoLoadBtn = null;
+                let autoLoadPath = "";
+
+                for (const [groupName, groupPages] of Object.entries(groups)) {
+                    // Add group header
+                    const header = document.createElement('div');
+                    header.className = "text-[9px] uppercase tracking-[2px] text-gold/60 font-bold mt-4 mb-2 pl-2 border-l border-gold/20";
+                    header.textContent = groupName;
+                    list.appendChild(header);
+
+                    groupPages.forEach(p => {
+                        const li = document.createElement('li');
+                        const btn = document.createElement('button');
+                        btn.className = "w-full text-left px-4 py-2.5 rounded text-xs font-semibold uppercase tracking-wider text-gray-400 hover:text-white hover:bg-gold/5 border border-transparent transition-all";
+                        btn.textContent = p.name;
+                        btn.onclick = () => loadPage(p.path, btn);
+                        li.appendChild(btn);
+                        list.appendChild(li);
+
+                        // Select index.html from root if available
+                        if (p.path === "index.html") {
+                            autoLoadBtn = btn;
+                            autoLoadPath = p.path;
+                        }
+                    });
+                }
+
+                // Auto-load index.html if we found it
+                if (autoLoadBtn) {
+                    loadPage(autoLoadPath, autoLoadBtn);
+                } else if (pages.length > 0) {
+                    // Fallback to first page
+                    const firstBtn = list.querySelector('button');
+                    if (firstBtn) {
+                        const firstPath = pages[0];
+                        loadPage(firstPath, firstBtn);
+                    }
+                }
+            } catch (err) {
+                console.error("Errore caricamento pagine:", err);
+            }
+        }
+
+        // 2. Load page into iframe
+        function loadPage(page, buttonEl) {
+            activePage = page;
+            document.getElementById('active-page-label').textContent = page;
+            
+            // Highlight active button
+            const buttons = document.querySelectorAll('#pages-list button');
+            buttons.forEach(b => {
+                b.classList.remove('bg-gold/10', 'text-gold', 'border-gold/20');
+                b.classList.add('text-gray-400');
+            });
+            buttonEl.classList.add('bg-gold/10', 'text-gold', 'border-gold/20');
+            buttonEl.classList.remove('text-gray-400');
+            
+            // Set source
+            iframe.src = `/preview/${page}`;
+        }
+
+        // 3. Viewport resizing
+        function resizePreview(size) {
+            // Update buttons
+            const viewports = ['desktop', 'tablet', 'mobile'];
+            viewports.forEach(vp => {
+                const btn = document.getElementById(`btn-view-${vp}`);
+                btn.classList.remove('bg-gold', 'text-brandDark');
+                btn.classList.add('text-gray-400', 'hover:text-white');
+            });
+            
+            const activeBtn = document.getElementById(`btn-view-${size}`);
+            activeBtn.classList.add('bg-gold', 'text-brandDark');
+            activeBtn.classList.remove('text-gray-400', 'hover:text-white');
+
+            // Apply size
+            if (size === 'desktop') {
+                iframeContainer.style.maxWidth = '100%';
+            } else if (size === 'tablet') {
+                iframeContainer.style.maxWidth = '768px';
+            } else if (size === 'mobile') {
+                iframeContainer.style.maxWidth = '375px';
+            }
+        }
+
+        // 4. Save Page changes
+        async function saveCurrentPage() {
+            if (!activePage) return;
+            
+            const btnSave = document.getElementById('btn-save');
+            const originalText = btnSave.textContent;
+            btnSave.textContent = "Salvataggio...";
+            btnSave.disabled = true;
+            
+            try {
+                // Call helper inside iframe to clean DOM and return full HTML
+                const cleanHTML = iframe.contentWindow.cleanHTMLForSaving();
+                
+                const res = await fetch(`/api/pages/${activePage}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ html: cleanHTML })
+                });
+                
+                const result = await res.json();
+                
+                if (result.status === 'success') {
+                    showToast(`Salvato! Backup: ${result.backup}`);
+                    // Reload preview to keep sync
+                    iframe.src = `/preview/${activePage}`;
+                } else {
+                    showToast("Errore durante il salvataggio", true);
+                }
+            } catch (err) {
+                console.error("Errore salvataggio:", err);
+                showToast("Errore connessione server", true);
+            } finally {
+                btnSave.textContent = originalText;
+                btnSave.disabled = false;
+            }
+        }
+
+        // 5. Toast notification helper
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            if (isError) {
+                toast.classList.remove('text-gold', 'border-gold');
+                toast.classList.add('text-red-500', 'border-red-500');
+            } else {
+                toast.classList.remove('text-red-500', 'border-red-500');
+                toast.classList.add('text-gold', 'border-gold');
+            }
+            toast.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+            }, 4000);
+        }
+
+        // 6. Messaging listener from iframe (Image/Video click detection)
+        window.addEventListener("message", (e) => {
+            const msg = e.data;
+            if (msg.type === "edit_image" || msg.type === "edit_video") {
+                pendingMediaSwap = msg;
+                openMediaModal(msg.type === "edit_image" ? "Immagine" : "Video", msg.currentSrc);
+            }
+        });
+
+        // 7. Modal management
+        function openMediaModal(type, currentSrc) {
+            document.getElementById('modal-title').textContent = `Sostituisci ${type}`;
+            document.getElementById('modal-subtitle').textContent = `Attualmente: ${currentSrc || 'Nessuno'}`;
+            document.getElementById('modal-url-input').value = currentSrc || '';
+            document.getElementById('media-modal').classList.remove('hidden');
+        }
+
+        function closeMediaModal() {
+            document.getElementById('media-modal').classList.add('hidden');
+            pendingMediaSwap = null;
+        }
+
+        // Apply swaps
+        function applyMediaSwap() {
+            if (!pendingMediaSwap) return;
+            const newSrc = document.getElementById('modal-url-input').value;
+            
+            // Send back to iframe
+            iframe.contentWindow.postMessage({
+                type: pendingMediaSwap.type === 'edit_image' ? 'update_image' : 'update_video',
+                elementId: pendingMediaSwap.elementId,
+                newSrc: newSrc
+            }, '*');
+            
+            closeMediaModal();
+        }
+
+        // 8. Upload files triggers
+        // Sidebar upload trigger
+        const fileInput = document.getElementById('file-input');
+        document.getElementById('dropzone').onclick = () => fileInput.click();
+        
+        fileInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) handleUpload(file);
+        };
+
+        // Modal upload trigger
+        const modalFileInput = document.getElementById('modal-file-input');
+        modalFileInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) handleUpload(file, true);
+        };
+
+        // Handle upload to API
+        async function handleUpload(file, isModal = false) {
+            const status = document.getElementById('upload-status');
+            status.classList.remove('hidden');
+            status.textContent = `Caricamento di ${file.name}...`;
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            const isVideo = file.type.startsWith('video/');
+            const url = isVideo ? '/api/upload/video' : '/api/upload/image';
+            
+            try {
+                const res = await fetch(url, {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await res.json();
+                
+                if (result.status === 'success') {
+                    status.textContent = "Caricamento completato!";
+                    setTimeout(() => status.classList.add('hidden'), 2000);
+                    
+                    // Add to recent shelf
+                    addToRecentShelf(result.url, file.name);
+                    
+                    if (isModal) {
+                        document.getElementById('modal-url-input').value = result.url;
+                        showToast(`Caricato con successo: ${file.name}`);
+                    } else {
+                        showToast(`Caricato in assets: ${file.name}`);
+                    }
+                } else {
+                    status.textContent = "Errore durante il caricamento";
+                    showToast("Errore di caricamento", true);
+                }
+            } catch (err) {
+                console.error("Errore upload:", err);
+                status.textContent = "Errore di connessione";
+                showToast("Errore server in upload", true);
+            }
+        }
+
+        function addToRecentShelf(url, filename) {
+            const shelf = document.getElementById('recent-assets');
+            // Remove placeholder if present
+            if (shelf.querySelector('.italic')) {
+                shelf.innerHTML = "";
+            }
+            
+            const item = document.createElement('div');
+            item.className = "flex items-center justify-between gap-2 bg-brandDark/40 border border-gold/10 p-2.5 rounded text-[10px]";
+            item.innerHTML = `
+                <div class="truncate select-all text-gray-300 font-mono" title="${url}">${url}</div>
+                <button class="text-gold font-bold hover:text-white tracking-wider uppercase shrink-0" onclick="navigator.clipboard.writeText('${url}'); showToast('Copiato!')">Copia</button>
+            `;
+            shelf.prepend(item);
+        }
+
+        // Initialize drag and drop
+        const dropzone = document.getElementById('dropzone');
+        dropzone.ondragover = (e) => { e.preventDefault(); dropzone.classList.add('border-gold'); };
+        dropzone.ondragleave = () => { dropzone.classList.remove('border-gold'); };
+        dropzone.ondrop = (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-gold');
+            const file = e.dataTransfer.files[0];
+            if (file) handleUpload(file);
+        };
+
+        // Fetch pages list on start
+        fetchPages();
+
+        // Prevent parent window scrolling (snaps header back in view if browser autofocus scrolls page)
+        window.addEventListener('scroll', () => {
+            if (window.scrollY !== 0) {
+                window.scrollTo(0, 0);
+            }
+        }, { passive: true });
+        
+        // Tab switching logic
+        function switchTab(tabId) {
+            const tabs = ['pages', 'sections', 'elements'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-btn-${t}`);
+                const content = document.getElementById(`tab-content-${t}`);
+                
+                if (t === tabId) {
+                    btn.classList.add('bg-gold', 'text-brandDark', 'border-gold/20');
+                    btn.classList.remove('text-gray-400', 'border-transparent');
+                    content.classList.remove('hidden');
+                } else {
+                    btn.classList.remove('bg-gold', 'text-brandDark', 'border-gold/20');
+                    btn.classList.add('text-gray-400', 'border-transparent');
+                    content.classList.add('hidden');
+                }
+            });
+        }
+
+        // Drag and drop parent state management
+        function dragStartSidebar(event, category, type) {
+            const dragData = { category, type };
+            event.dataTransfer.setData("application/json", JSON.stringify(dragData));
+            // Store globally on parent window so the iframe (same-origin) can read it during dragover
+            window.draggedSidebarItem = dragData;
+            event.dataTransfer.effectAllowed = "copy";
+        }
+
+        function dragEndSidebar(event) {
+            window.draggedSidebarItem = null;
+        }
+
+        // Functions to insert items into iframe page
+        function addSection(type) {
+            if (!activePage) {
+                showToast("Seleziona prima una pagina per poter aggiungere sezioni!", true);
+                return;
+            }
+            try {
+                iframe.contentWindow.insertSectionFromSidebar(type);
+                showToast("Sezione aggiunta alla pagina!");
+            } catch (err) {
+                console.error("Errore inserimento sezione:", err);
+                showToast("Errore durante l'inserimento della sezione", true);
+            }
+        }
+
+        function addElement(type) {
+            if (!activePage) {
+                showToast("Seleziona prima una pagina per poter aggiungere elementi!", true);
+                return;
+            }
+            try {
+                const success = iframe.contentWindow.insertElementFromSidebar(type);
+                if (success) {
+                    showToast("Elemento aggiunto alla sezione attiva!");
+                } else {
+                    showToast("Seleziona o passa sopra una sezione nella pagina per inserire l'elemento!", true);
+                }
+            } catch (err) {
+                console.error("Errore inserimento elemento:", err);
+                showToast("Errore durante l'inserimento dell'elemento", true);
+            }
+        }
+
+        // Force scroll reset on load
+        window.scrollTo(0, 0);
+    </script>
+</body>
+</html>

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Wedding & Events Venue Naples | Playa Luna Varcaturo</title>
+    <meta name="description" content="Host your dream event at Playa Luna. Beach weddings, private parties, and corporate events in a unique venue in Varcaturo.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.playaluna.it/en/eventi.html">
+    
+    <!-- Hreflang Tags (International SEO) -->
+    <link rel="alternate" hreflang="it" href="https://www.playaluna.it/eventi.html">
+    <link rel="alternate" hreflang="en" href="https://www.playaluna.it/en/eventi.html">
+    <link rel="alternate" hreflang="x-default" href="https://www.playaluna.it/eventi.html">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Wedding & Events Venue Naples | Playa Luna Varcaturo">
+    <meta property="og:description" content="Host your dream event at Playa Luna. Beach weddings, private parties, and corporate events in a unique venue in Varcaturo.">
+    <meta property="og:url" content="https://www.playaluna.it/en/eventi.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.playaluna.it/assets/images/hero-home.webp">
+    <meta property="og:site_name" content="Playa Luna">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Wedding & Events Venue Naples | Playa Luna Varcaturo">
+    <meta name="twitter:description" content="Host your dream event at Playa Luna. Beach weddings, private parties, and corporate events in a unique venue in Varcaturo.">
+    <meta name="twitter:image" content="https://www.playaluna.it/assets/images/hero-home.webp">
+    
+    
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
+    
+    <link rel="icon" type="image/png" href="../assets/favicon.webp">
+    <link rel="apple-touch-icon" href="../assets/favicon.webp">
+
+    <style>
+        :root {
+            --sand: #E0D4BB;
+            --gold: #C9A84C;
+            --off-white: #F9F7F2;
+            --white: #FFFFFF;
+            --text-dark: #1A1208;
+            --text-light: #666059;
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+            --slide-padding: 8vw;
+        }
+
+        .decor-line { position: fixed; top: 0; width: 1px; height: 100vh; background: linear-gradient(to bottom, transparent, var(--gold), transparent); opacity: 0.1; z-index: 1002; pointer-events: none; }
+        .line-left { left: 4vw; } .line-right { right: 4vw; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--off-white); color: var(--text-dark); font-family: 'Montserrat', sans-serif; overflow-x: hidden; line-height: 1.6; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 400; }
+
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 2rem var(--slide-padding);
+            display: grid; grid-template-columns: 1fr auto 1fr;
+            align-items: center; z-index: 1000;
+            transition: all 0.5s var(--ease-out-expo);
+        }
+        .hamburger { display: none; cursor: pointer; z-index: 10001; background: none; border: none; padding: 10px; position: relative; flex-shrink: 0; }
+        .hamburger span { display: block; width: 26px; height: 2px; margin: 6px 0; background-color: #fff; transition: all 0.35s ease; border-radius: 2px; }
+        .navbar.scrolled .hamburger span, .navbar:not(.hero-nav) .hamburger span { background-color: #1A1208; }
+        
+        .mobile-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1A1208; z-index: 9998; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; transform: translateX(100%); visibility: hidden; transition: transform 0.45s cubic-bezier(0.77,0.2,0.05,1.0), visibility 0.45s; }
+        .mobile-overlay.active { transform: translateX(0); visibility: visible; }
+        .mobile-nav-links { list-style: none; text-align: center; padding: 0; margin: 0; width: 100%; }
+        .mobile-nav-links li { margin: 1.2rem 0; }
+        .mobile-nav-links a { color: #F9F7F2; text-decoration: none; font-size: clamp(1.4rem, 7vw, 2.2rem); text-transform: uppercase; letter-spacing: 5px; font-family: 'Playfair Display', serif; transition: color 0.3s, letter-spacing 0.3s; display: inline-block; }
+        .mobile-nav-links a:hover { color: #C9A84C; letter-spacing: 7px; }
+        .mobile-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: #F9F7F2; font-size: 2.5rem; cursor: pointer; line-height: 1; opacity: 0.7; transition: opacity 0.3s; }
+        .mobile-close:hover { opacity: 1; }
+        .mobile-lang { margin-top: 2.5rem; font-size: 0.75rem; letter-spacing: 4px; color: rgba(255,255,255,0.35); text-transform: uppercase; }
+        .mobile-lang a { color: rgba(255,255,255,0.6); text-decoration: none; margin: 0 0.5rem; }
+        .mobile-lang a:hover { color: #C9A84C; }
+        .mobile-divider { width: 40px; height: 1px; background: rgba(255,255,255,0.15); margin: 1.5rem auto 0; }
+
+        .navbar.scrolled { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); padding: 1.2rem var(--slide-padding); }
+
+        .lang-switcher { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin-left: 1rem; }
+        .lang-switcher a { text-decoration: none; color: var(--white); opacity: 0.6; transition: 0.3s; }
+        .lang-switcher a.active { opacity: 1; font-weight: 600; }
+        .navbar.scrolled .lang-switcher a { color: var(--text-dark); }
+
+        .nav-left { display: flex; justify-content: flex-start; gap: 2rem; list-style: none; }
+        .nav-right { display: flex; justify-content: flex-end; gap: 2.5rem; list-style: none; align-items: center; }
+        .nav-link { text-decoration: none; color: var(--white); font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 2px; transition: color 0.3s; }
+        .navbar.scrolled .nav-link { color: var(--text-dark); }
+        .nav-link:hover { color: var(--gold); }
+        .nav-link.current { color: var(--gold) !important; }
+
+        .logo { height: 180px !important; width: auto !important; object-fit: contain; transition: all 0.5s; filter: brightness(0) invert(1); }
+        .navbar.scrolled .logo { height: 120px !important; filter: none; }
+
+        .hero {
+            height: 70vh; width: 100%; position: relative;
+            overflow: hidden; display: flex; align-items: center;
+            justify-content: center; text-align: center;
+            background: #000;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, transparent 50%, var(--white) 100%);
+            z-index: 2;
+        }
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.7;
+        }
+        .hero-content { position: relative; z-index: 10; color: #1A1208; text-align: center; }
+        .badge-label { 
+            display: inline-block;
+            background: #1A1208;
+            color: var(--gold);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+        }
+        .hero-title { 
+            font-size: clamp(3rem, 10vw, 6rem); line-height: 1.1; 
+            margin-bottom: 3rem; text-shadow: none !important;
+            color: #1A1208 !important;
+        }
+
+        /* Instagram Style Slider */
+        .instagram-section { padding: 6rem 0; background: var(--white); overflow: hidden; }
+        .ig-header { padding: 0 var(--slide-padding) 3rem; display: flex; align-items: center; gap: 1rem; }
+        .ig-header img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+        .ig-header .handle { font-weight: 600; font-size: 0.9rem; }
+        
+        .gallery-preview {
+            width: 100%; overflow: hidden; position: relative;
+        }
+        .gallery-track { 
+            display: flex; gap: 1rem; padding: 0 2rem;
+            animation: galleryScroll 40s linear infinite;
+        }
+        .gallery-track:hover { animation-play-state: paused; }
+        
+        .ig-post {
+            width: 350px; flex-shrink: 0; background: var(--white);
+            border: 1px solid rgba(0,0,0,0.05); border-radius: 8px;
+            overflow: hidden; position: relative;
+        }
+        .ig-post-img { width: 100%; height: 350px; object-fit: cover; }
+        .ig-post-info { padding: 1rem; }
+        .ig-actions { display: flex; gap: 1rem; margin-bottom: 0.8rem; font-size: 1.2rem; }
+        .ig-likes { font-size: 0.8rem; font-weight: 600; margin-bottom: 0.4rem; }
+        .ig-caption { font-size: 0.8rem; line-height: 1.4; color: var(--text-dark); }
+        .ig-caption b { margin-right: 0.5rem; }
+
+        @keyframes galleryScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* 3-Step Method */
+        .steps-section { padding: 10rem var(--slide-padding); background: var(--white); }
+        .steps-header { text-align: center; margin-bottom: 6rem; }
+        .steps-header span { font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); }
+        .steps-header h2 { font-size: 3.5rem; margin-top: 1rem; }
+        .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4rem; }
+        .step-card { text-align: center; position: relative; padding: 3rem 2rem; }
+        .step-number {
+            font-size: 8rem; font-family: 'Playfair Display', serif; font-weight: 700;
+            color: var(--gold); opacity: 0.05; position: absolute;
+            top: -1rem; left: 50%; transform: translateX(-50%);
+            line-height: 1; z-index: 1; pointer-events: none;
+        }
+        .step-content { position: relative; z-index: 2; }
+        .step-card h3 { font-size: 2rem; margin-bottom: 1.5rem; }
+        .step-card p { color: var(--text-light); line-height: 1.8; }
+        .step-divider {
+            position: absolute; top: 50%; right: -2rem;
+            width: 4rem; height: 1px;
+            border-top: 2px dashed rgba(201,168,76,0.3);
+        }
+
+        /* Event Cards */
+        .event-types { padding: 10rem var(--slide-padding); background: var(--off-white); }
+        .event-types-header { text-align: center; margin-bottom: 6rem; }
+        .event-types-header span { font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); }
+        .event-types-header h2 { font-size: 3.5rem; margin-top: 1rem; }
+        .event-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+        .event-card { position: relative; overflow: hidden; height: 500px; }
+        .event-card img { width: 100%; height: 100%; object-fit: cover; transition: 1s var(--ease-out-expo); }
+        .event-card:hover img { transform: scale(1.08); }
+        .event-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 60%; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); z-index: 2; }
+        .event-card-content { position: absolute; bottom: 0; left: 0; padding: 3rem; z-index: 10; color: var(--white); }
+        .event-card-content h3 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .event-card-content p { font-size: 0.9rem; opacity: 0.8; }
+
+        /* Extra Services Grid */
+        .extra-services { margin-top: 8rem; text-align: center; }
+        .extra-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 1rem; display: block; }
+        .extra-services h3 { font-size: 2.5rem; margin-bottom: 4rem; }
+        .extra-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .extra-item {
+            background: var(--off-white); padding: 2.5rem; border: 1px solid rgba(0,0,0,0.03);
+            transition: 0.4s; display: flex; flex-direction: column; align-items: center; gap: 1rem;
+        }
+        .extra-item:hover { background: var(--white); border-color: var(--gold); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .extra-icon { font-size: 2rem; }
+        .extra-item h4 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+
+
+
+        /* Contact Form */
+        .contact-section { padding: 10rem var(--slide-padding); display: grid; grid-template-columns: 1fr 1.2fr; gap: 8vw; background: var(--off-white); }
+        .contact-text h2 { font-size: 3.5rem; margin-bottom: 2.5rem; }
+        .contact-text p { color: var(--text-light); line-height: 1.8; margin-bottom: 3rem; }
+        .lead-form { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .form-group.full { grid-column: span 2; }
+        .form-group label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; opacity: 0.6; }
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 1.2rem; border: 1px solid rgba(0,0,0,0.1);
+            background: var(--white); font-family: inherit; font-size: 1rem; transition: 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); outline: none; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1.2s var(--ease-out-expo); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        footer { background: var(--text-dark); color: var(--white); padding: 8rem var(--slide-padding); text-align: center; }
+        .footer-info { font-size: 0.8rem; opacity: 0.6; line-height: 2; margin-top: 3rem; }
+
+        .btn-gold {
+            display: inline-block; padding: 1.5rem 3.5rem;
+            background: var(--gold); color: var(--white);
+            text-decoration: none; text-transform: uppercase;
+            font-size: 0.8rem; letter-spacing: 3px; border: none; cursor: pointer; transition: 0.3s;
+        }
+        .btn-gold:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(201,168,76,0.3); }
+        .btn-outline {
+            display: inline-block; padding: 1.2rem 2.5rem;
+            background: transparent; border: 1px solid var(--gold); color: var(--gold);
+            text-decoration: none; text-transform: uppercase;
+            font-size: 0.75rem; letter-spacing: 2px; transition: 0.3s;
+        }
+        .btn-outline:hover { background: var(--gold); color: var(--white); }
+
+        @media (max-width: 1024px) {
+            .navbar { padding: 1.5rem 5vw !important; display: flex !important; justify-content: space-between !important; align-items: center !important; grid-template-columns: unset !important; }
+            .nav-left, .nav-right { display: none !important; }
+            .hamburger { 
+                display: block !important; 
+                background: rgba(255,255,255,0.1) !important;
+                border: 1px solid rgba(255,255,255,0.3) !important;
+                border-radius: 50% !important;
+                padding: 10px !important;
+                backdrop-filter: blur(10px) !important;
+                margin-left: auto;
+            }
+            .logo { height: 80px !important; }
+            .hero-title { font-size: 3.5rem !important; }
+            .hero { height: auto !important; min-height: 80vh; padding: 140px 5vw 60px !important; flex-direction: column; }
+            .steps-grid, .event-grid, .contact-section, .extra-grid { grid-template-columns: 1fr; }
+            .lead-form { grid-template-columns: 1fr; }
+            .form-group.full { grid-column: span 1; }
+        }
+        @media (max-width: 480px) {
+            .hero-title { font-size: 2rem !important; letter-spacing: 2px; }
+            .ig-post { width: 80vw !important; height: 80vw !important; }
+            .event-card { height: 300px; }
+            section { padding: 4rem 5vw !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="decor-line line-left"></div>
+    <div class="decor-line line-right"></div>
+
+    <nav class="navbar hero-nav" id="navbar">
+        <ul class="nav-left">
+            <li><a href="damai.html" class="nav-link">Damai</a></li>
+            <li><a href="culto.html" class="nav-link">Culto</a></li>
+            <li><a href="../fiordacqua.html" class="nav-link">Fior d'Acqua</a></li>
+        </ul>
+
+        <a href="index.html" class="logo-link"><img src="../assets/logos/logo-playaluna.webp" alt="Playa Luna" class="logo"></a>
+
+        <ul class="nav-right">
+            <li><a href="beach.html" class="nav-link">Beach</a></li>
+            <li><a href="ristorante.html" class="nav-link">Restaurant</a></li>
+            <li><a href="eventi.html" class="nav-link" style="color: var(--gold) !important;">Events</a></li>
+            <li><a href="contatti.html" class="nav-link">Contact</a></li>
+            <li class="lang-switcher">
+                <a href="#" class="active">EN</a> | <a href="../eventi.html">IT</a>
+            </li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+
+
+    <header class="hero">
+        <picture class="hero-bg">
+            <source srcset="../assets/images/mobile-booking-bg.webp" media="(max-width: 800px)" type="image/webp">
+            <img src="../assets/images/booking-bg.webp" alt="Events Playa Luna" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;">
+        </picture>
+        <div class="hero-content">
+            <span class="badge-label">Private Celebrations</span>
+            <h1 class="hero-title" style="color: var(--white) !important; text-shadow: 0 2px 25px rgba(0,0,0,0.3) !important;">Exclusive Events</h1>
+        </div>
+    </header>
+
+    <!-- Instagram Feed Slider -->
+    <section class="instagram-section">
+        <div class="ig-header">
+            <a href="https://www.instagram.com/playalunaeventi/" target="_blank" style="display: flex; align-items: center; gap: 1rem; text-decoration: none; color: inherit;">
+                <img src="../assets/logos/logo-ig-eventi.webp" alt="Playa Luna">
+                <div class="handle">@playalunaeventi</div>
+            </a>
+        </div>
+        <div class="gallery-preview">
+            <div class="gallery-track">
+                <!-- Post 1-15 -->
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-1.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-2.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-3.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-4.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-5.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-6.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-7.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-8.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-9.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-10.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-11.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-12.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-13.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-14.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-15.webp" alt="Post" class="ig-post-img"></a></div>
+                <!-- Duplicate for loop -->
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-1.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-2.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-3.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-4.webp" alt="Post" class="ig-post-img"></a></div>
+                <div class="ig-post"><a href="https://www.instagram.com/playalunaeventi/" target="_blank"><img src="../assets/images/social/eventi-5.webp" alt="Post" class="ig-post-img"></a></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Added Section: Location Varcaturo -->
+    <section class="reveal" style="padding: 6rem 8vw 2rem; background: var(--white); text-align: center;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h2 style="font-size: clamp(2rem, 4vw, 3rem); color: var(--text-dark); margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; font-weight: 400; line-height: 1.2;">
+                Beachfront Events Venue in Varcaturo
+            </h2>
+            <p style="color: var(--text-light); font-size: 1.05rem; line-height: 1.8; font-family: 'Montserrat', sans-serif;">
+                Weddings, birthdays, graduation parties, and corporate events in a beachside location featuring catering, customized setups, and a unique view of the sea.
+            </p>
+        </div>
+    </section>
+
+    <!-- Event Type Cards -->
+    <section class="event-types">
+        <div class="event-types-header reveal">
+            <span>Our Specialties</span>
+            <h2>Every Event is Unique</h2>
+        </div>
+        <div class="event-grid">
+            <div class="event-card reveal">
+                <img src="../assets/images/card-eventi-wedding.webp" srcset="../assets/images/mobile-card-eventi-wedding.webp 800w, ../assets/images/card-eventi-wedding.webp 1200w" sizes="(max-width: 800px) 800px, 1200px" alt="Wedding" loading="lazy">
+                <div class="event-card-content">
+                    <h3>Beach Wedding</h3>
+                    <p>The dream of a wedding on the beach of Varcaturo becomes reality.</p>
+                </div>
+            </div>
+            <div class="event-card reveal">
+                <img src="../assets/images/card-eventi-birthday.webp" srcset="../assets/images/mobile-card-eventi-birthday.webp 800w, ../assets/images/card-eventi-birthday.webp 1200w" sizes="(max-width: 800px) 800px, 1200px" alt="Private Party" loading="lazy">
+                <div class="event-card-content">
+                    <h3>Private Party</h3>
+                    <p>Birthdays, anniversaries, and private parties curated in every detail.</p>
+                </div>
+            </div>
+            <div class="event-card reveal">
+                <img src="../assets/images/card-eventi-corporate.webp" srcset="../assets/images/mobile-card-eventi-corporate.webp 800w, ../assets/images/card-eventi-corporate.webp 1200w" sizes="(max-width: 800px) 800px, 1200px" alt="Corporate" loading="lazy">
+                <div class="event-card-content">
+                    <h3>Corporate Events</h3>
+                    <p>Corporate presentations, team building, and gala dinners.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3-Step Method -->
+    <section class="steps-section">
+        <div class="steps-header reveal">
+            <span>Our Method</span>
+            <h2>From Idea to Perfection</h2>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card reveal">
+                <div class="step-number">01</div>
+                <div class="step-content">
+                    <h3>Vision</h3>
+                    <p>We listen to your idea and guide you in choosing the perfect location, style, and atmosphere for your event.</p>
+                </div>
+                <div class="step-divider"></div>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-number">02</div>
+                <div class="step-content">
+                    <h3>Planning</h3>
+                    <p>Our team of event planners builds every detail: catering, setups, entertainment, and logistics.</p>
+                </div>
+                <div class="step-divider"></div>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-number">03</div>
+                <div class="step-content">
+                    <h3>Perfection</h3>
+                    <p>On the day of the event, we take care of everything. You enjoy every moment, while we ensure everything is impeccable.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customizations & Extra Services -->
+        <div class="extra-services reveal">
+            <span class="extra-label">Details that make the difference</span>
+            <h3>Customizations & Extra Services</h3>
+            <div class="extra-grid">
+                <div class="extra-item">
+                    <span class="extra-icon">🍣</span>
+                    <h4>Sushi Corner</h4>
+                </div>
+                <div class="extra-item">
+                    <span class="extra-icon">🔥</span>
+                    <h4>Live BBQ Station</h4>
+                </div>
+                <div class="extra-item">
+                    <span class="extra-icon">🍦</span>
+                    <h4>Ice Cream Cart</h4>
+                </div>
+                <div class="extra-item">
+                    <span class="extra-icon">🎨</span>
+                    <h4>Kids Workshops & Activities</h4>
+                </div>
+                <div class="extra-item">
+                    <span class="extra-icon">🎆</span>
+                    <h4>Fire Show</h4>
+                </div>
+                <div class="extra-item">
+                    <span class="extra-icon">🎶</span>
+                    <h4>Pyro-musical Show</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="contact-section">
+        <div class="contact-text reveal">
+            <h2>Tell Us Your Idea</h2>
+            <p>We're ready to transform your vision into an unforgettable event. Fill out the form or contact us directly on WhatsApp for a personalized consultation.</p>
+            <a href="https://wa.me/390001112255?text=I%20would%20like%20information%20about%20organizing%20an%20event" class="btn-outline">Speak with our Event Planner</a>
+        </div>
+        
+        <form class="lead-form reveal" id="eventForm">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="userName" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="userPhone" placeholder="Your number" required>
+            </div>
+            <div class="form-group">
+                <label>Event Type</label>
+                <select id="eventType">
+                    <option>Wedding</option>
+                    <option>Private Party</option>
+                    <option>Corporate Event</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Event Date</label>
+                <input type="date" id="eventDate">
+            </div>
+            <div class="form-group">
+                <label>Estimated Guests</label>
+                <input type="number" id="eventGuests" placeholder="e.g. 100">
+            </div>
+            <div class="form-group full">
+                <label>Message</label>
+                <textarea id="eventMessage" rows="5" placeholder="Describe your event..."></textarea>
+            </div>
+            <div class="form-group full">
+                <button type="submit" class="btn-gold">Send Request</button>
+            </div>
+        </form>
+    </section>
+
+    <footer>
+        <img src="../assets/logos/logo-playaluna.webp" alt="Playa Luna" style="height:100px; filter:brightness(0) invert(1);">
+        <div class="footer-info">
+            <p>Via Marina di Varcaturo, 42 - 81030 Castel Volturno (CE)</p>
+            <p>LIDO PLAYALUNA SRL | VAT 09146931218</p>
+            <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 2rem;">
+                <a href="https://www.instagram.com/lidoplayaluna/" target="_blank" style="color: var(--white); text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;">@playalunaofficial</a>
+                <a href="https://www.instagram.com/playalunaeventi/" target="_blank" style="color: var(--white); text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;">@playalunaeventi</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/global.js" defer></script>
+    <script>
+        // Navbar scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        // Reveal observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+
+
+
+        // WhatsApp Integration
+        document.getElementById('eventForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('userName').value;
+            const phone = document.getElementById('userPhone').value;
+            const type = document.getElementById('eventType').value;
+            const date = document.getElementById('eventDate').value;
+            const guests = document.getElementById('eventGuests').value;
+            const message = document.getElementById('eventMessage').value;
+
+            const waMessage = `Hello! I'd like to request information for an event:%0A- *Name:* ${name}%0A- *Phone:* ${phone}%0A- *Event Type:* ${type}%0A- *Date:* ${date}%0A- *Guests:* ${guests}%0A- *Message:* ${message}`;
+            
+            const waUrl = `https://wa.me/393663972133?text=${waMessage}`;
+            window.open(waUrl, '_blank');
+        });
+    </script>
+</body>
+</html>
+

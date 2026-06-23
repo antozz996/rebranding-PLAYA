@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Culto | Il Nuovo Privé Esclusivo di Playa Luna</title>
+    <meta name="description" content="Esplora Culto, il concept dark e lussuoso di Playa Luna. Sushi premium, mixology d'eccellenza e atmosfere uniche per le tue notti a Varcaturo.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.playaluna.it/culto.html">
+    
+    <!-- Hreflang Tags (International SEO) -->
+    <link rel="alternate" hreflang="it" href="https://www.playaluna.it/culto.html">
+    <link rel="alternate" hreflang="en" href="https://www.playaluna.it/en/culto.html">
+    <link rel="alternate" hreflang="x-default" href="https://www.playaluna.it/culto.html">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Culto | Il Nuovo Privé Esclusivo di Playa Luna">
+    <meta property="og:description" content="Esplora Culto, il concept dark e lussuoso di Playa Luna. Sushi premium, mixology d'eccellenza e atmosfere uniche per le tue notti a Varcaturo.">
+    <meta property="og:url" content="https://www.playaluna.it/culto.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.playaluna.it/assets/images/hero-home.webp">
+    <meta property="og:site_name" content="Playa Luna">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Culto | Il Nuovo Privé Esclusivo di Playa Luna">
+    <meta name="twitter:description" content="Esplora Culto, il concept dark e lussuoso di Playa Luna. Sushi premium, mixology d'eccellenza e atmosfere uniche per le tue notti a Varcaturo.">
+    <meta name="twitter:image" content="https://www.playaluna.it/assets/images/hero-home.webp">
+    
+    
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/png" href="assets/favicon.webp">
+
+    <style>
+        :root {
+            --bg-brown: #2E1F16;
+            --bg-plum: #5D2E46;
+            --cream: #FDF5E6;
+            --acid-green: #CCFF00;
+            --text-cream: #FDF5E6;
+            --ease: cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { overflow-x: hidden; }
+        body { 
+            background-color: var(--bg-brown); 
+            color: var(--text-cream); 
+            font-family: 'Space Grotesk', sans-serif; 
+            overflow-x: hidden;
+            line-height: 1.6;
+            max-width: 100vw;
+        }
+        h1, h2, h3 { font-family: 'Syne', sans-serif; font-weight: 800; text-transform: uppercase; }
+
+        /* Wavy Border Pattern */
+        .wavy-section {
+            position: relative;
+            background: var(--bg-plum);
+            border: 8px solid var(--cream);
+            border-radius: 40px;
+            margin: 2rem;
+            padding: 6rem 4vw;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%;
+            max-width: 100vw;
+            padding: 1.5rem 6vw;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000;
+            background: rgba(46, 31, 22, 0.95); backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(204, 255, 0, 0.1);
+            transition: 0.4s;
+        }
+        .navbar.scrolled { padding: 1rem 6vw; background: rgba(46, 31, 22, 0.98); }
+        .logo-text { font-family: 'Syne', sans-serif; font-size: 1.8rem; color: var(--cream); text-decoration: none; letter-spacing: -1px; font-weight: 800; }
+        .logo-text span { color: var(--acid-green); }
+        
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+        .nav-link { text-decoration: none; color: var(--cream); font-weight: 700; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; }
+        .nav-link:hover { color: var(--acid-green); }
+        .logo { height: 70px !important; width: auto !important; transition: 0.5s; filter: brightness(0) invert(1); }
+
+        .hamburger { 
+            display: none; 
+            cursor: pointer; 
+            z-index: 1100;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--cream); margin: 6px 0; transition: 0.4s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(-45deg) translate(-6px, 6px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(45deg) translate(-6px, -6px); }
+
+        @media (max-width: 1024px) {
+            .navbar { padding: 1.2rem 5vw !important; display: flex !important; justify-content: space-between !important; align-items: center !important; }
+            .logo-link { display: none !important; }
+            .nav-right { display: none !important; }
+            .nav-links { display: none !important; }
+            .hamburger { display: block !important; }
+            .logo-text { font-size: 1.3rem; }
+            .hero-title { font-size: clamp(2.8rem, 16vw, 5rem) !important; letter-spacing: -1px; line-height: 0.95; }
+            .hero-p { font-size: 1rem; padding: 0 5vw; }
+            .hero-content { padding-top: 120px; }
+            .section { padding: 1.5rem 0.8rem; }
+            .culto-land { padding: 3rem 1.2rem !important; border-width: 4px !important; border-radius: 20px !important; margin: 0 !important; }
+            .culto-land h2 { font-size: clamp(1.6rem, 7vw, 2.5rem) !important; word-break: break-word !important; overflow-wrap: break-word !important; hyphens: auto !important; }
+            .culto-land p { font-size: 1rem !important; }
+            .grid-layout { grid-template-columns: 1fr !important; gap: 2rem; }
+            .grid-card { display: flex !important; flex-direction: column !important; grid-template-columns: unset !important; }
+            .card-img { height: 220px !important; min-height: auto !important; width: 100% !important; }
+            .card-body { padding: 1.5rem; }
+            .card-body h3 { font-size: 1.8rem !important; }
+            .card-body p { font-size: 1rem !important; }
+            .footer-logo-img { height: 120px !important; }
+            .wavy-section { margin: 0.5rem; border-width: 4px; border-radius: 20px; }
+            .btn-culto { padding: 1rem 1.8rem; font-size: 0.85rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: clamp(2.2rem, 14vw, 3.5rem) !important; }
+            .section { padding: 1rem 0.5rem; }
+            .culto-land h2 { font-size: clamp(1.4rem, 6vw, 2rem) !important; }
+        }   
+        /* Hero */
+        .hero {
+            min-height: 100vh; width: 100%; position: relative;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; padding-bottom: 100px;
+            background: var(--bg-brown);
+        }
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0.5; filter: contrast(115%);
+        }
+        .hero-content { position: relative; z-index: 10; padding: 250px 5vw 0; }
+        .hero-title { 
+            font-size: 10vw; line-height: 0.85; margin-bottom: 2rem; 
+            letter-spacing: -4px; color: var(--cream);
+            text-shadow: 4px 4px 0px var(--bg-plum);
+        }
+        .hero-p { font-size: 1.4rem; max-width: 700px; margin: 0 auto 3rem; color: var(--cream); font-weight: 400; }
+
+        .btn-culto {
+            display: inline-block; padding: 1.2rem 3rem;
+            background: var(--acid-green); color: var(--bg-brown);
+            text-decoration: none; font-weight: 800; border: none;
+            text-transform: uppercase; letter-spacing: 2px; font-size: 1rem;
+            border-radius: 50px; transition: 0.3s var(--ease);
+            box-shadow: 0 8px 0 var(--bg-plum);
+        }
+        .btn-culto:hover { transform: translateY(-5px); box-shadow: 0 12px 0 var(--bg-plum); }
+
+        /* Content Sections */
+        .section { padding: 4rem 2rem; }
+        .culto-land {
+            background-color: var(--bg-plum);
+            color: var(--cream);
+            border: 10px solid var(--cream);
+            border-radius: 50px;
+            padding: 8rem 4vw;
+            text-align: center;
+            position: relative;
+        }
+        .culto-land h2 { font-size: 4.5rem; line-height: 1.1; }
+        .sparkle { position: absolute; color: var(--acid-green); font-size: 4rem; animation: rotate 4s linear infinite; }
+        @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; margin-top: 4rem; }
+        .grid-card { background: var(--bg-brown); border: 4px solid var(--cream); border-radius: 30px; overflow: hidden; transition: 0.4s; }
+        .grid-card:hover { transform: scale(1.02) rotate(1deg); }
+        .card-img { width: 100%; height: 300px; object-fit: cover; }
+        .card-body { padding: 2.5rem; text-align: left; }
+        .card-body h3 { font-size: 2.2rem; margin-bottom: 1rem; color: var(--acid-green); }
+
+        .marquee { background: var(--cream); color: var(--bg-brown); padding: 1.5rem 0; overflow: hidden; white-space: nowrap; margin: 4rem 0; }
+        .marquee-content { display: inline-block; animation: scroll 15s linear infinite; font-size: 2.5rem; font-weight: 800; text-transform: uppercase; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: 0.8s var(--ease); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        footer { background: var(--bg-brown); padding: 6rem 2rem; text-align: center; border-top: 8px solid var(--cream); }
+        .footer-logo-img { height: 300px; width: auto; filter: brightness(0) invert(1); transition: 0.5s var(--ease); }
+        .footer-logo-img:hover { transform: scale(1.05); }
+        
+        @media (max-width: 768px) {
+            .hero-title { font-size: 18vw; }
+            .culto-land { padding: 4rem 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo-text">CULT<span>0</span></a>
+        </div>
+
+        <a href="index.html" class="logo-link">
+            <img src="assets/logos/logo-culto.webp" alt="Culto" class="logo">
+        </a>
+
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li class="lang-switcher">
+                    <a href="en/culto.html" class="nav-link">EN</a>
+                </li>
+            </ul>
+        </div>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <video class="hero-bg" autoplay muted loop playsinline poster="assets/images/hero-culto.webp" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; filter: contrast(115%);">
+            <source src="assets/images/culto-hero-web.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <h1 class="hero-title reveal">MORE THAN<br>A BEACH</h1>
+            <p class="hero-p reveal">Culto Beach è l'area premium del Lido Playa Luna, affacciata sul mare di Varcaturo. Balneazione, relax, piscine idromassaggio, eventi privati e appuntamenti esclusivi in un'unica esperienza sul mare.</p>
+            <a href="https://wa.me/393477183803" class="btn-culto reveal">Join the Community</a>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="culto-land reveal">
+            <span class="sparkle" style="top: 2rem; left: 2rem;">✷</span>
+            <span class="sparkle" style="bottom: 2rem; right: 2rem;">✷</span>
+            <h2 class="culto-land-title" style="margin-bottom: 2rem; font-family: 'Syne', sans-serif; font-weight: 800;">CULTOLAND</h2>
+            <p style="font-size: 1.5rem; max-width: 800px; margin: 0 auto 4rem;">Il format che ha trasformato le domeniche sul mare in un punto d'incontro tra musica, brand, creatività e community.</p>
+            
+            <div class="grid-layout" style="grid-template-columns: 1fr;">
+                <div class="grid-card reveal">
+                    <img src="assets/images/cultoland.webp" alt="CultoLAND Sun &amp; Sound" class="card-img" style="height: 380px; object-fit: cover;">
+                    <div class="card-body">
+                        <h3 style="font-size: 2.5rem;">SUN &amp; SOUND SPOT</h3>
+                        <p style="font-size: 1.2rem;">CultoLAND è il format firmato Culto Beach che unisce musica selezionata, street food, vintage market, pop-up store ed esperienze all'aperto in una delle location più suggestive di Varcaturo. Un appuntamento pensato per vivere il mare oltre la balneazione, dove la musica diventa il punto di partenza per creare connessioni, scoprire nuovi progetti e condividere esperienze.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background-color: var(--bg-brown);">
+        <div class="culto-land reveal" style="border-color: var(--acid-green);">
+            <span class="sparkle" style="top: 2rem; right: 2rem;">✶</span>
+            <h2 style="margin-bottom: 2rem; font-family: 'Syne', sans-serif; font-weight: 800;">IL TUO EVENTO SUL MARE</h2>
+            <p style="max-width: 850px; margin: 0 auto 3rem;">Celebra compleanni, anniversari, feste private ed eventi aziendali in una location esclusiva sul mare di Varcaturo. Tra spiaggia, terrazze vista mare, piscine idromassaggio, food experience e intrattenimento, ogni evento viene progettato su misura per offrire un'esperienza autentica e memorabile.</p>
+            
+            <a href="contatti.html" class="btn-culto">RICHIEDI UN PREVENTIVO</a>
+        </div>
+    </section>
+
+    <div class="marquee">
+        <div class="marquee-content">
+            DANCECORE &nbsp; SUNSET VIBES &nbsp; UNDERGROUND CULTURE &nbsp; NO FORMAL STUFF &nbsp; JUST GOOD MUSIC &nbsp; DANCECORE &nbsp; SUNSET VIBES &nbsp; UNDERGROUND CULTURE &nbsp; NO FORMAL STUFF &nbsp; JUST GOOD MUSIC &nbsp;
+        </div>
+    </div>
+
+    <section class="section" style="text-align: center;">
+        <div class="reveal">
+            <h2 style="font-size: clamp(1.5rem, 6vw, 4rem); color: var(--cream); margin-bottom: 2rem; word-break: break-word; overflow-wrap: break-word;">EXPERIENCE THE FEELING</h2>
+            <p style="font-size: 1.2rem; color: var(--text-cream); max-width: 600px; margin: 0 auto 4rem;">Unisciti alla nostra community. Seguici per scoprire tutti i prossimi eventi e le novità di questa stagione.</p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+                <a href="https://www.instagram.com/culto.ent/" target="_blank" class="btn-culto" style="background: transparent; border: 4px solid var(--cream); color: var(--cream);">@culto.ent</a>
+                <a href="https://wa.me/393477183803" class="btn-culto">Richiedi Info</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <img src="assets/logos/logo-culto.webp" alt="Culto" class="footer-logo-img">
+    </footer>
+
+    <script src="assets/js/global.js" defer></script>
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

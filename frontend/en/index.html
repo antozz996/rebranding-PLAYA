@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Playa Luna | Beach, Restaurant & Events - Varcaturo, Naples</title>
+    <meta name="description" content="Discover Playa Luna in Varcaturo: an exclusive experience featuring fine seafood dining, beach relaxation, and unforgettable sunset parties. Your luxury coastal retreat.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.playaluna.it/en/">
+    
+    <!-- Hreflang Tags (International SEO) -->
+    <link rel="alternate" hreflang="it" href="https://www.playaluna.it/">
+    <link rel="alternate" hreflang="en" href="https://www.playaluna.it/en/">
+    <link rel="alternate" hreflang="x-default" href="https://www.playaluna.it/">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Playa Luna | Beach, Restaurant & Events - Varcaturo, Naples">
+    <meta property="og:description" content="Discover Playa Luna in Varcaturo: an exclusive experience featuring fine seafood dining, beach relaxation, and unforgettable sunset parties. Your luxury coastal retreat.">
+    <meta property="og:url" content="https://www.playaluna.it/en/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.playaluna.it/assets/images/hero-home.webp">
+    <meta property="og:site_name" content="Playa Luna">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Playa Luna | Beach, Restaurant & Events - Varcaturo, Naples">
+    <meta name="twitter:description" content="Discover Playa Luna in Varcaturo: an exclusive experience featuring fine seafood dining, beach relaxation, and unforgettable sunset parties. Your luxury coastal retreat.">
+    <meta name="twitter:image" content="https://www.playaluna.it/assets/images/hero-home.webp">
+    
+    
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/png" href="../assets/favicon.webp">
+    <link rel="apple-touch-icon" href="../assets/favicon.webp">
+    <meta name="theme-color" content="#1A1208">
+
+    <style>
+        :root {
+            --sand: #E0D4BB;
+            --gold: #C9A84C;
+            --off-white: #F9F7F2;
+            --white: #FFFFFF;
+            --text-dark: #1A1208;
+            --text-light: #666059;
+            --duration-slow: 0.8s;
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+            --slide-padding: 8vw;
+        }
+
+        /* Decorazioni Estetiche */
+        .decor-line {
+            position: fixed; top: 0; width: 1px; height: 100vh;
+            background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+            opacity: 0.1; z-index: 1002; pointer-events: none;
+        }
+        .line-left { left: 4vw; }
+        .line-right { right: 4vw; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background-color: var(--off-white); 
+            color: var(--text-dark); 
+            font-family: 'Montserrat', sans-serif; 
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 400; }
+
+        /* Navbar Custom */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 2rem var(--slide-padding);
+            display: grid; grid-template-columns: 1fr auto 1fr;
+            align-items: center; z-index: 1000;
+            transition: all 0.5s var(--ease-out-expo);
+        }
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 1.2rem var(--slide-padding);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        }
+
+        .lang-switcher { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin-left: 1rem; }
+        .lang-switcher a { text-decoration: none; color: var(--white); opacity: 0.6; transition: 0.3s; }
+        .lang-switcher a.active { opacity: 1; font-weight: 600; }
+        .navbar.scrolled .lang-switcher a { color: var(--text-dark); }
+
+        .nav-left { display: flex; justify-content: flex-start; gap: 2rem; list-style: none; }
+        .nav-right { display: flex; justify-content: flex-end; gap: 2.5rem; list-style: none; align-items: center; }
+        .nav-link {
+            text-decoration: none; color: var(--white);
+            font-size: 0.75rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 2px;
+            transition: color 0.3s;
+            text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+        }
+        .navbar.scrolled .nav-link { color: var(--text-dark); }
+        .nav-link:hover { color: var(--gold); }
+
+        .logo { 
+            height: 180px !important; width: auto !important; 
+            object-fit: contain; transition: all 0.5s;
+            filter: brightness(0) invert(1);
+        }
+        .navbar.scrolled .logo { height: 120px !important; filter: none; }
+
+        /* Hero Ken Burns */
+        .hero {
+            height: 100vh; width: 100%; position: relative;
+            overflow: hidden; display: flex; align-items: center;
+            justify-content: center; text-align: center;
+        }
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            animation: kenburns 20s infinite alternate;
+            z-index: 1;
+        }
+        @keyframes kenburns {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.15) translate(-1%, -1%); }
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                linear-gradient(to bottom, 
+                    rgba(26,18,8,0.55) 0%,
+                    rgba(26,18,8,0.15) 14%,
+                    rgba(255,255,255,0.05) 35%,
+                    rgba(255,255,255,0.35) 65%,
+                    var(--white) 100%);
+            z-index: 2;
+        }
+        .hero-content { 
+            position: relative; z-index: 10; color: #1A1208; max-width: 900px; padding: 2.5rem 3rem;
+            background: rgba(255,255,255,0.45);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.7);
+        }
+        .hero-tagline { 
+            display: block; font-size: 0.9rem; text-transform: uppercase; 
+            letter-spacing: 6px; margin-bottom: 1.5rem; opacity: 1 !important;
+            color: #1A1208 !important;
+            text-shadow: 0 1px 8px rgba(255,255,255,0.9);
+        }
+        .hero-title { 
+            font-size: clamp(3rem, 8vw, 6rem); line-height: 1.1; 
+            margin-bottom: 3rem;
+            color: #1A1208 !important;
+            text-shadow: 0 2px 16px rgba(255,255,255,0.8), 0 1px 4px rgba(255,255,255,0.6);
+        }
+
+        /* Triad Section */
+        .triad-section { padding: 10rem var(--slide-padding); background: var(--white); }
+        .triad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+        .triad-card {
+            position: relative; height: 75vh; overflow: hidden;
+            display: flex; align-items: flex-end; padding: 3.5rem;
+            text-decoration: none; color: var(--white);
+        }
+        .triad-card img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; transition: transform 1.5s var(--ease-out-expo);
+            z-index: 1;
+        }
+        .triad-card:hover img { transform: scale(1.1); }
+        .triad-card::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.8));
+            z-index: 2;
+        }
+        .card-content { position: relative; z-index: 10; }
+        .card-label { 
+            display: inline-block;
+            background: #1A1208;
+            color: var(--gold);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+        .card-title { font-size: 2.8rem; line-height: 1.2; color: #fff; margin: 0; }
+
+        /* Network Glassmorphism Gallery */
+        .network-section { padding: 10rem 0; background: #fdfaf5; text-align: center; border-top: 1px solid rgba(0,0,0,0.05); }
+        .network-section h2 { 
+            font-size: clamp(3rem, 8vw, 4.5rem); 
+            margin-bottom: 7rem; 
+            letter-spacing: 12px; 
+            color: var(--text-dark); 
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+        }
+        .network-grid { 
+            display: flex; flex-wrap: wrap; justify-content: center; 
+            gap: 2rem; max-width: 1400px; margin: 0 auto; padding: 0 5vw;
+        }
+        .network-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 1);
+            border-radius: 40px; padding: 4rem 3rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.7s var(--ease-out-expo);
+            width: 320px; height: 200px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.03);
+            text-decoration: none;
+        }
+        .network-card img { 
+            max-width: 100%; max-height: 100px; object-fit: contain; 
+            filter: grayscale(1) opacity(0.7); transition: 0.6s; 
+        }
+        .network-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+            border-color: var(--gold);
+        }
+        .network-card:hover img { filter: grayscale(0) opacity(1); }
+
+        /* --- 2. MOBILE HAMBURGER MENU --- */
+        .hamburger { display: none; cursor: pointer; z-index: 10001; background: none; border: none; padding: 10px; position: relative; flex-shrink: 0; }
+        .hamburger span { display: block; width: 26px; height: 2px; margin: 6px 0; background-color: #fff; transition: all 0.35s ease; border-radius: 2px; }
+        .navbar.scrolled .hamburger span, .navbar:not(.hero-nav) .hamburger span { background-color: #1A1208; }
+        .mobile-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1A1208; z-index: 9998; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; transform: translateX(100%); visibility: hidden; transition: transform 0.45s cubic-bezier(0.77,0.2,0.05,1.0), visibility 0.45s; }
+        .mobile-overlay.active { transform: translateX(0); visibility: visible; }
+        .mobile-nav-links { list-style: none; text-align: center; padding: 0; margin: 0; width: 100%; }
+        .mobile-nav-links li { margin: 1.2rem 0; }
+        .mobile-nav-links a { color: #F9F7F2; text-decoration: none; font-size: clamp(1.4rem, 7vw, 2.2rem); text-transform: uppercase; letter-spacing: 5px; font-family: 'Playfair Display', serif; transition: color 0.3s, letter-spacing 0.3s; display: inline-block; }
+        .mobile-nav-links a:hover { color: #C9A84C; letter-spacing: 7px; }
+        .mobile-lang { margin-top: 2.5rem; font-size: 0.75rem; letter-spacing: 4px; color: rgba(255,255,255,0.35); text-transform: uppercase; }
+        .mobile-lang a { color: rgba(255,255,255,0.6); text-decoration: none; margin: 0 0.5rem; }
+        .mobile-lang a:hover { color: #C9A84C; }
+        .hamburger.active span:nth-child(1) { transform: rotate(-45deg) translate(-6px, 7px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; transform: translateX(-10px); }
+        .hamburger.active span:nth-child(3) { transform: rotate(45deg) translate(-6px, -7px); }
+        
+        /* Instagram Feed Preview */
+        .social-feed { padding: 10rem var(--slide-padding); background: var(--white); text-align: center; }
+        .social-header { margin-bottom: 5rem; }
+        .social-header span { font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); }
+        .social-header h2 { 
+            font-size: clamp(1.8rem, 3.5vw, 3.5rem); 
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4em;
+        }
+        .ig-icon { width: 0.85em; height: 0.85em; flex-shrink: 0; opacity: 0.85; }
+        .social-header h2 a { text-decoration: none; color: inherit; transition: 0.3s; }
+        .social-header h2 a:hover { color: var(--gold); }
+        .instagram-grid-wrapper { 
+            width: 100%; 
+            position: relative; 
+            padding: 0 var(--slide-padding); 
+            display: flex; 
+            align-items: center;
+        }
+        .instagram-grid { 
+            display: flex !important; 
+            gap: 1.5rem; 
+            width: 100% !important; 
+            overflow-x: auto !important; 
+            scroll-snap-type: x mandatory !important; 
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 1rem 0;
+        }
+        .instagram-grid::-webkit-scrollbar {
+            display: none;
+        }
+        .insta-post { 
+            position: relative; 
+            aspect-ratio: 1; 
+            overflow: hidden; 
+            width: 300px !important; 
+            flex: 0 0 300px !important; 
+            scroll-snap-align: start;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s var(--ease-out-expo);
+        }
+        .insta-post img { width: 100%; height: 100%; object-fit: cover; transition: 1s var(--ease-out-expo); }
+        .insta-post:hover img { transform: scale(1.05); }
+        .insta-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(26,18,8,0.6); display: flex; align-items: center;
+            justify-content: center; color: var(--white); opacity: 0; transition: 0.5s;
+            z-index: 3;
+        }
+        .insta-post:hover .insta-overlay { opacity: 1; }
+
+        /* Carousel Navigation Buttons */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(26, 18, 8, 0.1);
+            border-radius: 50%;
+            color: var(--text-dark, #1A1208);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            backdrop-filter: blur(5px);
+        }
+        .carousel-btn:hover {
+            background: var(--gold, #C9A84C);
+            color: var(--white, #FFFFFF);
+            border-color: var(--gold, #C9A84C);
+            box-shadow: 0 4px 20px rgba(201, 168, 76, 0.3);
+        }
+        .prev-btn { left: 2vw; }
+        .next-btn { right: 2vw; }
+        .carousel-btn svg { width: 20px; height: 20px; }
+
+        @media screen and (max-width: 1024px) {
+            .hamburger { 
+                display: block !important; 
+                background: rgba(255,255,255,0.1) !important;
+                border: 1px solid rgba(255,255,255,0.3) !important;
+                border-radius: 50% !important;
+                padding: 10px !important;
+                backdrop-filter: blur(10px) !important;
+            }
+            .navbar .nav-left, .navbar .nav-right, .navbar .nav-links, .navbar .lang-switcher { display: none !important; }
+            .navbar { 
+                display: flex !important; 
+                flex-direction: row !important;
+                justify-content: space-between !important; 
+                align-items: center !important; 
+                padding: 0.8rem 5vw !important; 
+                width: 100% !important;
+                left: 0 !important;
+                right: 0 !important;
+                background: transparent;
+            }
+            .navbar.scrolled { background: rgba(255,255,255,0.98) !important; }
+            .navbar.scrolled .hamburger { background: rgba(26,18,8,0.05) !important; border-color: rgba(0,0,0,0.1) !important; }
+            .navbar .logo { height: 90px !important; width: auto !important; }
+            .navbar .logo-link { flex: 0 0 auto; }
+            
+            .hero { height: auto !important; min-height: 80vh !important; display: flex !important; flex-direction: column !important; justify-content: center !important; padding: 140px 5vw 60px !important; }
+            .hero-content { 
+                margin-top: 0 !important; 
+                background: rgba(255,255,255,0.5) !important;
+                backdrop-filter: blur(8px) !important;
+                -webkit-backdrop-filter: blur(8px) !important;
+                border: 1px solid rgba(255,255,255,0.65) !important;
+                padding: 1.8rem 1.5rem !important;
+                width: 100% !important;
+                box-shadow: none !important;
+                text-align: center;
+                border-radius: 2px !important;
+            }
+            .hero-title { font-size: clamp(2rem, 9vw, 3.5rem) !important; line-height: 1.1 !important; color: #1A1208 !important; text-shadow: 0 1px 10px rgba(255,255,255,0.7) !important; }
+            .hero-tagline { font-size: 0.7rem !important; letter-spacing: 2px !important; color: #1A1208 !important; opacity: 1 !important; text-shadow: 0 1px 6px rgba(255,255,255,0.8) !important; }
+            .btn-luxury { padding: 1.1rem 2.8rem !important; font-size: 0.7rem !important; background: transparent !important; border: 1.5px solid #1A1208 !important; color: #1A1208 !important; text-transform: uppercase; letter-spacing: 2px; }
+            
+            .triad-grid { grid-template-columns: 1fr !important; }
+            .triad-card { height: 55vh !important; }
+            .card-title { font-size: 2.2rem !important; }
+
+            .network-grid { gap: 1rem !important; }
+            .network-card { width: calc(50% - 1rem) !important; height: 120px !important; padding: 1.5rem !important; border-radius: 20px !important; }
+            .network-card img { max-height: 40px !important; }
+
+            .social-header { margin-bottom: 1.5rem !important; padding: 0 5vw !important; }
+            .social-header h2 { 
+                font-size: clamp(0.95rem, 4vw, 1.3rem) !important; 
+                letter-spacing: 0.5px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 0.4em !important;
+                white-space: nowrap !important;
+                text-transform: lowercase !important;
+            }
+            .social-header span { font-size: 0.6rem !important; letter-spacing: 2px !important; }
+            .social-header h2 a { color: var(--gold) !important; text-decoration: none; border-bottom: 1px solid rgba(201,168,76,0.2); }
+            .ig-icon { width: 1.1em !important; height: 1.1em !important; flex-shrink: 0 !important; }
+            .instagram-grid-wrapper { padding: 0 var(--slide-padding); }
+            .instagram-grid { gap: 1rem; }
+            .insta-post { 
+                width: 250px !important; 
+                flex: 0 0 250px !important;
+            }
+            .carousel-btn { display: none !important; }
+        }
+        @media (max-width: 480px) {
+            .triad-card { height: 45vh !important; }
+            .hero-title { font-size: 2.2rem !important; letter-spacing: 3px; }
+        }
+    </style>
+
+    <!-- Schema.org / LocalBusiness -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Playa Luna",
+      "image": "https://www.playaluna.it/assets/images/hero-home.webp",
+      "@id": "https://www.playaluna.it",
+      "url": "https://www.playaluna.it",
+      "telephone": "+390001112233",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Via Marina di Varcaturo, 42",
+        "addressLocality": "Castel Volturno",
+        "addressRegion": "CE",
+        "postalCode": "81030",
+        "addressCountry": "IT"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.9000348,
+        "longitude": 14.0327057
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+        ],
+        "opens": "12:30",
+        "closes": "16:30"
+      },
+      "servesCuisine": "Seafood, Italian",
+      "priceRange": "$$$"
+    }
+    </script>
+</head>
+<body>
+
+    <div class="decor-line line-left"></div>
+    <div class="decor-line line-right"></div>
+
+    <nav class="navbar" id="navbar">
+        <ul class="nav-left">
+            <li><a href="damai.html" class="nav-link">Damai</a></li>
+            <li><a href="culto.html" class="nav-link">Culto</a></li>
+            <li><a href="../fiordacqua.html" class="nav-link">Fior d'Acqua</a></li>
+        </ul>
+        
+        <a href="index.html" class="logo-link">
+            <img src="../assets/logos/logo-playaluna.webp" alt="Playa Luna Varcaturo" class="logo">
+        </a>
+
+        <ul class="nav-right">
+            <li><a href="beach.html" class="nav-link">Beach</a></li>
+            <li><a href="ristorante.html" class="nav-link">Restaurant</a></li>
+            <li><a href="eventi.html" class="nav-link">Events</a></li>
+            <li><a href="contatti.html" class="nav-link">Contact</a></li>
+            <li class="lang-switcher">
+                <a href="#" class="active">EN</a> | <a href="../index.html">IT</a>
+            </li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+
+
+    <header class="hero">
+        <video autoplay loop muted playsinline style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; z-index: 1;">
+            <source src="../assets/videos/hero_home.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <span class="hero-tagline reveal">Exclusivity Has a New Horizon</span>
+            <h1 class="hero-title reveal">Experience the Emotion <br>of the Coast</h1>
+            <div class="reveal">
+                <a href="#triad" class="btn-luxury">Discover More</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="triad-section" id="triad">
+        <div style="text-align: center; margin-bottom: 5rem;" class="reveal">
+            <span style="text-transform: uppercase; letter-spacing: 5px; color: var(--gold); font-size: 0.8rem; font-weight: 600;">Three souls, one heart</span>
+        </div>
+        <div class="triad-grid">
+            <a href="ristorante.html" class="triad-card reveal">
+                <img src="../assets/images/card-ristorante-home.webp" srcset="../assets/images/mobile-card-ristorante-home.webp 800w, ../assets/images/card-ristorante-home.webp 1200w" sizes="(max-width: 800px) 800px, 1200px" alt="Restaurant Playa Luna" loading="lazy">
+                <div class="card-content">
+                    <span class="card-label">Gourmet Experience</span>
+                    <h3 class="card-title">The Restaurant</h3>
+                </div>
+            </a>
+            <a href="beach.html" class="triad-card reveal">
+                <img src="../assets/images/card-beach-home.webp" srcset="../assets/images/mobile-card-beach-home.webp 800w, ../assets/images/card-beach-home.webp 1200w" sizes="(max-width: 800px) 800px, 1200px" alt="Beach Club Playa Luna" loading="lazy">
+                <div class="card-content">
+                    <span class="card-label">Pure Relaxation</span>
+                    <h3 class="card-title">The Beach</h3>
+                </div>
+            </a>
+            <a href="eventi.html" class="triad-card reveal">
+                <img src="../assets/images/card-eventi-home.webp" srcset="../assets/images/mobile-card-eventi-home.webp 800w, ../assets/images/card-eventi-home.webp 1200w" sizes="(max-width: 800px) 800px, 1200px" alt="Events Privati" loading="lazy">
+                <div class="card-content">
+                    <span class="card-label">Private Celebrations</span>
+                    <h3 class="card-title">The Events</h3>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section class="network-section">
+        <h2 class="reveal">A Network of Excellence</h2>
+        <div class="network-grid reveal">
+            <a href="https://varcadoro.com/" target="_blank" class="network-card">
+                <img src="../assets/logos/logo-varcadoro.webp" alt="Varca d'Oro">
+            </a>
+            <div class="network-card">
+                <img src="../assets/logos/logo-culto.webp" alt="Culto">
+            </div>
+            <div class="network-card">
+                <img src="../assets/logos/logo-damai.webp" alt="Damai">
+            </div>
+            <div class="network-card">
+                <img src="../assets/logos/logo-naturale.webp" alt="Naturale">
+            </div>
+            <div class="network-card">
+                <img src="../assets/logos/logo-key.webp" alt="Key Beach">
+            </div>
+            <div class="network-card">
+                <img src="../assets/logos/logo-fiordacqua.webp" alt="Fior d'Acqua">
+            </div>
+            <div class="network-card">
+                <img src="../assets/logos/logo-lacostiera.webp" alt="La Costiera">
+            </div>
+        </div>
+    </section>
+
+    <section class="social-feed">
+        <div class="social-header reveal">
+            <span>Follow the lifestyle</span>
+            <h2><svg class="ig-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.7" fill="currentColor" stroke="none"/></svg><a href="https://www.instagram.com/lidoplayaluna/" target="_blank">@playalunaofficial</a></h2>
+        </div>
+        <div class="instagram-grid-wrapper reveal">
+        <button class="carousel-btn prev-btn" aria-label="Previous photo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+        <div class="instagram-grid">
+            <a href="https://www.instagram.com/lidoplayaluna/" target="_blank" class="insta-post" aria-label="Instagram Post 1">
+                <img src="../assets/images/social/A.jpg" alt="Instagram Post" loading="lazy">
+                <div class="insta-overlay"><p>View on Instagram</p></div>
+            </a>
+            <a href="https://www.instagram.com/lidoplayaluna/" target="_blank" class="insta-post" aria-label="Instagram Post 2">
+                <img src="../assets/images/social/B.jpg" alt="Instagram Post" loading="lazy">
+                <div class="insta-overlay"><p>View on Instagram</p></div>
+            </a>
+            <a href="https://www.instagram.com/playalunaeventi/" target="_blank" class="insta-post" aria-label="Instagram Post 3">
+                <img src="../assets/images/social/C.jpg" alt="Instagram Post" loading="lazy">
+                <div class="insta-overlay"><p>View on Instagram</p></div>
+            </a>
+            <a href="culto.html" class="insta-post" aria-label="Discover Culto">
+                <img src="../assets/images/social/E.jpg" alt="Instagram Post" loading="lazy">
+                <div class="insta-overlay"><p>View on Instagram</p></div>
+            </a>
+            <a href="https://www.instagram.com/lidoplayaluna/" target="_blank" class="insta-post" aria-label="Instagram Post 5">
+                <img src="../assets/images/social/F.jpg" alt="Instagram Post" loading="lazy">
+                <div class="insta-overlay"><p>View on Instagram</p></div>
+            </a>
+            <a href="https://www.instagram.com/lidoplayaluna/" target="_blank" class="insta-post" aria-label="Instagram Post 6">
+                <img src="../assets/images/social/G.jpg" alt="Instagram Post" loading="lazy">
+                <div class="insta-overlay"><p>View on Instagram</p></div>
+            </a>
+            <a href="https://www.instagram.com/lidoplayaluna/" target="_blank" class="insta-post" aria-label="Instagram Post 7">
+                <img src="../assets/images/social/damai_eventgarden_573970005_17969697359970368_3583293126091833260_n.jpg" alt="Instagram Post" loading="lazy">
+                <div class="insta-overlay"><p>View on Instagram</p></div>
+            </a>
+        </div>
+        <button class="carousel-btn next-btn" aria-label="Next photo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+        </div>
+    </section>
+
+    <footer>
+        <img src="../assets/logos/logo-playaluna.webp" alt="Playa Luna" class="footer-logo">
+        <div class="footer-info">
+            <p>Via Marina di Varcaturo, 42 - 81030 Castel Volturno (CE)</p>
+            <p>LIDO PLAYALUNA SRL | VAT 09146931218</p>
+            <p>Lunch: Daily (all year) | Evening: Private Events</p>
+            <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 2rem;">
+                <a href="https://www.instagram.com/lidoplayaluna/" target="_blank" style="color: var(--white); text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;">@playalunaofficial</a>
+                <a href="https://www.instagram.com/playalunaeventi/" target="_blank" style="color: var(--white); text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;">@playalunaeventi</a>
+            </div>
+        </div>
+        <ul class="footer-links">
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="contatti.html">Work with us</a></li>
+            <li><a href="eventi.html">Request a quote</a></li>
+        </ul>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Playa Luna. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/global.js"></script>
+    <script>
+        // Navbar Scrolled Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        // Intersection Observer for Reveal
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Instagram Photo Carousel Logic
+        const grid = document.querySelector('.instagram-grid');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+
+        if (grid && prevBtn && nextBtn) {
+            const scrollAmount = 324; // 300px card width + 24px (1.5rem) gap
+            
+            prevBtn.addEventListener('click', () => {
+                grid.scrollBy({
+                    left: -scrollAmount,
+                    behavior: 'smooth'
+                });
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                grid.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'smooth'
+                });
+            });
+            
+            const updateButtons = () => {
+                const scrollLeft = grid.scrollLeft;
+                const maxScrollLeft = grid.scrollWidth - grid.clientWidth;
+                
+                if (scrollLeft <= 5) {
+                    prevBtn.style.opacity = '0';
+                    prevBtn.style.pointerEvents = 'none';
+                } else {
+                    prevBtn.style.opacity = '1';
+                    prevBtn.style.pointerEvents = 'auto';
+                }
+                
+                if (scrollLeft >= maxScrollLeft - 5) {
+                    nextBtn.style.opacity = '0';
+                    nextBtn.style.pointerEvents = 'none';
+                } else {
+                    nextBtn.style.opacity = '1';
+                    nextBtn.style.pointerEvents = 'auto';
+                }
+            };
+            
+            grid.addEventListener('scroll', updateButtons, { passive: true });
+            window.addEventListener('load', updateButtons);
+            window.addEventListener('resize', updateButtons);
+            // Run initially
+            setTimeout(updateButtons, 100);
+        }
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Playa Luna Network | Our Locations in Campania</title>
+    <meta name="description" content="Discover the excellence of the Playa Luna group. Several exclusive locations in Campania to always guarantee the best in hospitality.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.playaluna.it/en/network.html">
+    
+    <!-- Hreflang Tags (International SEO) -->
+    <link rel="alternate" hreflang="it" href="https://www.playaluna.it/network.html">
+    <link rel="alternate" hreflang="en" href="https://www.playaluna.it/en/network.html">
+    <link rel="alternate" hreflang="x-default" href="https://www.playaluna.it/network.html">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Playa Luna Network | Our Locations in Campania">
+    <meta property="og:description" content="Discover the excellence of the Playa Luna group. Several exclusive locations in Campania to always guarantee the best in hospitality.">
+    <meta property="og:url" content="https://www.playaluna.it/en/network.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.playaluna.it/assets/images/hero-home.webp">
+    <meta property="og:site_name" content="Playa Luna">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Playa Luna Network | Our Locations in Campania">
+    <meta name="twitter:description" content="Discover the excellence of the Playa Luna group. Several exclusive locations in Campania to always guarantee the best in hospitality.">
+    <meta name="twitter:image" content="https://www.playaluna.it/assets/images/hero-home.webp">
+    
+    
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/png" href="../assets/favicon.webp">
+    <link rel="apple-touch-icon" href="../assets/favicon.webp">
+
+    <style>
+        :root {
+            --sand: #E0D4BB;
+            --gold: #C9A84C;
+            --off-white: #F9F7F2;
+            --white: #FFFFFF;
+            --text-dark: #1A1208;
+            --text-light: #666059;
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+            --slide-padding: 8vw;
+        }
+
+        .decor-line { position: fixed; top: 0; width: 1px; height: 100vh; background: linear-gradient(to bottom, transparent, var(--gold), transparent); opacity: 0.1; z-index: 1002; pointer-events: none; }
+        .line-left { left: 4vw; } .line-right { right: 4vw; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--off-white); color: var(--text-dark); font-family: 'Montserrat', sans-serif; overflow-x: hidden; line-height: 1.6; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; }
+
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 2rem var(--slide-padding);
+            display: grid; grid-template-columns: 1fr auto 1fr;
+            align-items: center; z-index: 1000;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px);
+        }
+        .lang-switcher { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; }
+        .lang-switcher a { text-decoration: none; color: var(--text-dark); opacity: 0.6; transition: 0.3s; }
+        .lang-switcher a.active { opacity: 1; font-weight: 600; }
+
+        .nav-right { display: flex; justify-content: flex-end; gap: 2.5rem; list-style: none; }
+        .nav-link { text-decoration: none; color: var(--text-dark); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .nav-link:hover { color: var(--gold); }
+        .logo { height: 120px !important; width: auto !important; object-fit: contain; }
+
+        .network-hero { padding: 14rem var(--slide-padding) 6rem; text-align: center; background: var(--white); }
+        .network-hero span { text-transform: uppercase; letter-spacing: 5px; color: var(--gold); font-size: 0.8rem; display: block; margin-bottom: 1.5rem; }
+        .network-hero h1 { font-size: 4.5rem; margin-bottom: 2rem; }
+        .network-hero p { max-width: 700px; margin: 0 auto; color: var(--text-light); font-size: 1.1rem; line-height: 1.8; }
+
+        .network-grid { padding: 4rem var(--slide-padding) 10rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 4rem; }
+        .partner-card { background: var(--white); border: 1px solid rgba(0,0,0,0.05); overflow: hidden; transition: 0.5s var(--ease-out-expo); }
+        .partner-card:hover { transform: translateY(-10px); box-shadow: 0 20px 60px rgba(0,0,0,0.05); }
+        .partner-img { width: 100%; height: 350px; object-fit: cover; transition: 1s var(--ease-out-expo); }
+        .partner-card:hover .partner-img { transform: scale(1.05); }
+        .partner-img-wrapper { overflow: hidden; }
+        .partner-content { padding: 3rem; }
+        .partner-logo { height: 50px; margin-bottom: 2rem; object-fit: contain; }
+        .partner-content h3 { font-size: 2rem; margin-bottom: 1.5rem; }
+        .partner-content p { color: var(--text-light); margin-bottom: 2rem; line-height: 1.8; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1.2s var(--ease-out-expo); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        footer { background: var(--text-dark); color: var(--white); padding: 8rem var(--slide-padding); text-align: center; }
+        .footer-info { font-size: 0.8rem; opacity: 0.6; line-height: 2; margin-top: 3rem; }
+
+        .btn-outline {
+            display: inline-block; padding: 1rem 2.5rem;
+            border: 1px solid var(--gold); color: var(--gold);
+            text-decoration: none; text-transform: uppercase;
+            font-size: 0.75rem; letter-spacing: 2px; transition: 0.3s;
+        }
+        .btn-outline:hover { background: var(--gold); color: var(--white); }
+
+        .logo { height: 120px !important; width: auto !important; object-fit: contain; }
+
+        .hamburger { 
+            display: none; 
+            cursor: pointer; 
+            z-index: 1100;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            padding: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .hamburger span { display: block; width: 25px; height: 2px; background: var(--text-dark); margin: 5px 0; transition: 0.4s; }
+
+        @media (max-width: 1024px) {
+            .navbar { padding: 1rem 5vw !important; display: flex !important; justify-content: space-between !important; align-items: center !important; grid-template-columns: unset !important; }
+            .nav-right, .lang-switcher { display: none !important; }
+            .hamburger {
+                display: block !important;
+                margin-left: auto;
+                background: rgba(26,18,8,0.05) !important;
+                border: 1px solid rgba(0,0,0,0.1) !important;
+                border-radius: 50% !important;
+                padding: 10px !important;
+                backdrop-filter: blur(10px) !important;
+            }
+            .logo { height: 80px !important; }
+            .network-hero { padding: 8rem 5vw 4rem; }
+            .network-hero h1 { font-size: 2.8rem; }
+            .network-grid { grid-template-columns: 1fr !important; padding: 0 5vw 6rem; gap: 2rem; }
+            .partner-content { padding: 2rem; }
+            .partner-img { height: 250px; }
+            footer { padding: 4rem 5vw; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="decor-line line-left"></div>
+    <div class="decor-line line-right"></div>
+
+    <nav class="navbar">
+        <div class="lang-switcher">
+            <a href="#" class="active">EN</a> | <a href="../network.html">IT</a>
+        </div>
+        <a href="index.html" class="logo-link"><img src="../assets/logos/logo-playaluna.webp" alt="Playa Luna" class="logo"></a>
+        <ul class="nav-right">
+            <li><a href="beach.html" class="nav-link">Beach</a></li>
+            <li><a href="ristorante.html" class="nav-link">Restaurant</a></li>
+            <li><a href="eventi.html" class="nav-link">Events</a></li>
+            <li><a href="contatti.html" class="nav-link">Contact</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <header class="network-hero">
+        <div class="reveal">
+            <span>Excellence Network</span>
+            <h1>Our Destinations</h1>
+            <p>A collection of exclusive venues where luxury meets the beauty of the coast. Each destination is a guarantee of quality and unforgettable experiences.</p>
+        </div>
+    </header>
+
+    <section class="network-grid">
+        <!-- VARCADORO -->
+        <div class="partner-card reveal" id="varcadoro">
+            <div class="partner-img-wrapper">
+                <img src="../assets/images/hero-home.webp" alt="Varca d'Oro" class="partner-img">
+            </div>
+            <div class="partner-content">
+                <img src="../assets/logos/logo-varcadoro.webp" alt="Varca d'Oro" class="partner-logo">
+                <h3>Varca d'Oro</h3>
+                <p>The historic beach club that shaped the coast's history. Tradition and innovation meet for a timeless summer.</p>
+                <a href="https://varcadoro.com/" target="_blank" class="btn-outline">Explore Varca d'Oro →</a>
+            </div>
+        </div>
+
+        <!-- CULTO -->
+        <div class="partner-card reveal" id="culto">
+            <div class="partner-img-wrapper">
+                <img src="../assets/images/hero-culto.webp" alt="Culto" class="partner-img">
+            </div>
+            <div class="partner-content">
+                <img src="../assets/logos/logo-culto.webp" alt="Culto" class="partner-logo">
+                <h3>Culto</h3>
+                <p>The nighttime side of excellence. Music, style, and atmosphere blend into unique evenings. The reference point for coastal nightlife.</p>
+                <a href="culto.html" class="btn-outline">Explore Culto →</a>
+            </div>
+        </div>
+
+        <!-- NATURALE -->
+        <div class="partner-card reveal" id="naturale">
+            <div class="partner-img-wrapper">
+                <img src="../assets/images/naturale-eco.webp" alt="Naturale" class="partner-img">
+            </div>
+            <div class="partner-content">
+                <img src="../assets/logos/logo-naturale.webp" alt="Naturale" class="partner-logo">
+                <h3>Naturale Beach Club</h3>
+                <p>An eco-friendly beach club where nature and comfort coexist in harmony. The green alternative on the Campanian coast.</p>
+                <a href="#" class="btn-outline">Explore Naturale →</a>
+            </div>
+        </div>
+
+        <!-- DAMAI -->
+        <div class="partner-card reveal" id="damai">
+            <div class="partner-img-wrapper">
+                <img src="../assets/images/damai-eco.webp" alt="Damai" class="partner-img">
+            </div>
+            <div class="partner-content">
+                <img src="../assets/logos/logo-damai.webp" alt="Damai" class="partner-logo">
+                <h3>Damai</h3>
+                <p>An exclusive private event venue surrounded by nature. The discreet elegance of a corner of paradise dedicated to the most special moments.</p>
+                <a href="#" class="btn-outline">Explore Damai →</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <img src="../assets/logos/logo-playaluna.webp" alt="Playa Luna" style="height:100px; filter:brightness(0) invert(1);">
+        <div class="footer-info">
+            <p>Via Marina di Varcaturo, 42 - 81030 Castel Volturno (CE)</p>
+            <p>LIDO PLAYALUNA SRL | VAT 09146931218</p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/global.js" defer></script>
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
+
+
+

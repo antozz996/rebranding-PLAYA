@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Restaurant Playa Luna | Fine Dining & Seafood - Varcaturo, Naples</title>
+    <meta name="description" content="Experience a gourmet journey at Restaurant Playa Luna. Fine seafood dining, exclusive areas, and panoramic views in Varcaturo. Open for lunch year-round.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.playaluna.it/en/ristorante.html">
+    
+    <!-- Hreflang Tags (International SEO) -->
+    <link rel="alternate" hreflang="it" href="https://www.playaluna.it/ristorante.html">
+    <link rel="alternate" hreflang="en" href="https://www.playaluna.it/en/ristorante.html">
+    <link rel="alternate" hreflang="x-default" href="https://www.playaluna.it/ristorante.html">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Restaurant Playa Luna | Fine Dining & Seafood - Varcaturo, Naples">
+    <meta property="og:description" content="Experience a gourmet journey at Restaurant Playa Luna. Fine seafood dining, exclusive areas, and panoramic views in Varcaturo. Open for lunch year-round.">
+    <meta property="og:url" content="https://www.playaluna.it/en/ristorante.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.playaluna.it/assets/images/hero-home.webp">
+    <meta property="og:site_name" content="Playa Luna">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Restaurant Playa Luna | Fine Dining & Seafood - Varcaturo, Naples">
+    <meta name="twitter:description" content="Experience a gourmet journey at Restaurant Playa Luna. Fine seafood dining, exclusive areas, and panoramic views in Varcaturo. Open for lunch year-round.">
+    <meta name="twitter:image" content="https://www.playaluna.it/assets/images/hero-home.webp">
+    
+    
+    
+    <link rel="preload" as="image" href="../assets/images/mobile-hero-ristorante.webp?v=1.2" media="(max-width: 800px)" fetchpriority="high">
+    <link rel="preload" as="image" href="../assets/images/hero-ristorante.webp?v=1.2" media="(min-width: 801px)" fetchpriority="high">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
+    
+    <link rel="icon" type="image/png" href="../assets/favicon.webp">
+    <link rel="apple-touch-icon" href="../assets/favicon.webp">
+
+    <style>
+        :root {
+            --sand: #E0D4BB;
+            --gold: #C9A84C;
+            --off-white: #F9F7F2;
+            --white: #FFFFFF;
+            --text-dark: #1A1208;
+            --text-light: #666059;
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+            --slide-padding: 8vw;
+        }
+
+        .decor-line { position: fixed; top: 0; width: 1px; height: 100vh; background: linear-gradient(to bottom, transparent, var(--gold), transparent); opacity: 0.1; z-index: 1002; pointer-events: none; }
+        .line-left { left: 4vw; } .line-right { right: 4vw; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--off-white); color: var(--text-dark); font-family: 'Montserrat', sans-serif; overflow-x: hidden; line-height: 1.6; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 400; }
+
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 2rem var(--slide-padding);
+            display: grid; grid-template-columns: 1fr auto 1fr;
+            align-items: center; z-index: 1000;
+            transition: all 0.5s var(--ease-out-expo);
+        }
+        .hamburger { display: none; cursor: pointer; z-index: 10001; background: none; border: none; padding: 10px; position: relative; flex-shrink: 0; }
+        .hamburger span { display: block; width: 26px; height: 2px; margin: 6px 0; background-color: #fff; transition: all 0.35s ease; border-radius: 2px; }
+        .navbar.scrolled .hamburger span, .navbar:not(.hero-nav) .hamburger span { background-color: #1A1208; }
+        
+        .mobile-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1A1208; z-index: 9998; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; transform: translateX(100%); visibility: hidden; transition: transform 0.45s cubic-bezier(0.77,0.2,0.05,1.0), visibility 0.45s; }
+        .mobile-overlay.active { transform: translateX(0); visibility: visible; }
+        .mobile-nav-links { list-style: none; text-align: center; padding: 0; margin: 0; width: 100%; }
+        .mobile-nav-links li { margin: 1.2rem 0; }
+        .mobile-nav-links a { color: #F9F7F2; text-decoration: none; font-size: clamp(1.4rem, 7vw, 2.2rem); text-transform: uppercase; letter-spacing: 5px; font-family: 'Playfair Display', serif; transition: color 0.3s, letter-spacing 0.3s; display: inline-block; }
+        .mobile-nav-links a:hover { color: #C9A84C; letter-spacing: 7px; }
+        .mobile-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: #F9F7F2; font-size: 2.5rem; cursor: pointer; line-height: 1; opacity: 0.7; transition: opacity 0.3s; }
+        .mobile-close:hover { opacity: 1; }
+        .mobile-lang { margin-top: 2.5rem; font-size: 0.75rem; letter-spacing: 4px; color: rgba(255,255,255,0.35); text-transform: uppercase; }
+        .mobile-lang a { color: rgba(255,255,255,0.6); text-decoration: none; margin: 0 0.5rem; }
+        .mobile-lang a:hover { color: #C9A84C; }
+        .mobile-divider { width: 40px; height: 1px; background: rgba(255,255,255,0.15); margin: 1.5rem auto 0; }
+
+        .navbar.scrolled { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); padding: 1.2rem var(--slide-padding); }
+        @media screen and (max-width: 1024px) {
+            .navbar { padding: 1.5rem 5vw !important; grid-template-columns: 1fr auto 1fr !important; }
+            .nav-left, .nav-right { display: none !important; }
+            .hamburger { 
+                display: block !important; 
+                background: rgba(255,255,255,0.1) !important;
+                border: 1px solid rgba(255,255,255,0.3) !important;
+                border-radius: 50% !important;
+                padding: 10px !important;
+                backdrop-filter: blur(10px) !important;
+                margin-left: auto;
+            }
+            .logo { height: 80px !important; }
+            .hero-title { font-size: 3.5rem !important; }
+            .hero { height: auto !important; min-height: 80vh; padding: 140px 5vw 60px !important; flex-direction: column; }
+        }
+
+        .nav-left { display: flex; justify-content: flex-start; gap: 2rem; list-style: none; }
+        .nav-right { display: flex; justify-content: flex-end; gap: 2.5rem; list-style: none; align-items: center; }
+        .nav-link { text-decoration: none; color: var(--text-dark); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .hero-nav .nav-link { color: var(--white); }
+        .navbar.scrolled .nav-link { color: var(--text-dark); }
+        .nav-link:hover { color: var(--gold); }
+
+        .lang-switcher { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin-left: 1rem; }
+        .lang-switcher a { text-decoration: none; color: var(--white); opacity: 0.6; transition: 0.3s; }
+        .lang-switcher a.active { opacity: 1; font-weight: 600; }
+        .navbar.scrolled .lang-switcher a { color: var(--text-dark); }
+
+        .logo { height: 180px !important; width: auto !important; transition: 0.5s; filter: brightness(0) invert(1); }
+        .navbar.scrolled .logo { height: 120px !important; filter: none; }
+
+        .hero {
+            height: 70vh; width: 100%; position: relative;
+            overflow: hidden; display: flex; align-items: center;
+            justify-content: center; text-align: center;
+            background: #000;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, transparent 50%, var(--white) 100%);
+            z-index: 2;
+        }
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.7;
+        }
+        .hero-content { position: relative; z-index: 10; color: #1A1208; text-align: center; }
+        .hero-title { 
+            font-size: clamp(3rem, 10vw, 6rem); line-height: 1.1; 
+            margin-bottom: 3rem; text-shadow: none !important;
+            color: #1A1208 !important;
+        }
+        .badge-label { 
+            display: inline-block;
+            background: #1A1208;
+            color: var(--gold);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Terrace Section (Peak State) */
+        .terrace-section {
+            padding: 10rem var(--slide-padding);
+            background: var(--text-dark);
+            color: var(--white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .terrace-content { max-width: 800px; margin: 0 auto; position: relative; z-index: 5; }
+        .terrace-section h2 { font-size: 4rem; margin-bottom: 2rem; color: var(--gold); }
+        .terrace-section p { font-size: 1.2rem; opacity: 0.8; margin-bottom: 4rem; font-weight: 300; }
+        .terrace-img { width: 100%; height: 60vh; object-fit: cover; border-radius: 2px; margin-top: 4rem; }
+
+        /* Signature Styling */
+        .signature-section { padding: 10rem var(--slide-padding); text-align: center; background: var(--white); }
+        .signature-symbol { font-size: 2rem; color: var(--gold); margin-bottom: 2rem; display: block; }
+        .signature-quote { font-size: 2.2rem; font-family: 'Playfair Display', serif; font-style: italic; max-width: 900px; margin: 0 auto 3rem; line-height: 1.4; color: var(--text-dark); }
+        .signature-author { text-transform: uppercase; letter-spacing: 4px; font-size: 0.9rem; color: var(--text-light); }
+
+        /* Content Sections */
+        .content-section { padding: 8rem var(--slide-padding); display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; align-items: center; }
+        .content-section.reverse { direction: rtl; }
+        .content-section.reverse * { direction: ltr; }
+        .content-image { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+        .content-text h2 { font-size: 3.5rem; margin-bottom: 2rem; }
+        .content-text p { font-size: 1.1rem; color: var(--text-light); margin-bottom: 3rem; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1.2s var(--ease-out-expo); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Scroll Top Button */
+        #scrollTop {
+            position: fixed; bottom: 40px; left: 40px;
+            width: 50px; height: 50px; background: var(--white);
+            border: 1px solid rgba(0,0,0,0.1); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; opacity: 0; visibility: hidden;
+            transition: 0.4s; z-index: 1000;
+        }
+        #scrollTop.visible { opacity: 1; visibility: visible; }
+        #scrollTop:hover { background: var(--gold); color: var(--white); border-color: var(--gold); }
+
+        footer { background: var(--text-dark); color: var(--white); padding: 8rem var(--slide-padding); text-align: center; }
+        .footer-info { font-size: 0.8rem; opacity: 0.6; line-height: 2; margin-top: 3rem; }
+
+        .btn-gold {
+            display: inline-block; padding: 1.2rem 3rem;
+            background: var(--gold); color: var(--white);
+            text-decoration: none; text-transform: uppercase;
+            font-size: 0.8rem; letter-spacing: 3px; transition: 0.3s;
+        }
+        .btn-gold:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(201,168,76,0.3); }
+
+        /* Cuisine Section */
+        .cuisine-section { padding: 8rem var(--slide-padding); background: var(--white); text-align: center; }
+        .cuisine-header { margin-bottom: 5rem; }
+        .cuisine-header span { text-transform: uppercase; letter-spacing: 5px; color: var(--gold); font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 1rem; }
+        .cuisine-header h2 { font-size: 3.5rem; color: var(--text-dark); }
+        .cuisine-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4vw; }
+        .cuisine-card { background: var(--off-white); border: 1px solid rgba(0,0,0,0.03); overflow: hidden; display: flex; flex-direction: column; transition: all 0.4s var(--ease-out-expo); text-align: left; }
+        .cuisine-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.05); border-color: var(--gold); }
+        .cuisine-card img { width: 100%; aspect-ratio: 16/10; object-fit: cover; }
+        .cuisine-card-text { padding: 3rem; }
+        .cuisine-card-text h3 { font-size: 1.8rem; margin-bottom: 1rem; color: var(--text-dark); }
+        .cuisine-card-text p { color: var(--text-light); font-size: 1rem; line-height: 1.8; }
+
+        @media (max-width: 1024px) {
+            .content-section { grid-template-columns: 1fr; gap: 4rem; }
+            .hero-title { font-size: 3.5rem; }
+            .terrace-section h2 { font-size: 2.5rem; }
+
+            /* Cuisine Responsive */
+            .cuisine-section { padding: 5rem 6vw; }
+            .cuisine-header h2 { font-size: 2.5rem; }
+            .cuisine-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .cuisine-card-text { padding: 2rem; }
+            .cuisine-card-text h3 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="decor-line line-left"></div>
+    <div class="decor-line line-right"></div>
+
+    <nav class="navbar hero-nav" id="navbar">
+        <ul class="nav-left">
+            <li><a href="damai.html" class="nav-link">Damai</a></li>
+            <li><a href="culto.html" class="nav-link">Culto</a></li>
+            <li><a href="../fiordacqua.html" class="nav-link">Fior d'Acqua</a></li>
+        </ul>
+
+        <a href="index.html" class="logo-link"><img src="../assets/logos/logo-playaluna.webp" alt="Playa Luna" class="logo"></a>
+
+        <ul class="nav-right">
+            <li><a href="beach.html" class="nav-link">Beach</a></li>
+            <li><a href="ristorante.html" class="nav-link" style="color: var(--gold) !important;">Restaurant</a></li>
+            <li><a href="eventi.html" class="nav-link">Events</a></li>
+            <li><a href="contatti.html" class="nav-link">Contact</a></li>
+            <li class="lang-switcher">
+                <a href="#" class="active">EN</a> | <a href="../ristorante.html">IT</a>
+            </li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+
+
+    <header class="hero">
+        <picture class="hero-bg">
+            <source srcset="../assets/images/mobile-hero-ristorante.webp?v=1.2" media="(max-width: 800px)" type="image/webp">
+            <img src="../assets/images/hero-ristorante.webp?v=1.2" alt="Restaurant Playa Luna" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;">
+        </picture>
+        <div class="hero-content">
+            <span class="badge-label">Gourmet Experience</span>
+            <h1 class="hero-title" style="color: var(--white) !important; text-shadow: 0 2px 20px rgba(0,0,0,0.2) !important;">High Quality Cuisine</h1>
+        </div>
+    </header>
+
+    <section class="signature-section reveal">
+        <span class="signature-symbol">✧</span>
+        <blockquote class="signature-quote">
+            "Cuisine is the emotion of the sea transformed into flavor, a ritual renewed every day under the Varcaturo sun."
+        </blockquote>
+        <p class="signature-author">— Our Philosophy</p>
+    </section>
+
+    <section class="content-section">
+        <div class="content-image-wrapper reveal">
+            <img src="../assets/images/about-home.webp" srcset="../assets/images/mobile-about-home.webp 800w, ../assets/images/about-home.webp 1200w" sizes="(max-width: 800px) 800px, 1200px" alt="Restaurant Playa Luna" class="content-image">
+        </div>
+        <div class="content-text reveal">
+            <h2>A Seaside Lunch</h2>
+            <p>Playa Luna Restaurant is open daily for lunch, all year round. Authentic Mediterranean cuisine where the daily catch takes center stage, served in a refined and elegant setting.</p>
+            <div style="display:flex; gap:1.5rem;">
+                <a href="https://wa.me/390001112233?text=I%20would%20like%20to%20reserve%20a%20table%20for%20lunch" class="btn-gold">Reserve Table</a>
+                <a href="../assets/pdf/menu-ristorante.pdf" class="btn-gold" style="background:transparent; border:1px solid var(--gold); color:var(--gold);">View Menu</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cuisine-section reveal">
+        <div class="cuisine-header">
+            <span>Culinary Excellence</span>
+            <h2>Our Cuisine</h2>
+        </div>
+        <div class="cuisine-grid">
+            <div class="cuisine-card">
+                <img src="../assets/images/piatto-crudo.webp" srcset="../assets/images/mobile-piatto-crudo.webp 800w, ../assets/images/piatto-crudo.webp 1200w" sizes="(max-width: 800px) 800px, 1200px" alt="Seafood Crudo" loading="lazy">
+                <div class="cuisine-card-text">
+                    <h3>Seafood Crudo</h3>
+                    <p>Fresh raw fish and refined combinations to enhance the authentic flavor of the sea in every bite.</p>
+                </div>
+            </div>
+            <div class="cuisine-card">
+                <img src="../assets/images/piatto-pasta.webp" srcset="../assets/images/mobile-piatto-pasta.webp 800w, ../assets/images/piatto-pasta.webp 1200w" sizes="(max-width: 800px) 800px, 1200px" alt="Pasta Dish" loading="lazy">
+                <div class="cuisine-card-text">
+                    <h3>Tradition Redefined</h3>
+                    <p>Fresh pasta dishes that combine classic Mediterranean ingredients with contemporary style and technique.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="terrace-section reveal">
+        <div class="terrace-content">
+            <span>Seaside Elegance</span>
+            <h2>The Terrace</h2>
+            <p>The most exclusive area of our restaurant. A terrace overlooking the shore, where the sound of the waves accompanies every course, creating a magical and authentic atmosphere for your special moments.</p>
+        </div>
+        <img src="../assets/images/ristorante-terrazza-giorno.webp" srcset="../assets/images/mobile-ristorante-terrazza-giorno.webp 800w, ../assets/images/ristorante-terrazza-giorno.webp 1920w" sizes="(max-width: 800px) 800px, 1920px" alt="The Terrace Playa Luna" class="terrace-img reveal">
+    </section>
+
+    <div id="scrollTop">↑</div>
+
+    <footer>
+        <img src="../assets/logos/logo-playaluna.webp" alt="Playa Luna" style="height:100px; filter:brightness(0) invert(1);">
+        <div class="footer-info">
+            <p>Via Marina di Varcaturo, 42 - 81030 Castel Volturno (CE)</p>
+            <p>LIDO PLAYALUNA SRL | VAT 09146931218</p>
+            <p>Lunch: 12:30 - 16:30 | Evening: Private Events Only</p>
+            <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 2rem;">
+                <a href="https://www.instagram.com/lidoplayaluna/" target="_blank" style="color: var(--white); text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;">@playalunaofficial</a>
+                <a href="https://www.instagram.com/playalunaeventi/" target="_blank" style="color: var(--white); text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;">@playalunaeventi</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/global.js" defer></script>
+    <script>
+
+
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            const stp = document.getElementById('scrollTop');
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+
+            if (window.scrollY > 500) stp.classList.add('visible');
+            else stp.classList.remove('visible');
+        });
+
+        document.getElementById('scrollTop').onclick = () => window.scrollTo({top: 0, behavior: 'smooth'});
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
+
+
+

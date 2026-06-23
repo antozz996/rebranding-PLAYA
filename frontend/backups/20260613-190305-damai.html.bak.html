@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="it"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Damai Exclusive Garden | Location Matrimoni &amp; Eventi - Varcaturo, Napoli</title>
+<meta content="Scopri il Damai Exclusive Garden a Varcaturo. Uno spazio moderno ed elegante immerso nel verde con piscina e vetrate panoramiche per matrimoni ed eventi privati." name="description"/>
+<!-- Canonical URL -->
+<link href="https://www.playaluna.it/damai.html" rel="canonical"/>
+<!-- Hreflang Tags (International SEO) -->
+<link href="https://www.playaluna.it/damai.html" hreflang="it" rel="alternate"/>
+<link href="https://www.playaluna.it/en/damai.html" hreflang="en" rel="alternate"/>
+<link href="https://www.playaluna.it/damai.html" hreflang="x-default" rel="alternate"/>
+<!-- Open Graph / Social Media -->
+<meta content="Damai Exclusive Garden | Location Matrimoni &amp; Eventi - Varcaturo, Napoli" property="og:title"/>
+<meta content="Scopri il Damai Exclusive Garden a Varcaturo. Uno spazio moderno ed elegante immerso nel verde con piscina e vetrate panoramiche per matrimoni ed eventi privati." property="og:description"/>
+<meta content="https://www.playaluna.it/damai.html" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="https://www.playaluna.it/assets/images/damai-pool-sunset.webp" property="og:image"/>
+<meta content="Playa Luna" property="og:site_name"/>
+<!-- Twitter Cards -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Damai Exclusive Garden | Location Matrimoni &amp; Eventi - Varcaturo, Napoli" name="twitter:title"/>
+<meta content="Scopri il Damai Exclusive Garden a Varcaturo. Uno spazio moderno ed elegante immerso nel verde con piscina e vetrate panoramiche per matrimoni ed eventi privati." name="twitter:description"/>
+<meta content="https://www.playaluna.it/assets/images/damai-pool-sunset.webp" name="twitter:image"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Montserrat:wght@300;400;500;600&amp;display=swap" media="all" onload="this.media='all'" rel="stylesheet"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Montserrat:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/></noscript>
+<!-- Preloads for LCP -->
+<link as="image" fetchpriority="high" href="assets/images/mobile-hero-damai.webp?v=1.2" media="(max-width: 800px)" rel="preload"/>
+<link as="image" fetchpriority="high" href="assets/images/hero-damai.webp?v=1.2" media="(min-width: 801px)" rel="preload"/>
+<link href="assets/favicon.webp" rel="icon" type="image/png"/>
+<link href="assets/favicon.webp" rel="apple-touch-icon"/>
+<style>
+        :root {
+            --sand: #F4EFE6;
+            --gold: #C9A84C;
+            --off-white: #F4EFE6;
+            --white: #FFFFFF;
+            --text-dark: #1A1208;
+            --text-light: #666059;
+            --damai-green: #1E2D24;
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+            --slide-padding: 8vw;
+        }
+
+        .decor-line { position: fixed; top: 0; width: 1px; height: 100vh; background: linear-gradient(to bottom, transparent, var(--gold), transparent); opacity: 0.1; z-index: 1002; pointer-events: none; }
+        .line-left { left: 4vw; } .line-right { right: 4vw; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { overflow-x: hidden; width: 100%; position: relative; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+        body { background-color: var(--off-white); color: var(--text-dark); font-family: 'Montserrat', sans-serif; line-height: 1.6; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 400; }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            display: grid; grid-template-columns: 1fr auto 1fr;
+            align-items: center; padding: 1.5rem var(--slide-padding);
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: transparent; transition: 0.5s;
+        }
+        .navbar.scrolled { background: rgba(244, 239, 230, 0.96); backdrop-filter: blur(15px); padding: 1rem var(--slide-padding); border-bottom: 1px solid rgba(30, 45, 36, 0.05); }
+        .nav-left { display: flex; gap: 2rem; list-style: none; justify-content: flex-start; }
+        .nav-right { display: flex; gap: 2rem; list-style: none; justify-content: flex-end; align-items: center; }
+        .nav-link { text-decoration: none; color: var(--white); font-weight: 600; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; }
+        .navbar.scrolled .nav-link { color: var(--text-dark); }
+        .nav-link:hover { color: var(--gold) !important; }
+        .logo { height: 240px; width: auto; transition: 0.5s; filter: brightness(0) invert(1); }
+        .navbar.scrolled .logo { height: 160px; filter: none; }
+        
+        .lang-switcher { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin-left: 1rem; }
+        .lang-switcher a { text-decoration: none; color: var(--white); opacity: 0.6; transition: 0.3s; }
+        .lang-switcher a.active { opacity: 1; font-weight: 600; }
+        .navbar.scrolled .lang-switcher a { color: var(--text-dark); }
+
+        .hamburger { display: none; cursor: pointer; z-index: 10001; background: none; border: none; padding: 10px; position: relative; }
+        .hamburger span { display: block; width: 26px; height: 2px; margin: 6px 0; background-color: #fff; transition: all 0.35s ease; border-radius: 2px; }
+        .navbar.scrolled .hamburger span { background-color: var(--text-dark); }
+
+        @media screen and (max-width: 1024px) {
+            .hamburger { 
+                display: block !important; 
+                background: rgba(30, 45, 36, 0.2) !important;
+                border: 1px solid rgba(255,255,255,0.2) !important;
+                border-radius: 50% !important;
+                padding: 10px !important;
+                backdrop-filter: blur(10px) !important;
+            }
+            .navbar .nav-left, .navbar .nav-right, .navbar .lang-switcher { display: none !important; }
+            .navbar { display: flex !important; justify-content: space-between !important; padding: 0.8rem 5vw !important; }
+            .navbar.scrolled { background: var(--off-white) !important; }
+            .navbar.scrolled .hamburger { background: rgba(30, 45, 36, 0.05) !important; border-color: rgba(0,0,0,0.1) !important; }
+            .navbar .logo { height: 120px !important; filter: none !important; }
+        }
+
+        /* --- HERO --- */
+        .hero {
+            height: 75vh; width: 100%; position: relative;
+            overflow: hidden; display: flex; align-items: center;
+            justify-content: center; text-align: center;
+            background: #000;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(30,45,36,0.3) 0%, transparent 60%, var(--off-white) 100%);
+            z-index: 2;
+        }
+        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.75; }
+        .hero-content { position: relative; z-index: 10; color: var(--white); max-width: 900px; padding: 0 2rem; }
+        .hero-logo { height: 90px; margin-bottom: 2rem; filter: brightness(0) invert(1); }
+        .hero-title { font-size: clamp(2.5rem, 7vw, 5rem); line-height: 1.1; margin-bottom: 2rem; text-shadow: 0 2px 15px rgba(0,0,0,0.2); }
+        .hero-tagline { display: block; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 1.5rem; color: var(--gold); font-weight: 500; }
+
+        /* --- SIGNATURE --- */
+        .signature-section { padding: 8rem var(--slide-padding); text-align: center; background: var(--white); }
+        .signature-symbol { font-size: 2rem; color: var(--gold); margin-bottom: 2rem; display: block; }
+        .signature-quote { font-size: 2.2rem; font-family: 'Playfair Display', serif; font-style: italic; max-width: 900px; margin: 0 auto 3rem; line-height: 1.4; color: var(--damai-green); }
+        .signature-author { text-transform: uppercase; letter-spacing: 4px; font-size: 0.9rem; color: var(--text-light); }
+
+        /* --- CONTENT SECTION (ASYMMETRIC) --- */
+        .content-section { padding: 8rem var(--slide-padding); display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; align-items: center; background: var(--off-white); }
+        .content-section.dark-theme { background: #124e54; color: var(--white); }
+        .content-image { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 4px; border: 1px solid rgba(30, 45, 36, 0.05); }
+        .content-text h2 { font-size: 3.5rem; margin-bottom: 2rem; line-height: 1.2; }
+        .content-text p { font-size: 1.1rem; color: var(--text-light); margin-bottom: 3rem; font-weight: 300; }
+        .dark-theme .content-text p { color: rgba(255,255,255,0.75); }
+        .dark-theme .content-text h2 { color: var(--gold); }
+        
+        .btn-gold {
+            display: inline-block; padding: 1.2rem 3rem;
+            background: var(--gold); color: var(--white);
+            text-decoration: none; text-transform: uppercase;
+            font-size: 0.8rem; letter-spacing: 3px; transition: 0.4s var(--ease-out-expo);
+            border: 1px solid var(--gold);
+        }
+        .btn-gold:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(201,168,76,0.3); background: transparent; color: var(--gold); }
+        .dark-theme .btn-gold:hover { color: var(--white); border-color: var(--white); }
+
+        /* --- EVENTS GRID --- */
+        .events-section { padding: 8rem var(--slide-padding); background: var(--white); text-align: center; }
+        .events-header { margin-bottom: 5rem; }
+        .events-header span { text-transform: uppercase; letter-spacing: 5px; color: var(--gold); font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 1rem; }
+        .events-header h2 { font-size: 3.5rem; color: var(--damai-green); }
+        .events-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5vw; }
+        .event-card { background: var(--off-white); border: 1px solid rgba(0,0,0,0.03); overflow: hidden; display: flex; flex-direction: column; transition: all 0.4s var(--ease-out-expo); text-align: left; border-radius: 4px; }
+        .event-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(30, 45, 36, 0.08); border-color: var(--gold); }
+        .event-card-img-wrapper { overflow: hidden; width: 100%; aspect-ratio: 16/11; }
+        .event-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease-out-expo); }
+        .event-card:hover img { transform: scale(1.05); }
+        .event-card-text { padding: 2.5rem; }
+        .event-card-text h3 { font-size: 1.6rem; margin-bottom: 1rem; color: var(--damai-green); }
+        .event-card-text p { color: var(--text-light); font-size: 0.95rem; line-height: 1.7; font-weight: 300; }
+
+        /* --- MOBILE NAV OVERLAY --- */
+        .mobile-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(30, 45, 36, 0.98); z-index: 10000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            backdrop-filter: blur(15px);
+        }
+        .mobile-overlay.active { opacity: 1; visibility: visible; }
+        .mobile-nav-links { list-style: none; text-align: center; }
+        .mobile-nav-links li { margin: 1.5rem 0; opacity: 0; transform: translateY(20px); transition: 0.5s; }
+        .mobile-overlay.active .mobile-nav-links li { opacity: 1; transform: translateY(0); }
+        .mobile-nav-links a { 
+            text-decoration: none; color: #F9F7F2; 
+            font-family: 'Playfair Display', serif; font-weight: 400; font-size: 2.2rem; 
+            text-transform: uppercase; letter-spacing: 5px; transition: color 0.3s, letter-spacing 0.3s;
+        }
+        .mobile-nav-links a:hover { color: var(--gold); letter-spacing: 7px; }
+        
+        .mobile-close {
+            position: absolute; top: 30px; right: 30px;
+            background: none; border: none; color: #F9F7F2; font-size: 3rem; cursor: pointer;
+            opacity: 0.7; transition: 0.3s;
+        }
+        .mobile-close:hover { opacity: 1; }
+        .mobile-divider { width: 40px; height: 1px; background: rgba(255,255,255,0.15); margin: 2rem 0; }
+        .mobile-lang { font-family: 'Montserrat', sans-serif; font-size: 0.8rem; letter-spacing: 4px; color: rgba(255,255,255,0.35); text-transform: uppercase; }
+        .mobile-lang a { font-family: 'Montserrat', sans-serif; color: rgba(255,255,255,0.6); font-weight: 400; font-size: 0.8rem; text-decoration: none; transition: 0.3s; margin: 0 5px; }
+        .mobile-lang a:hover { color: var(--gold); }
+
+        /* --- SCROLL TOP --- */
+        #scrollTop {
+            position: fixed; bottom: 40px; left: 40px;
+            width: 50px; height: 50px; background: var(--white);
+            border: 1px solid rgba(0,0,0,0.1); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; opacity: 0; visibility: hidden;
+            transition: 0.4s; z-index: 1000;
+        }
+        #scrollTop.visible { opacity: 1; visibility: visible; }
+        #scrollTop:hover { background: var(--gold); color: var(--white); border-color: var(--gold); }
+
+        /* --- FOOTER --- */
+        footer { background: var(--damai-green); color: var(--white); padding: 8rem var(--slide-padding); text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-logo { height: 100px; filter: brightness(0) invert(1); margin-bottom: 3rem; }
+        .footer-info { font-size: 0.8rem; opacity: 0.6; letter-spacing: 1px; line-height: 2; margin-bottom: 3rem; }
+        .footer-links { display: flex; justify-content: center; gap: 3rem; list-style: none; margin-bottom: 3rem; }
+        .footer-links a { color: var(--white); text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 3rem; font-size: 0.7rem; opacity: 0.4; }
+
+        /* --- WHATSAPP WIDGET --- */
+        .wa-widget-container {
+            position: fixed; bottom: 15px; right: 15px; z-index: 9999;
+            display: flex; flex-direction: column-reverse; align-items: flex-end; gap: 15px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .wa-main-button {
+            width: 60px; height: 60px; background: #25D366; color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3); cursor: pointer;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .wa-main-button:hover { transform: scale(1.1) rotate(5deg); }
+        .wa-main-button.active { transform: scale(0.9) rotate(-15deg); background: #128C7E; }
+        
+        .wa-options {
+            display: flex; flex-direction: column-reverse; gap: 10px;
+            opacity: 0; visibility: hidden; transform: translateY(20px);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .wa-options.active { opacity: 1; visibility: visible; transform: translateY(0); }
+        
+        .wa-option {
+            display: flex; align-items: center; gap: 12px; text-decoration: none;
+            background: white; padding: 8px 15px; border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: 0.3s;
+        }
+        .wa-option:hover { transform: translateX(-10px); background: #f0f0f0; }
+        .wa-label { color: #333; font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
+        .wa-sub-button { width: 35px; height: 35px; background: #25D366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+        /* --- RESPONSIVE MEDIA --- */
+        @media (max-width: 1024px) {
+            .content-section { padding: 5rem 6vw; grid-template-columns: 1fr; gap: 3rem; }
+            .content-text h2 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+            .content-text p { font-size: 1rem; margin-bottom: 2.5rem; }
+            .btn-gold { width: 100%; text-align: center; }
+            .hero-title { font-size: clamp(2rem, 8vw, 3.5rem); }
+            
+            .events-section { padding: 5rem 6vw; }
+            .events-header h2 { font-size: 2.5rem; }
+            .events-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .event-card-text { padding: 2rem; }
+            .event-card-text h3 { font-size: 1.5rem; }
+        }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1.2s var(--ease-out-expo); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+    </style>
+<style>
+        /* WhatsApp Widget Styles */
+        .wa-widget-container {
+            position: fixed; bottom: 15px; right: 15px; z-index: 9999;
+            display: flex; flex-direction: column-reverse; align-items: flex-end; gap: 15px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .wa-main-button {
+            width: 60px; height: 60px; background: #25D366; color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3); cursor: pointer;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .wa-main-button:hover { transform: scale(1.1) rotate(5deg); }
+        .wa-main-button.active { transform: scale(0.9) rotate(-15deg); background: #128C7E; }
+        
+        .wa-options {
+            display: flex; flex-direction: column-reverse; gap: 10px;
+            opacity: 0; visibility: hidden; transform: translateY(20px);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .wa-options.active { opacity: 1; visibility: visible; transform: translateY(0); }
+        
+        .wa-option {
+            display: flex; align-items: center; gap: 12px; text-decoration: none;
+            background: white; padding: 8px 15px; border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: 0.3s;
+        }
+        .wa-option:hover { transform: translateX(-10px); background: #f0f0f0; }
+        .wa-label { color: #333; font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
+        .wa-sub-button { width: 35px; height: 35px; background: #25D366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+        /* Mobile Overlay Styles */
+        .mobile-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(26, 18, 8, 0.98); z-index: 10000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            backdrop-filter: blur(15px);
+        }
+        .mobile-overlay.active { opacity: 1; visibility: visible; }
+        
+        .mobile-nav-links { list-style: none; text-align: center; }
+        .mobile-nav-links li { margin: 1.5rem 0; opacity: 0; transform: translateY(20px); transition: 0.5s; }
+        .mobile-overlay.active .mobile-nav-links li { opacity: 1; transform: translateY(0); }
+        .mobile-nav-links a { 
+            text-decoration: none; color: #F9F7F2; 
+            font-family: 'Playfair Display', serif; font-weight: 400; font-size: 2.2rem; 
+            text-transform: uppercase; letter-spacing: 5px; transition: color 0.3s, letter-spacing 0.3s;
+        }
+        .mobile-nav-links a:hover { color: #C9A84C; letter-spacing: 7px; }
+        
+        .mobile-close {
+            position: absolute; top: 30px; right: 30px;
+            background: none; border: none; color: #F9F7F2; font-size: 3rem; cursor: pointer;
+            opacity: 0.7; transition: 0.3s;
+        }
+        .mobile-close:hover { opacity: 1; }
+        .mobile-divider { width: 40px; height: 1px; background: rgba(255,255,255,0.15); margin: 2rem 0; }
+        .mobile-lang { font-family: 'Montserrat', sans-serif; font-size: 0.8rem; letter-spacing: 4px; color: rgba(255,255,255,0.35); text-transform: uppercase; }
+        .mobile-lang a { font-family: 'Montserrat', sans-serif; color: rgba(255,255,255,0.6); font-weight: 400; font-size: 0.8rem; text-decoration: none; transition: 0.3s; margin: 0 5px; }
+        .mobile-lang a:hover { color: #C9A84C; }
+
+        /* Desktop specific: hide hamburger and overlay elements */
+        @media (min-width: 1025px) {
+            .hamburger, .mobile-overlay { display: none !important; }
+        }
+
+        /* Common Global Styles (Footer, Buttons, Social) */
+        .social-feed { padding: 10rem var(--slide-padding, 8vw); background: var(--white, #FFFFFF); text-align: center; }
+        .social-header { margin-bottom: 5rem; }
+        .social-header span { text-transform: uppercase; letter-spacing: 5px; color: var(--gold, #C9A84C); font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 1rem; }
+        .social-header h2 a { color: var(--text-dark, #1A1208); text-decoration: none; font-size: 3rem; font-family: 'Playfair Display', serif; transition: color 0.3s; }
+        .social-header h2 a:hover { color: var(--gold, #C9A84C); }
+        .instagram-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+        .insta-post { position: relative; aspect-ratio: 1; overflow: hidden; }
+        .insta-post img { width: 100%; height: 100%; object-fit: cover; transition: 1s cubic-bezier(0.19, 1, 0.22, 1); }
+        .insta-post:hover img { transform: scale(1.1) rotate(1deg); }
+        .insta-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(26,18,8,0.6); display: flex; align-items: center;
+            justify-content: center; color: var(--white, #FFFFFF); opacity: 0; transition: 0.5s;
+            z-index: 3;
+        }
+        .insta-post:hover .insta-overlay { opacity: 1; }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        footer { background: var(--text-dark, #1A1208); color: var(--white, #FFFFFF); padding: 8rem var(--slide-padding, 8vw); text-align: center; }
+        .footer-logo { height: 120px; filter: brightness(0) invert(1); margin-bottom: 3rem; }
+        .footer-info { font-size: 0.8rem; opacity: 0.6; letter-spacing: 1px; line-height: 2; margin-bottom: 3rem; }
+        .footer-links { display: flex; justify-content: center; gap: 3rem; list-style: none; margin-bottom: 3rem; }
+        .footer-links a { color: var(--white, #FFFFFF); text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 3rem; font-size: 0.7rem; opacity: 0.4; }
+
+        .btn-luxury {
+            display: inline-block; padding: 1.4rem 3.5rem; background: transparent;
+            border: 1px solid #1A1208; color: #1A1208; text-decoration: none; text-transform: uppercase;
+            font-size: 0.8rem; letter-spacing: 4px; transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            position: relative; overflow: hidden;
+        }
+        .btn-luxury:hover { background: #1A1208; color: var(--white, #FFFFFF); }
+
+        @media (max-width: 1024px) {
+            .social-feed { padding: 5rem 5vw; }
+            .social-header h2 {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 0.35em !important;
+                white-space: nowrap !important;
+            }
+            .social-header h2 a {
+                font-size: clamp(0.85rem, 3.2vw, 1.1rem) !important;
+                color: var(--gold, #C9A84C) !important;
+                white-space: nowrap !important;
+            }
+            .ig-icon {
+                width: 1.1em !important;
+                height: 1.1em !important;
+                flex-shrink: 0 !important;
+            }
+        }
+        @media (max-width: 480px) {
+            .instagram-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+        }
+
+    </style></head>
+<body>
+<div class="decor-line line-left"></div>
+<div class="decor-line line-right"></div>
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+<ul class="nav-left">
+            <li><a class="nav-link" href="damai.html">Home</a></li>
+        </ul>
+<a class="logo-link" href="damai.html">
+<img alt="Playa Luna" class="logo" src="assets/logos/logo-damai.webp"/>
+</a>
+<ul class="nav-right">
+<li><a class="nav-link" href="damai-eventi.html">Eventi</a></li>
+            <li><a class="nav-link" href="damai-contatti.html">Contatti</a></li>
+<li class="lang-switcher">
+<a class="nav-link" href="en/damai.html">EN</a>
+</li>
+</ul>
+<div class="hamburger" id="hamburger">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</nav>
+<!-- MOBILE OVERLAY NAVIGATION -->
+<div aria-hidden="true" class="mobile-overlay">
+<button class="mobile-close">×</button>
+<ul class="mobile-nav-links">
+<li><a href="damai.html">Home</a></li>
+<li><a href="damai-eventi.html">Eventi</a></li>
+<li><a href="damai-contatti.html">Contatti</a></li>
+<li><a href="en/damai.html">EN</a></li>
+</ul>
+</div>
+<!-- MAIN AREA -->
+<main>
+<!-- HERO -->
+<header class="hero">
+<video id="heroVideo" class="hero-bg" autoplay muted loop playsinline poster="assets/images/mobile-hero-damai.webp" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; opacity: 0.65;"></video>
+<div class="hero-content reveal visible">
+<img alt="Damai Logo" class="hero-logo" src="assets/logos/logo-damai.webp"/>
+<span class="hero-tagline">Exclusive Event Garden</span>
+<h1 class="hero-title">Un Giardino di Emozioni</h1>
+<a class="btn-gold" href="https://wa.me/393477183803?text=Vorrei%20richiedere%20un%20preventivo%20per%20un%20evento%20al%20Damai">Richiedi Preventivo</a>
+</div>
+</header>
+<!-- SIGNATURE QUOTE -->
+<section class="signature-section reveal visible">
+<span class="signature-symbol">✧</span>
+<blockquote class="signature-quote">
+                "L'eleganza discreta di un giardino segreto, dove la natura e il design moderno si fondono per dare vita ai tuoi ricordi più preziosi."
+            </blockquote>
+<p class="signature-author">— La Nostra Filosofia</p>
+</section>
+<!-- INTRO GRID 1 (GREEN THEME) -->
+<section class="content-section dark-theme">
+<div class="content-text reveal visible">
+<h2>Eleganza, Gusto e Spettacolo</h2>
+<p class="">
+                    Molto più di una semplice location: una vera e propria esperienza immersiva. Al Damai ogni dettaglio è studiato per stupire, dalle proposte culinarie premium al design ricercato degli spazi. 
+                    Lasciati trasportare da un'atmosfera esclusiva tra brindisi, performance dal vivo e party indimenticabili.
+                </p>
+<a class="btn-gold" href="https://wa.me/393477183803?text=Vorrei%20informazioni%20sullo%20spazio%20Damai">Scopri gli Spazi</a>
+</div>
+<div class="content-image-wrapper reveal visible">
+<video class="content-image" autoplay muted loop playsinline src="assets/images/1.mp4" style="object-fit: cover;"></video>
+</div>
+</section>
+<!-- INTRO GRID 2 (LIGHT THEME) -->
+<section class="content-section" style="direction: rtl;">
+<div class="content-text reveal visible" style="direction: ltr;">
+<h2>Un Design Ricercato in Ogni Dettaglio</h2>
+<p class="">
+                    Ogni allestimento al Damai è studiato per stupire. Tavoli elegantemente decorati, giochi di luce calda e dettagli floreali boho-chic creano uno scenario fatato. <div>Che si tratti di un matrimonio intimo, di un diciottesimo speciale o di un anniversario, i nostri designer progetteranno l'allestimento perfetto per te.
+                </div></p>
+<a class="btn-gold" href="eventi.html" style="background: transparent; border-color: var(--damai-green); color: var(--damai-green);">Organizza un Evento</a>
+</div>
+<div class="content-image-wrapper reveal visible" style="direction: ltr;">
+<img alt="Damai Garden Details" class="content-image" loading="lazy" sizes="(max-width: 800px) 800px, 1200px" src="assets/images/damai-boho-tables.webp" srcset="assets/images/mobile-damai-boho-tables.webp 800w, assets/images/damai-boho-tables.webp 1200w"/>
+</div>
+</section>
+
+</main>
+<!-- FOOTER -->
+<footer>
+<img alt="Damai" class="footer-logo" src="assets/logos/logo-damai.webp"/>
+<div class="footer-info">
+<p>Via Marina di Varcaturo, 42 - 81030 Castel Volturno (CE)</p>
+<p>LIDO PLAYALUNA SRL | P.IVA 09146931218</p>
+<p>Damai Event Garden è parte del network Playa Luna.</p>
+</div>
+<ul class="footer-links">
+<li><a href="privacy-policy.html">Privacy Policy</a></li>
+<li><a href="https://wa.me/393477183803">Contatti</a></li>
+<li><a href="https://wa.me/393477183803?text=Vorrei%20richiedere%20un%20preventivo%20per%20un%20evento%20al%20Damai">Richiedi Preventivo</a></li>
+</ul>
+<div class="footer-bottom">
+<p>© 2026 Playa Luna - Damai Event Garden. Tutti i diritti riservati.</p>
+</div>
+</footer>
+<!-- SCROLL TOP -->
+<div class="" id="scrollTop">↑</div>
+<!-- WHATSAPP WIDGET -->
+<div class="wa-widget-container">
+<div class="wa-options" id="waOptions">
+<a class="wa-option" href="https://wa.me/393477183803?text=Richiesta%20preventivo%20Damai%20Event%20Garden" target="_blank">
+<span class="wa-label">Richiedi Preventivo</span>
+<div class="wa-sub-button">✉</div>
+</a>
+<a class="wa-option" href="https://wa.me/393477183803?text=Vorrei%20informazioni%20su%20Damai%20Exclusive%20Garden" target="_blank">
+<span class="wa-label">Info Location</span>
+<div class="wa-sub-button">ℹ</div>
+</a>
+</div>
+<div class="wa-main-button" id="waMain">💬</div>
+</div>
+<script defer="" src="assets/js/global.js"></script>
+<script>
+        // Dynamic Video Source Loader based on screen width
+        document.addEventListener("DOMContentLoaded", function() {
+            const isMobile = window.innerWidth <= 800;
+            
+            const heroVideo = document.getElementById("heroVideo");
+            if (heroVideo) {
+                heroVideo.src = isMobile ? "assets/images/mobile-damai-hero-web.mp4" : "assets/images/damai-hero-web.mp4";
+            }
+            
+            const eventsVideo = document.getElementById("eventsVideo");
+            if (eventsVideo) {
+                eventsVideo.src = isMobile ? "assets/images/mobile-damai-events-web.mp4" : "assets/images/damai-hero-web.mp4";
+            }
+        });
+
+        // Reveal elements on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // WhatsApp Widget Toggle
+        const waMain = document.getElementById('waMain');
+        const waOptions = document.getElementById('waOptions');
+        waMain.addEventListener('click', () => {
+            waMain.classList.toggle('active');
+            waOptions.classList.toggle('active');
+        });
+
+        // Scroll Top Button
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) scrollTopBtn.classList.add('visible');
+            else scrollTopBtn.classList.remove('visible');
+        });
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+<div class="wa-widget-container">
+<div class="wa-options" id="waOptions">
+<a class="wa-option" href="https://wa.me/393477183803" target="_blank">
+<span class="wa-label">Ristorante</span>
+<div class="wa-sub-button"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M12.031 6.172c-2.32 0-4.591 1.142-4.591 3.125 0 1.254.808 2.308 2.025 2.825l-.25 1.05c-.058.242.125.475.375.475h.017c.183 0 .342-.117.392-.292l.275-1.05h1.5l.275 1.05c.05.175.208.292.392.292h.017c.25 0 .433-.233.375-.475l-.25-1.05c1.217-.517 2.025-1.571 2.025-2.825 0-1.983-2.271-3.125-4.591-3.125zm0 1.25c1.475 0 3.091.733 3.091 1.875 0 .842-.717 1.483-1.892 1.708l-.208.042c-.225.042-.375.242-.375.475l.175.75h-.167l.175-.75c0-.233-.15-.433-.375-.475l-.208-.042c-1.175-.225-1.892-.867-1.892-1.708 0-1.142 1.617-1.875 3.091-1.875zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.168L2.054 22l4.958-1.303A9.954 9.954 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.95 7.95 0 0 1-4.144-1.157l-.297-.174-3.083.81.824-3.003-.19-.303A7.952 7.952 0 0 1 4 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"></path></svg></div>
+</a>
+<a class="wa-option" href="https://wa.me/393477183803" target="_blank">
+<span class="wa-label">Spiaggia</span>
+<div class="wa-sub-button"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M12.031 6.172c-2.32 0-4.591 1.142-4.591 3.125 0 1.254.808 2.308 2.025 2.825l-.25 1.05c-.058.242.125.475.375.475h.017c.183 0 .342-.117.392-.292l.275-1.05h1.5l.275 1.05c.05.175.208.292.392.292h.017c.25 0 .433-.233.375-.475l-.25-1.05c1.217-.517 2.025-1.571 2.025-2.825 0-1.983-2.271-3.125-4.591-3.125zm0 1.25c1.475 0 3.091.733 3.091 1.875 0 .842-.717 1.483-1.892 1.708l-.208.042c-.225.042-.375.242-.375.475l.175.75h-.167l.175-.75c0-.233-.15-.433-.375-.475l-.208-.042c-1.175-.225-1.892-.867-1.892-1.708 0-1.142 1.617-1.875 3.091-1.875zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.168L2.054 22l4.958-1.303A9.954 9.954 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.95 7.95 0 0 1-4.144-1.157l-.297-.174-3.083.81.824-3.003-.19-.303A7.952 7.952 0 0 1 4 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"></path></svg></div>
+</a>
+<a class="wa-option" href="https://wa.me/393477183803" target="_blank">
+<span class="wa-label">Eventi Privati</span>
+<div class="wa-sub-button"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M12.031 6.172c-2.32 0-4.591 1.142-4.591 3.125 0 1.254.808 2.308 2.025 2.825l-.25 1.05c-.058.242.125.475.375.475h.017c.183 0 .342-.117.392-.292l.275-1.05h1.5l.275 1.05c.05.175.208.292.392.292h.017c.25 0 .433-.233.375-.475l-.25-1.05c1.217-.517 2.025-1.571 2.025-2.825 0-1.983-2.271-3.125-4.591-3.125zm0 1.25c1.475 0 3.091.733 3.091 1.875 0 .842-.717 1.483-1.892 1.708l-.208.042c-.225.042-.375.242-.375.475l.175.75h-.167l.175-.75c0-.233-.15-.433-.375-.475l-.208-.042c-1.175-.225-1.892-.867-1.892-1.708 0-1.142 1.617-1.875 3.091-1.875zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.168L2.054 22l4.958-1.303A9.954 9.954 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.95 7.95 0 0 1-4.144-1.157l-.297-.174-3.083.81.824-3.003-.19-.303A7.952 7.952 0 0 1 4 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"></path></svg></div>
+</a>
+</div>
+<div class="wa-main-button" id="waMain">
+<svg fill="currentColor" height="35" viewbox="0 0 24 24" width="35"><path d="M12.031 6.172c-2.32 0-4.591 1.142-4.591 3.125 0 1.254.808 2.308 2.025 2.825l-.25 1.05c-.058.242.125.475.375.475h.017c.183 0 .342-.117.392-.292l.275-1.05h1.5l.275 1.05c.05.175.208.292.392.292h.017c.25 0 .433-.233.375-.475l-.25-1.05c1.217-.517 2.025-1.571 2.025-2.825 0-1.983-2.271-3.125-4.591-3.125zm0 1.25c1.475 0 3.091.733 3.091 1.875 0 .842-.717 1.483-1.892 1.708l-.208.042c-.225.042-.375.242-.375.475l.175.75h-.167l.175-.75c0-.233-.15-.433-.375-.475l-.208-.042c-1.175-.225-1.892-.867-1.892-1.708 0-1.142 1.617-1.875 3.091-1.875zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.168L2.054 22l4.958-1.303A9.954 9.954 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.95 7.95 0 0 1-4.144-1.157l-.297-.174-3.083.81.824-3.003-.19-.303A7.952 7.952 0 0 1 4 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"></path></svg>
+</div>
+</div></body></html>

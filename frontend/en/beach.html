@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Playa Luna Beach | Exclusive Lido & Relaxation - Varcaturo, Naples</title>
+    <meta name="description" content="Enjoy the sea in Varcaturo with the exclusive comfort of Playa Luna. Equipped beach, luxury cabanas, and the sunset ritual. Book your relaxation spot.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.playaluna.it/en/beach.html">
+    
+    <!-- Hreflang Tags (International SEO) -->
+    <link rel="alternate" hreflang="it" href="https://www.playaluna.it/beach.html">
+    <link rel="alternate" hreflang="en" href="https://www.playaluna.it/en/beach.html">
+    <link rel="alternate" hreflang="x-default" href="https://www.playaluna.it/beach.html">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Playa Luna Beach | Exclusive Lido & Relaxation - Varcaturo, Naples">
+    <meta property="og:description" content="Enjoy the sea in Varcaturo with the exclusive comfort of Playa Luna. Equipped beach, luxury cabanas, and the sunset ritual. Book your relaxation spot.">
+    <meta property="og:url" content="https://www.playaluna.it/en/beach.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.playaluna.it/assets/images/hero-home.webp">
+    <meta property="og:site_name" content="Playa Luna">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Playa Luna Beach | Exclusive Lido & Relaxation - Varcaturo, Naples">
+    <meta name="twitter:description" content="Enjoy the sea in Varcaturo with the exclusive comfort of Playa Luna. Equipped beach, luxury cabanas, and the sunset ritual. Book your relaxation spot.">
+    <meta name="twitter:image" content="https://www.playaluna.it/assets/images/hero-home.webp">
+    
+    
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
+    
+    <link rel="preload" as="image" href="../assets/images/mobile-hero-lido.webp?v=1.2" media="(max-width: 800px)" fetchpriority="high">
+    <link rel="preload" as="image" href="../assets/images/hero-lido.webp?v=1.2" media="(min-width: 801px)" fetchpriority="high">
+    
+    <link rel="icon" type="image/png" href="../assets/favicon.webp">
+    <link rel="apple-touch-icon" href="../assets/favicon.webp">
+
+    <style>
+        :root {
+            --sand: #E0D4BB;
+            --gold: #C9A84C;
+            --off-white: #F9F7F2;
+            --white: #FFFFFF;
+            --text-dark: #1A1208;
+            --text-light: #666059;
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+            --slide-padding: 8vw;
+        }
+
+        .decor-line { position: fixed; top: 0; width: 1px; height: 100vh; background: linear-gradient(to bottom, transparent, var(--gold), transparent); opacity: 0.1; z-index: 1002; pointer-events: none; }
+        .line-left { left: 4vw; } .line-right { right: 4vw; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--off-white); color: var(--text-dark); font-family: 'Montserrat', sans-serif; overflow-x: hidden; line-height: 1.6; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 400; }
+
+        .navbar {
+            display: grid; grid-template-columns: 1fr auto 1fr;
+            align-items: center; padding: 1.5rem var(--slide-padding);
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: transparent; transition: 0.5s;
+        }
+        .navbar.scrolled { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); padding: 1rem var(--slide-padding); }
+        .hamburger { display: none; cursor: pointer; z-index: 10001; background: none; border: none; padding: 10px; position: relative; flex-shrink: 0; }
+        .hamburger span { display: block; width: 26px; height: 2px; margin: 6px 0; background-color: #fff; transition: all 0.35s ease; border-radius: 2px; }
+        .navbar.scrolled .hamburger span, .navbar:not(.hero-nav) .hamburger span { background-color: #1A1208; }
+        
+        .mobile-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1A1208; z-index: 9998; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; transform: translateX(100%); visibility: hidden; transition: transform 0.45s cubic-bezier(0.77,0.2,0.05,1.0), visibility 0.45s; }
+        .mobile-overlay.active { transform: translateX(0); visibility: visible; }
+        .mobile-nav-links { list-style: none; text-align: center; padding: 0; margin: 0; width: 100%; }
+        .mobile-nav-links li { margin: 1.2rem 0; }
+        .mobile-nav-links a { color: #F9F7F2; text-decoration: none; font-size: clamp(1.4rem, 7vw, 2.2rem); text-transform: uppercase; letter-spacing: 5px; font-family: 'Playfair Display', serif; transition: color 0.3s, letter-spacing 0.3s; display: inline-block; }
+        .mobile-nav-links a:hover { color: #C9A84C; letter-spacing: 7px; }
+        .mobile-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: #F9F7F2; font-size: 2.5rem; cursor: pointer; line-height: 1; opacity: 0.7; transition: opacity 0.3s; }
+        .mobile-close:hover { opacity: 1; }
+        .mobile-lang { margin-top: 2.5rem; font-size: 0.75rem; letter-spacing: 4px; color: rgba(255,255,255,0.35); text-transform: uppercase; }
+        .mobile-lang a { color: rgba(255,255,255,0.6); text-decoration: none; margin: 0 0.5rem; }
+        .mobile-lang a:hover { color: #C9A84C; }
+        .mobile-divider { width: 40px; height: 1px; background: rgba(255,255,255,0.15); margin: 1.5rem auto 0; }
+        .nav-left { display: flex; gap: 2rem; list-style: none; justify-content: flex-start; }
+        .nav-right { display: flex; gap: 2rem; list-style: none; justify-content: flex-end; align-items: center; }
+        .nav-link { text-decoration: none; color: var(--text-dark); font-weight: 600; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; }
+        .nav-link:hover { color: var(--gold); }
+        .logo { height: 160px !important; width: auto !important; transition: 0.5s; }
+        .hero-nav .nav-link { color: var(--white); }
+        .navbar.scrolled .nav-link { color: var(--text-dark); }
+        .nav-link { text-decoration: none; color: var(--text-dark); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .hero-nav .nav-link { color: var(--white); }
+        .navbar.scrolled .nav-link { color: var(--text-dark); }
+        .nav-link:hover { color: var(--gold); }
+
+        .lang-switcher { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin-left: 1rem; }
+        .lang-switcher a { text-decoration: none; color: var(--white); opacity: 0.6; transition: 0.3s; }
+        .lang-switcher a.active { opacity: 1; font-weight: 600; }
+        .navbar.scrolled .lang-switcher a { color: var(--text-dark); }
+
+        .logo { height: 180px !important; width: auto !important; transition: 0.5s; filter: brightness(0) invert(1); }
+        .navbar.scrolled .logo { height: 120px !important; filter: none; }
+
+        .hero {
+            height: 80vh; width: 100%; position: relative;
+            overflow: hidden; display: flex; align-items: center;
+            justify-content: center; text-align: center;
+            background: #000;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, transparent 50%, var(--white) 100%);
+            z-index: 2;
+        }
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.8;
+        }
+        .hero-content { position: relative; z-index: 10; color: #1A1208; text-align: center; }
+        .hero-title { 
+            font-size: clamp(3rem, 10vw, 6rem); line-height: 1.1; 
+            margin-bottom: 3rem; text-shadow: none !important;
+            color: #1A1208 !important;
+        }
+        .badge-label { 
+            display: inline-block;
+            background: #1A1208;
+            color: var(--gold);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+        }
+
+        .hero-title { font-size: 5.5rem; margin-bottom: 1rem; }
+
+        /* Glassmorphism Service Grid */
+        .services-section { padding: 10rem var(--slide-padding); background: var(--white); }
+        .services-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; }
+        .service-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 4rem 2rem; text-align: center;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+            transition: all 0.5s var(--ease-out-expo);
+            flex: 0 1 calc(25% - 2rem);
+            min-width: 280px;
+        }
+        .service-card:hover { transform: translateY(-15px); background: var(--white); box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
+        .service-icon {
+            width: 80px; height: 80px; background: rgba(201, 168, 76, 0.1);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 2rem; font-size: 2rem; color: var(--gold);
+            transition: 0.5s;
+        }
+        .service-card:hover .service-icon { background: var(--gold); color: var(--white); transform: rotateY(180deg); }
+
+        /* Sunset Overlay Section */
+        .sunset-section {
+            height: 90vh; position: relative; display: flex; align-items: center;
+            padding: 0 var(--slide-padding); overflow: hidden;
+        }
+        .sunset-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('../assets/images/hero-home.webp');
+            background-size: cover; background-position: center;
+            z-index: 1;
+        }
+        .sunset-section::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to right, rgba(26,18,8,0.8), rgba(201,168,76,0.3));
+            z-index: 2;
+        }
+        .sunset-content { position: relative; z-index: 10; color: var(--white); max-width: 600px; }
+        .sunset-content h2 { font-size: 4.5rem; margin-bottom: 2rem; }
+        .sunset-content p { font-size: 1.2rem; opacity: 0.8; line-height: 1.8; margin-bottom: 3rem; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1.2s var(--ease-out-expo); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        footer { background: var(--text-dark); color: var(--white); padding: 8rem var(--slide-padding); text-align: center; }
+
+        .btn-gold {
+            display: inline-block; padding: 1.2rem 3rem;
+            background: var(--gold); color: var(--white);
+            text-decoration: none; text-transform: uppercase;
+            font-size: 0.8rem; letter-spacing: 3px; transition: 0.3s;
+        }
+        .btn-scarcity { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-light); margin-top: 1.5rem; display: block; }
+
+        /* Lido Intro Section */
+        .lido-intro-section { padding: 10rem var(--slide-padding); background: var(--white); }
+        .lido-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 6vw; align-items: flex-start; }
+        .lido-text h2 { font-size: 3.5rem; margin-bottom: 2rem; }
+        .lido-text p { font-size: 1.1rem; color: var(--text-light); margin-bottom: 3.5rem; line-height: 1.8; max-width: 90%; }
+        .lido-img-large { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 2px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        .lido-sidebar { display: flex; flex-direction: column; gap: 3rem; background: var(--off-white); padding: 3rem; border: 1px solid rgba(0,0,0,0.03); border-radius: 2px; }
+        .lido-img-small { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 2px; }
+        .lido-sidebar-text h3 { font-size: 1.8rem; margin-bottom: 1rem; color: var(--text-dark); }
+        .lido-sidebar-text p { color: var(--text-light); font-size: 1rem; line-height: 1.7; }
+
+        .hamburger { 
+            display: none; 
+            cursor: pointer; 
+            z-index: 1100;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            padding: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .hamburger span { display: block; width: 25px; height: 2px; background: #1A1208; margin: 5px 0; transition: 0.4s; }
+
+        @media (max-width: 1024px) {
+            .navbar { padding: 1.5rem 5vw !important; grid-template-columns: 1fr auto 1fr !important; }
+            .nav-left, .nav-right { display: none !important; }
+            .hamburger { display: block !important; margin-left: auto; }
+            .logo { height: 80px !important; }
+            .hero-title { font-size: 3.5rem; }
+            .service-card { flex: 0 1 100%; min-width: 100%; }
+            .hero { height: auto !important; min-height: 80vh; padding: 140px 5vw 60px !important; flex-direction: column; }
+
+            /* Lido Responsive */
+            .lido-intro-section { padding: 5rem 6vw; }
+            .lido-grid { grid-template-columns: 1fr; gap: 4rem; }
+            .lido-text h2 { font-size: 2.5rem; }
+            .lido-text p { font-size: 1rem; margin-bottom: 2.5rem; max-width: 100%; }
+            .lido-sidebar { padding: 2rem; }
+            .lido-sidebar-text h3 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="decor-line line-left"></div>
+    <div class="decor-line line-right"></div>
+
+    <nav class="navbar hero-nav" id="navbar">
+        <ul class="nav-left">
+            <li><a href="damai.html" class="nav-link">Damai</a></li>
+            <li><a href="culto.html" class="nav-link">Culto</a></li>
+            <li><a href="fiordacqua.html" class="nav-link">Fior d'Acqua</a></li>
+        </ul>
+
+        <a href="index.html" class="logo-link">
+            <img src="../assets/logos/logo-playaluna.webp" alt="Playa Luna" class="logo">
+        </a>
+
+        <ul class="nav-right">
+            <li><a href="beach.html" class="nav-link" style="color: var(--gold) !important;">Beach</a></li>
+            <li><a href="ristorante.html" class="nav-link">Restaurant</a></li>
+            <li><a href="eventi.html" class="nav-link">Events</a></li>
+            <li><a href="contatti.html" class="nav-link">Contacts</a></li>
+            <li class="lang-switcher">
+                <a href="../beach.html" class="nav-link">IT</a>
+            </li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+
+    <header class="hero">
+        <picture class="hero-bg">
+            <source srcset="../assets/images/mobile-hero-lido.webp?v=1.2" media="(max-width: 800px)" type="image/webp">
+            <img src="../assets/images/hero-lido.webp?v=1.2" alt="Playa Luna Beach Club" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.8; z-index: 1;">
+        </picture>
+        <div class="hero-content">
+            <span class="badge-label">Exclusive Beach Club</span>
+            <h1 class="hero-title" style="color: var(--white) !important; text-shadow: 0 2px 20px rgba(0,0,0,0.2) !important;">Relax and Sunsets</h1>
+        </div>
+    </header>
+
+    <section class="lido-intro-section reveal">
+        <div class="lido-grid">
+            <div class="lido-text">
+                <h2>An Oasis of Relaxation in Varcaturo</h2>
+                <p>With widely spaced sunbeds, exclusive cabanas, and a unique panorama that stretches out to the islands, the Playa Luna beach is designed to offer you the ultimate comfort under the sun.</p>
+                <img class="lido-img-large" src="../assets/images/lido-panoramica.webp" srcset="../assets/images/mobile-lido-panoramica.webp 800w, ../assets/images/lido-panoramica.webp 1200w" sizes="(max-width: 800px) 800px, 1200px" alt="Panoramic view of Playa Luna Beach" loading="lazy">
+            </div>
+            <div class="lido-sidebar">
+                <img class="lido-img-small" src="../assets/images/playground-children.webp" srcset="../assets/images/mobile-playground-children.webp 800w, ../assets/images/playground-children.webp 1200w" sizes="(max-width: 800px) 800px, 1200px" alt="Kids Playground" loading="lazy">
+                <div class="lido-sidebar-text">
+                    <h3>Ideal for Families</h3>
+                    <p>While you relax on our sunbeds, the little ones can have fun in complete safety in our equipped playground area on the sand.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-section">
+        <div style="text-align:center; margin-bottom: 6rem;" class="reveal">
+            <span style="text-transform:uppercase; letter-spacing:4px; color:var(--gold); font-size:0.8rem;">Live the experience</span>
+            <h2 style="font-size: 3.5rem; margin-top: 1rem;">Tailored Services</h2>
+        </div>
+        <div class="services-grid">
+            <div class="service-card reveal">
+                <div class="service-icon">🍽️</div>
+                <h3>Restaurant</h3>
+                <p>All the genuine flavor of the sea or the land, personally prepared by our Chef.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-icon">🚿</div>
+                <h3>Showers & Changing Rooms</h3>
+                <p>Hot/cold shower service and changing rooms.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-icon">☕</div>
+                <h3>Cafeteria</h3>
+                <p>Everything you need for a quick lunch on the beach.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-icon">🅿️</div>
+                <h3>Parking</h3>
+                <p>A secured area will allow you to park in total serenity.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-icon">🎠</div>
+                <h3>Playground</h3>
+                <p>An area dedicated to the little ones, with a playground equipped with a slide and other games.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-icon">🍝</div>
+                <h3>Hot Deli / Snack Bar</h3>
+                <p>Hot daily specials, traditional recipes, and fresh sides for a quick and tasty lunch by the sea.</p>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top: 6rem;" class="reveal">
+            <a href="https://wa.me/390001112244?text=I%20would%20like%20to%20check%20availability%20for%20a%20sunbed" class="btn-gold">Check Availability</a>
+            <span class="btn-scarcity">Limited spots, advance booking recommended</span>
+        </div>
+    </section>
+
+
+
+    <footer>
+        <img src="../assets/logos/logo-playaluna.webp" alt="Playa Luna" style="height:100px; filter:brightness(0) invert(1);">
+        <div class="footer-info">
+            <p>Via Marina di Varcaturo, 42 - 81030 Castel Volturno (CE)</p>
+            <p>LIDO PLAYALUNA SRL | VAT 09146931218</p>
+            <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 2rem;">
+                <a href="https://www.instagram.com/lidoplayaluna/" target="_blank" style="color: var(--white); text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;">@playalunaofficial</a>
+                <a href="https://www.instagram.com/playalunaeventi/" target="_blank" style="color: var(--white); text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;">@playalunaeventi</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/global.js"></script>
+    <script>
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    </script>
+</body>
+</html>

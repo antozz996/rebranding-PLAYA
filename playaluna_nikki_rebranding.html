@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playa Luna | Luxury Beach Club</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Montserrat:wght@200;300;400;500&display=swap');
+
+html { scroll-behavior: smooth; }
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --white:#FFFFFF;
+  --off-white:#F9F5EE;
+  --cream:#F2EBD9;
+  --gold:#C9A84C;
+  --gold-light:#E8C97A;
+  --sand:#E0D4BB;
+  --text-dark:#1A1208;
+  --text-mid:#5A4E38;
+  --text-light:#9A8E78;
+  --blush:#E8B4A0;
+}
+body{background:var(--off-white);font-family:'Montserrat',sans-serif;color:var(--text-dark);overflow-x:hidden;}
+
+/* ── NAV ── */
+nav {
+  position:absolute;top:0;left:0;right:0;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:32px 60px;
+}
+.logo {
+  font-family:'Playfair Display',serif;
+  font-size:20px;letter-spacing:6px;
+  color:white;text-transform:uppercase; z-index:30;
+}
+.logo span{color:var(--gold-light);}
+.nav-items {display:flex;gap:40px;align-items:center;}
+.nav-items a {
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,0.75);text-decoration:none;font-weight:300;
+}
+.nav-cta {
+  border:1px solid rgba(255,255,255,0.6);
+  padding:10px 28px;color:white !important;
+  font-size:9px;letter-spacing:2.5px;
+}
+
+/* Navbar Mobile Toggle */
+.mob-toggle { display: none; color: white; border: none; background: transparent; font-size: 24px; z-index: 30; cursor: pointer; }
+.floating-cta { display: none; }
+
+/* ── HERO ── */
+.parallax-bg {
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.hero {
+  position:relative;height:100vh;min-height:600px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background-image: url('file:///C:/Users/virgi/Desktop/LANDING%20PAGE/materiale/Playa%20Luna/Foto%20Location/PlayaLocation1.jpg');
+}
+.hero-overlay {
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.65) 100%);
+}
+.hero-content {position:relative;z-index:5;text-align:center;padding:0 20px;}
+.hero-eyebrow {
+  font-size:12px;letter-spacing:6px;text-transform:uppercase;
+  color:var(--sand);font-weight:300;margin-bottom:32px;
+  display:flex;align-items:center;justify-content:center;gap:16px;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{
+  content:'';display:block;width:40px;height:1px;background:rgba(224,212,187,0.5);
+}
+.hero-title {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(50px,10vw,110px);
+  color:white;line-height:0.9;letter-spacing:12px;text-transform:uppercase;
+  animation:hero-in 1.2s ease both;
+}
+.hero-title-italic {
+  font-style:italic;font-size:0.6em;
+  display:block;letter-spacing:8px;
+  color:var(--gold-light);margin-top:12px; text-transform:none;
+}
+.hero-tagline {
+  font-size:14px;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(255,255,255,0.8);font-weight:300;margin-top:32px;
+}
+@keyframes hero-in{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── MARQUEE ── */
+.marquee-bar{ background:var(--gold);padding:14px 0;overflow:hidden;display:flex;}
+.marquee-track{ display:flex;gap:0;white-space:nowrap;animation:marquee 20s linear infinite;}
+.marquee-item{ font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--text-dark);font-weight:500;padding:0 40px;border-right:1px solid rgba(26,18,8,0.2);}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ── ABOUT SPLIT ── */
+.about-split { display:grid;grid-template-columns:1fr 1fr;min-height:520px;}
+.about-visual {
+  position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;
+  background-image: url('file:///C:/Users/virgi/Desktop/LANDING%20PAGE/materiale/Playa%20Luna/PlayaFood/PlayaFood4.jpg');
+}
+.about-overlay { position:absolute;inset:0;background:rgba(0,0,0,0.25); }
+.about-badge {
+  position:absolute;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%);
+  display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;
+}
+.badge-circle {
+  width:120px;height:120px;border:1px solid rgba(201,168,76,0.8);
+  border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  backdrop-filter: blur(4px);
+}
+.badge-num{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold-light);}
+.badge-sub{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.9);}
+.badge-text{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.8);margin-top:8px;}
+
+.about-content { background:var(--off-white);padding:80px 72px;display:flex;flex-direction:column;justify-content:center;}
+.label-tag { font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:28px;}
+.section-title { font-family:'Playfair Display',serif;font-size:clamp(32px,4vw,42px);font-weight:400;line-height:1.2;color:var(--text-dark);margin-bottom:28px;}
+.section-title em { font-style:italic;color:var(--gold); }
+.body-text { font-size:15px;line-height:2;color:var(--text-mid);font-weight:300;max-width:440px;margin-bottom:24px;}
+.quote-text { margin-bottom: 36px; font-style: italic; color: #7f6e52; border-left: 1px solid var(--gold); padding-left: 16px; font-size: 13px; max-width:400px; line-height:1.6;}
+.link-arrow { font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--text-dark);text-decoration:none;font-weight:400;display:flex;align-items:center;gap:14px;transition: color 0.3s;}
+.link-arrow:hover { color:var(--gold); }
+.link-arrow::after { content:'';display:block;width:36px;height:1px;background:currentColor;}
+
+/* ── SERVICES ROW ── */
+.services-row {
+  display:flex;justify-content:center;align-items:flex-start;gap:6%;
+  padding:50px 60px;background:var(--white);border-bottom:1px solid var(--cream);
+}
+.srv-item { display:flex;flex-direction:column;align-items:center;gap:14px; max-width: 180px; text-align: center;}
+.srv-icon { width:28px;height:28px;stroke:var(--gold);stroke-width:1;fill:none;}
+.srv-label { font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--text-dark);font-weight:500;}
+.srv-desc { font-size:13px; line-height:1.6; color:var(--text-mid); font-weight:300; }
+
+/* ── ECOSISTEMA ── */
+.eco-section { padding:100px 60px;background:var(--cream);text-align:center;}
+.eco-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:4px; margin-top:64px; text-align:left;}
+.eco-card { width:calc(33.333% - 4px); min-width:300px; position:relative; aspect-ratio:3/4; overflow:hidden; background-color: var(--text-dark);}
+.eco-bg {
+  position:absolute;inset:0;background-size:cover;background-position:center;
+  transition:transform 0.8s ease, filter 0.8s ease; 
+  filter: brightness(0.9) contrast(1.05); /* enhance RAW photos colors */
+}
+.eco-card:hover .eco-bg { transform:scale(1.03); filter: brightness(1) contrast(1.1); }
+.eco-veil { position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 85%); pointer-events:none;}
+.eco-info { position:absolute;bottom:0;left:0;right:0;padding:40px 32px;}
+.eco-cat { font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-light);margin-bottom:12px;font-weight:400;}
+.eco-title { font-family:'Playfair Display',serif;font-size:32px;color:white;margin-bottom:12px;line-height:1.1;}
+.eco-desc { font-size:14px;color:rgba(255,255,255,0.95);line-height:1.6;font-weight:300;}
+.eco-btn { display:inline-block; margin-top:20px; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.5); padding-bottom:4px; text-decoration:none; transition:all 0.3s; position:relative; z-index:5;}
+.eco-btn:hover { border-color:var(--gold-light); color:white;}
+
+/* ── IL GRUPPO ── */
+.group-section { padding: 90px 60px; background: var(--white); text-align: center; }
+.group-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 56px; }
+.group-card { 
+  display:block; text-decoration:none; text-align: center; padding: 40px 24px; 
+  border: 1px solid var(--cream); transition: all 0.3s; background:var(--white);
+  width: calc(33.333% - 16px); min-width: 240px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+.group-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
+.group-logo { max-width: 180px; max-height: 90px; margin-bottom: 30px; object-fit: contain; display: inline-block; }
+.group-name { font-size: 15px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; font-weight: 500; }
+.group-desc { font-size: 14px; color: var(--text-mid); line-height: 1.6; font-weight: 300; }
+
+/* ── NUMBERS ── */
+.numbers-section{ background:var(--white);padding:40px 60px 90px;display:grid;grid-template-columns:repeat(4,1fr);}
+.number-item{ padding:32px;text-align:center;border-right:1px solid var(--cream);}
+.number-item:last-child{border-right:none;}
+.big-num{ font-family:'Playfair Display',serif;font-size:50px;color:var(--text-dark);line-height:1;margin-bottom:12px;}
+.num-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--text-light);}
+
+/* ── BOOKING ── */
+.booking {
+  padding:100px 60px;
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+}
+.booking-overlay { position:absolute;inset:0;background:rgba(0,0,0,0.65);}
+.booking-title { font-family:'Playfair Display',serif;font-size:clamp(32px,4vw,48px);color:white;line-height:1.2; position:relative;z-index:2;}
+.booking-title em { font-style:italic;color:var(--gold-light);}
+.booking-sub { font-size:15px;color:rgba(255,255,255,0.95);margin-top:20px;font-weight:300;line-height:1.8; position:relative;z-index:2;}
+.booking-form { display:flex;flex-direction:column;gap:12px; position:relative;z-index:2;}
+.form-row { display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.form-input {
+  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.3);
+  padding:16px 20px;font-family:'Montserrat',sans-serif;font-size:13px;color:white;
+  letter-spacing:1px;font-weight:300;outline:none; border-radius: 0;
+}
+.form-input::placeholder{color:rgba(255,255,255,0.6);}
+.form-input:focus { border-color: var(--gold-light); background:rgba(255,255,255,0.2); }
+.form-submit {
+  background:var(--gold);color:var(--text-dark);border:none;padding:18px;
+  font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;
+  font-weight:500;cursor:pointer;margin-top:8px; transition: background 0.3s;
+}
+.form-submit:hover { background:var(--gold-light); }
+
+/* ── FOOTER ── */
+footer { background:#1A1208;padding:80px 60px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:48px;}
+.footer-logo { font-family:'Playfair Display',serif;font-size:24px;letter-spacing:4px;color:white;text-transform:uppercase;margin-bottom:24px;}
+.footer-logo span{color:var(--gold);}
+.footer-desc { font-size:13px;color:rgba(255,255,255,0.6);line-height:2;font-weight:300;max-width:280px;}
+.footer-col-head { font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:24px;font-weight:400;}
+.footer-links { list-style:none;}
+.footer-links li { margin-bottom:14px; display: flex; flex-direction: column;}
+.footer-links span { font-size:11px; color:rgba(255,255,255,0.4); letter-spacing: 1px; text-transform: uppercase; margin-bottom:4px; }
+.footer-links a { font-size:13px;color:rgba(255,255,255,0.9);text-decoration:none;font-weight:300;transition:color 0.3s;}
+.footer-links a:hover { color:white; }
+.footer-bottom { background:#0F0A04;padding:24px 60px;display:flex;justify-content:space-between;align-items:center;}
+.footer-bottom-txt { font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:2px;font-weight:300;}
+
+/* ── RESPONSIVE MOBILE ── */
+@media (max-width: 1024px) {
+  .eco-card { width: calc(50% - 4px); }
+  .group-card { width: calc(50% - 8px); max-width: none; }
+}
+@media (max-width: 800px) {
+  nav { padding: 24px 20px; }
+  .nav-items {
+    display: none; flex-direction: column; position: fixed; inset: 0; 
+    background: var(--text-dark); justify-content: center; z-index: 25;
+  }
+  .mob-toggle { display: block; }
+  
+  /* Floating CTA */
+  .floating-cta {
+    display: block; position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--gold); color: var(--text-dark); text-align: center;
+    padding: 16px; font-size: 10px; font-weight: 500; letter-spacing: 3px;
+    text-transform: uppercase; text-decoration: none; z-index: 50;
+  }
+  
+  .about-split, .booking { grid-template-columns: 1fr; }
+  .about-visual { min-height: 400px; }
+  .about-content { padding: 60px 30px; }
+  
+  .services-row { flex-wrap: wrap; gap: 40px; padding: 40px 20px; justify-content: center; }
+  .srv-item { width: 40%; max-width: none; }
+  
+  .eco-section, .group-section, .booking { padding: 60px 20px; }
+  
+  .eco-card { width: 100%; aspect-ratio: 16/9; margin-bottom: 8px;}
+  .group-card { width: 100%; }
+  
+  .numbers-section { grid-template-columns: 1fr 1fr; gap: 40px 0; padding: 0 20px 60px;}
+  .number-item { border-right: none; padding: 0; }
+  
+  .form-row { grid-template-columns: 1fr; }
+  footer { grid-template-columns: 1fr; gap: 40px; padding: 60px 20px; }
+  .footer-bottom { 
+    flex-direction: column; gap: 16px; text-align: center; 
+    padding: 24px 20px; margin-bottom: 60px; /* space for floating CTA */ 
+  }
+}
+@media (max-width: 480px) {
+    .eco-card { aspect-ratio: 4/5; }
+    .hero-title { font-size: 48px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Playa<span>Luna</span></div>
+  <button class="mob-toggle">☰</button>
+  <div class="nav-items" id="navItems">
+    <a href="#ecosistema" class="mob-link">Destinazioni</a>
+    <a href="#gruppo" class="mob-link">Il Gruppo</a>
+    <a href="#prenota" class="mob-link">Eventi</a>
+    <a href="#prenota" class="nav-cta mob-link">Verifica Disponibilità</a>
+  </div>
+</nav>
+
+<a href="#prenota" class="floating-cta">Verifica Disponibilità</a>
+
+<div class="hero parallax-bg">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Luxury Beach Resort</div>
+    <h1 class="hero-title">
+      Playa
+      <em class="hero-title-italic">Luna</em>
+    </h1>
+    <p class="hero-tagline">Silenzio visivo, sole, sabbia e l'anima della costa</p>
+  </div>
+</div>
+
+<div class="marquee-bar">
+  <div class="marquee-track">
+    <div class="marquee-item">Luxury Beach Club</div>
+    <div class="marquee-item">Seaside Lunch</div>
+    <div class="marquee-item">Mediterranean Cuisine</div>
+    <div class="marquee-item">Sunset Lounge</div>
+    <div class="marquee-item">Resort & Relax</div>
+    <div class="marquee-item">Luxury Beach Club</div>
+    <div class="marquee-item">Seaside Lunch</div>
+    <div class="marquee-item">Culto Lifestyle</div>
+    <div class="marquee-item">Exclusive Pool</div>
+    <div class="marquee-item">Resort & Relax</div>
+  </div>
+</div>
+
+<div class="services-row">
+  <div class="srv-item">
+    <svg class="srv-icon" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 2v20M21 2a4 4 0 0 0-4 4v6h8V6a4 4 0 0 0-4-4Z"/></svg>
+    <div class="srv-label">Ristorante Premium</div>
+    <div class="srv-desc">Eccellenza gastronomica sul mare: sapori autentici, materie prime selezionate e pescato di assoluto livello.</div>
+  </div>
+  <div class="srv-item">
+    <svg class="srv-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    <div class="srv-label">Lounge & Relax</div>
+    <div class="srv-desc">Aree riservate e postazioni esclusive per vivere il sole campano nel massimo del comfort e dell'eleganza.</div>
+  </div>
+  <div class="srv-item">
+    <svg class="srv-icon" viewBox="0 0 24 24"><path d="M5 21v-4m14 4v-4M4 17h16V9a2 2 0 0 0-2-2m-3-4H9a2 2 0 0 0-2 2v4M4 17a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2"/></svg>
+    <div class="srv-label">Valet Parking</div>
+    <div class="srv-desc">Arrivo sereno e accoglienza impeccabile. Un'area sicura e custodita vi garantirà di godervi l'esperienza senza pensieri.</div>
+  </div>
+  <div class="srv-item">
+    <svg class="srv-icon" viewBox="0 0 24 24"><path d="M17 10h.01M12 10h.01M7 10h.01M17 14h.01M12 14h.01M7 14h.01M4 21V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14"/></svg>
+    <div class="srv-label">Caffetteria</div>
+    <div class="srv-desc">Servizio easy-chic: tutto ciò che ci vuole per deliziarsi velocemente direttamente sotto l'ombrellone.</div>
+  </div>
+</div>
+
+<div class="about-split">
+  <div class="about-visual parallax-bg">
+    <div class="about-overlay"></div>
+    <div class="about-badge">
+      <div class="badge-circle">
+        <div class="badge-num">☽</div>
+      </div>
+      <div class="badge-text">Est. 2010</div>
+    </div>
+  </div>
+  <div class="about-content">
+    <div class="label-tag">Il Nostro Mindset</div>
+    <h2 class="section-title">Dove la sabbia <em>incontra</em> l'eccellenza</h2>
+    <p class="body-text">Un'esperienza sensoriale che abbraccia i ritmi del sole. Dalle albe silenziose ai tramonti incantevoli, le nostre destinazioni ridefiniscono l'ospitalità balneare: calore partenopeo, estetica internazionale e design senza tempo. Non è solo un beach club, è un respiro sul Mediterraneo.</p>
+    
+    <div class="quote-text">
+        "Non si può essere infelici quando si ha questo: l'odore del mare, la sabbia sotto le dita, l'aria, il vento."<br>
+        <span style="font-size:9px; letter-spacing:1px; margin-top:4px; display:block;">— Irène Némirovsky</span>
+    </div>
+
+    <a href="#ecosistema" class="link-arrow">Esplora l'Ecosistema</a>
+  </div>
+</div>
+
+<div class="eco-section" id="ecosistema">
+  <div class="label-tag" style="color:var(--gold);margin-bottom:16px;">Vivi l'Universo Playa Luna</div>
+  <h2 class="section-title">Scopri le <em>Destinazioni</em></h2>
+  <div class="eco-grid">
+    <div class="eco-card">
+      <div class="eco-bg" style="background-image:url('file:///C:/Users/virgi/Desktop/LANDING%20PAGE/materiale/Culto/Foto%20Location/25.4%20Dav-7786.JPG')"></div>
+      <div class="eco-veil"></div>
+      <div class="eco-info">
+        <div class="eco-cat">Day & Night Sanctuary</div>
+        <div class="eco-title">Culto</div>
+        <div class="eco-desc">Bellezza serena di giorno, santuario vibrante e pieno di energia sotto le stelle di notte. Il palcoscenico per ritmi esclusivi e serate cariche di energia.</div>
+        <a href="#" class="eco-btn">Esplora Culto</a>
+      </div>
+    </div>
+    <div class="eco-card">
+      <div class="eco-bg" style="background-image:url('file:///C:/Users/virgi/Desktop/LANDING%20PAGE/materiale/Fiordacqua/Foto%20Location/GioMePhXfiordacqua-17.jpg')"></div>
+      <div class="eco-veil"></div>
+      <div class="eco-info">
+        <div class="eco-cat">Family Pool & Comfort</div>
+        <div class="eco-title">Fior d'Acqua</div>
+        <div class="eco-desc">L'oasi dedicata alle famiglie. Comfort assoluto, spazi disegnati per la serenità e un'area riservata ai più piccoli per vivere la piscina in totale felicità.</div>
+        <a href="#" class="eco-btn">Scopri di più</a>
+      </div>
+    </div>
+    <div class="eco-card">
+      <div class="eco-bg" style="background-image:url('file:///C:/Users/virgi/Desktop/LANDING%20PAGE/materiale/Naturale/Foto%20Location/NaturaleLocation1.jpg')"></div>
+      <div class="eco-veil"></div>
+      <div class="eco-info">
+        <div class="eco-cat">Nature Oasis</div>
+        <div class="eco-title">Naturale</div>
+        <div class="eco-desc">Un'autentica oasi di relax dal design etnico, pensata per chi cerca una fuga estetica e salutare. Riscopri l'equilibrio tra corpo e mente.</div>
+        <a href="#" class="eco-btn">Scopri di più</a>
+      </div>
+    </div>
+    <div class="eco-card">
+      <div class="eco-bg" style="background-image:url('file:///C:/Users/virgi/Desktop/LANDING%20PAGE/materiale/Damai/Foto%20Location/GioMePhXraffydf-150.jpg')"></div>
+      <div class="eco-veil"></div>
+      <div class="eco-info">
+        <div class="eco-cat">Exclusive Events</div>
+        <div class="eco-title">Damai</div>
+        <div class="eco-desc">Location esclusiva concepita unicamente per eventi privati. Una perla scenografica incastonata nel nostro ecosistema che vanta privacy assoluta.</div>
+        <a href="#" class="eco-btn">Prenota un Tour</a>
+      </div>
+    </div>
+    <div class="eco-card">
+      <div class="eco-bg" style="background-image:url('file:///C:/Users/virgi/Desktop/LANDING%20PAGE/materiale/Key%20Beach/Foto%20Location/KeyLocation1.jpg')"></div>
+      <div class="eco-veil"></div>
+      <div class="eco-info">
+        <div class="eco-cat">Music & Entertainment</div>
+        <div class="eco-title">Key Beach</div>
+        <div class="eco-desc">La perfetta armonia estiva tra relax balneare, intrattenimento musicale ed eventi tematici scintillanti sulla costa.</div>
+        <a href="#" class="eco-btn">Scopri gli Eventi</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="group-section" id="gruppo">
+  <div class="label-tag" style="text-align:center;">Il Gruppo</div>
+  <h2 class="section-title" style="text-align:center; margin-bottom: 24px;">Oltre i confini <em>dell'eccellenza</em></h2>
+  <p style="font-size: 12px; color: var(--text-mid); max-width: 600px; margin: 0 auto;">Playa Luna fa parte di un gruppo di strutture selezionate. Eccellenze uniche pensate per elevare la concezione di ospitalità napoletana, dal divertimento all'hotellerie.</p>
+  
+  <div class="group-grid">
+    <a href="#" class="group-card">
+      <img src="file:///C:/Users/virgi/Desktop/LANDING%20PAGE/materiale/Joia%20-%20Forma/Logo%20Joia/Joia.png" class="group-logo" alt="Joia">
+      <div class="group-name">Joia</div>
+      <div class="group-desc">Intrattenimento ricercato ed eventi esclusivi dall'impeccabile sound design dal 2004.</div>
+      <div style="font-size:10px;text-transform:uppercase;color:var(--text-dark);margin-top:20px;letter-spacing:2px;font-weight:500;">Visita il Sito <span style="color:var(--gold);">➔</span></div>
+    </a>
+    <a href="#" class="group-card">
+      <img src="file:///C:/Users/virgi/Desktop/LANDING%20PAGE/materiale/Varcadoro/Logo%20Varcadoro/Varcadoro.png" class="group-logo" alt="Varca d'Oro">
+      <div class="group-name">Varca d'Oro</div>
+      <div class="group-desc">Lido storico dal 1959, fonde decenni di tradizione con la moderna ospitalità marittima.</div>
+      <div style="font-size:10px;text-transform:uppercase;color:var(--text-dark);margin-top:20px;letter-spacing:2px;font-weight:500;">Visita il Sito <span style="color:var(--gold);">➔</span></div>
+    </a>
+    <a href="#" class="group-card">
+      <img src="file:///C:/Users/virgi/Desktop/LANDING%20PAGE/materiale/La%20Costiera/Logo%20La%20Costiera/La%20Costiera.png" class="group-logo" alt="La Costiera">
+      <div class="group-name">La Costiera</div>
+      <div class="group-desc">Hotel 4 stelle moderno per soggiorni leisure e business con comfort di altissimo livello.</div>
+      <div style="font-size:10px;text-transform:uppercase;color:var(--text-dark);margin-top:20px;letter-spacing:2px;font-weight:500;">Visita il Sito <span style="color:var(--gold);">➔</span></div>
+    </a>
+  </div>
+</div>
+
+<div class="numbers-section">
+  <div class="number-item">
+    <div class="big-num">10</div>
+    <div class="num-label">Venue Esclusive</div>
+  </div>
+  <div class="number-item">
+    <div class="big-num">1k+</div>
+    <div class="num-label">Grandi Eventi Ospitati</div>
+  </div>
+  <div class="number-item">
+    <div class="big-num">10k+</div>
+    <div class="num-label">Partecipanti ad Evento</div>
+  </div>
+  <div class="number-item">
+    <div class="big-num">∞</div>
+    <div class="num-label">Ricordi Indimenticabili</div>
+  </div>
+</div>
+
+<div class="booking parallax-bg" id="prenota" style="background-image:url('file:///C:/Users/virgi/Desktop/TRAMONTO.JPG'); position:relative;">
+  <div class="booking-overlay"></div>
+  <div>
+    <h2 class="booking-title">Crea il tuo <em>Evento</em></h2>
+    <p class="booking-sub">Siamo leader nell’organizzazione di eventi, party privati, meeting e pranzi aziendali. Dotati di tutti i comfort e tecnologie per la perfetta realizzazione del tuo evento in riva al mare o nelle prestigiose venue del nostro ecosistema.</p>
+  </div>
+  <div class="booking-form">
+    <div class="form-row">
+      <select class="form-input">
+        <option value="">Servizio richiesto</option>
+        <option>Balneazione & Ombrelloni</option>
+        <option>Ristorazione (Solo Pranzo)</option>
+        <option>Eventi & Party Aziendali</option>
+        <option>Wedding & Cerimonie Esclusive</option>
+      </select>
+      <input class="form-input" type="date" />
+    </div>
+    <div class="form-row">
+      <input class="form-input" type="text" placeholder="Il tuo Nome" />
+      <input class="form-input" type="number" placeholder="Numero Ospiti" />
+    </div>
+    <input class="form-input" type="email" placeholder="Indirizzo Email" />
+    <button class="form-submit">Richiedi Informazioni</button>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <div class="footer-logo">Playa<span>Luna</span></div>
+    <p class="footer-desc">Il ritrovo silenzioso e vibrante della costa campana. Un'oasi di design, comfort ed eccellenza mediterranea.</p>
+    <div style="display:flex;gap:12px;margin-top:24px;">
+      <a href="https://www.instagram.com/lidoplayaluna/" target="_blank" style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.7);text-decoration:none;">Instagram</a>
+      <span style="color:rgba(255,255,255,0.3);">|</span>
+      <a href="https://www.facebook.com/playalunabeach" target="_blank" style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.7);text-decoration:none;">Facebook</a>
+    </div>
+  </div>
+  <div>
+    <div class="footer-col-head">Le Destinazioni</div>
+    <ul class="footer-links">
+      <li><a href="#ecosistema">Playa Luna</a></li>
+      <li><a href="#ecosistema">Culto</a></li>
+      <li><a href="#ecosistema">Fior d'Acqua</a></li>
+      <li><a href="#ecosistema">Naturale</a></li>
+      <li><a href="#ecosistema">Damai</a></li>
+      <li><a href="#ecosistema">Key Beach</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-head">Il Gruppo</div>
+    <ul class="footer-links">
+      <li><a href="#gruppo" style="color:var(--gold);">Joia</a></li>
+      <li><a href="#gruppo" style="color:var(--gold);">Varca d'Oro</a></li>
+      <li><a href="#gruppo" style="color:var(--gold);">La Costiera</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-head">Info & Contatti</div>
+    <ul class="footer-links">
+      <li>
+        <span>Beach Area & Ristorante</span>
+        <a href="tel:+393296372784">+39 329 637 2784</a>
+        <a href="mailto:info@playaluna.it">info@playaluna.it</a>
+      </li>
+      <li style="margin-top:16px;">
+        <span>Eventi & Wedding (Culto / Damai)</span>
+        <a href="tel:3505908393">+39 350 59 08 393</a>
+        <a href="mailto:wedding@playaluna.it">wedding@playaluna.it</a>
+      </li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <div class="footer-bottom-txt">© 2026 Playa Luna & Group — All rights reserved</div>
+  <div class="footer-bottom-txt">Privacy Policy · Termini & Condizioni</div>
+</div>
+
+<script>
+  // Simple Mobile Menu Toggle
+  const toggleBtn = document.querySelector('.mob-toggle');
+  const navItems = document.getElementById('navItems');
+  const mobLinks = document.querySelectorAll('.mob-link');
+  
+  toggleBtn.addEventListener('click', () => {
+    if(navItems.style.display === 'flex') {
+      navItems.style.display = 'none';
+      toggleBtn.innerHTML = '☰';
+    } else {
+      navItems.style.display = 'flex';
+      toggleBtn.innerHTML = '✕';
+    }
+  });
+
+  // Close menu when a link is clicked
+  mobLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if(window.innerWidth <= 800) {
+        navItems.style.display = 'none';
+        toggleBtn.innerHTML = '☰';
+      }
+    });
+  });
+
+  // Ensure menu resets on screen resize
+  window.addEventListener('resize', () => {
+    if(window.innerWidth > 800) {
+      navItems.style.display = 'flex';
+    } else {
+      navItems.style.display = 'none';
+      toggleBtn.innerHTML = '☰';
+    }
+  });
+</script>
+
+</body>
+</html>

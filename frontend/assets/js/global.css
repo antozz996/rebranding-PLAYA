@@ -1,0 +1,109 @@
+/* --- 2. MOBILE HAMBURGER MENU --- */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    z-index: 10001;
+    background: none;
+    border: none;
+    padding: 10px;
+    position: relative;
+    flex-shrink: 0;
+}
+.hamburger span {
+    display: block;
+    width: 26px;
+    height: 2px;
+    margin: 6px 0;
+    background-color: #fff;
+    transition: all 0.35s ease;
+    border-radius: 2px;
+}
+.navbar.scrolled .hamburger span,
+.navbar:not(.hero-nav) .hamburger span { background-color: #1A1208; }
+
+body[data-page="culto"] .hamburger span { background-color: #FDF5E6 !important; }
+body[data-page="fiordacqua"] .hamburger span { background-color: #0077B6 !important; }
+
+.mobile-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #1A1208;
+    z-index: 9998;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform 0.45s cubic-bezier(0.77,0.2,0.05,1.0), visibility 0.45s;
+}
+.mobile-overlay.active { transform: translateX(0); visibility: visible; }
+
+.mobile-nav-links { list-style: none; text-align: center; padding: 0; margin: 0; width: 100%; }
+.mobile-nav-links li { margin: 1.2rem 0; }
+.mobile-nav-links a {
+    color: #F9F7F2;
+    text-decoration: none;
+    font-size: clamp(1.4rem, 7vw, 2.2rem);
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-family: 'Playfair Display', serif;
+    transition: color 0.3s, letter-spacing 0.3s;
+    display: inline-block;
+}
+.mobile-nav-links a:hover { color: #C9A84C; letter-spacing: 7px; }
+
+.mobile-close {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    background: none; border: none;
+    color: #F9F7F2; font-size: 2.5rem;
+    cursor: pointer; line-height: 1;
+    opacity: 0.7; transition: opacity 0.3s;
+}
+.mobile-close:hover { opacity: 1; }
+
+.mobile-lang {
+    margin-top: 2.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+}
+.mobile-lang a { color: rgba(255,255,255,0.6); text-decoration: none; margin: 0 0.5rem; }
+.mobile-lang a:hover { color: #C9A84C; }
+
+.mobile-divider {
+    width: 40px; height: 1px;
+    background: rgba(255,255,255,0.15);
+    margin: 1.5rem auto 0;
+}
+
+.hamburger.active span:nth-child(1) { transform: rotate(-45deg) translate(-6px, 7px); }
+.hamburger.active span:nth-child(2) { opacity: 0; transform: translateX(-10px); }
+.hamburger.active span:nth-child(3) { transform: rotate(45deg) translate(-6px, -7px); }
+
+@media screen and (max-width: 1024px) {
+    .hamburger { display: block !important; }
+    .navbar .nav-left, .navbar .nav-right, .navbar .nav-links, .navbar .lang-switcher { display: none !important; }
+    .navbar {
+        display: flex !important;
+        grid-template-columns: unset !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 1rem 5vw !important;
+    }
+    .navbar .logo { height: 80px !important; }
+    .navbar .logo-link { flex: 0 0 auto; }
+    .hero-title { font-size: clamp(2.2rem, 10vw, 5rem) !important; }
+    .weather-widget {
+        position: static !important;
+        transform: none !important;
+        margin: 0 auto;
+        width: fit-content;
+        display: block;
+    }
+    .hero { height: 70vh !important; flex-direction: column; }
+}

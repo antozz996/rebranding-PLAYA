@@ -1,0 +1,294 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contact Playa Luna | Prenotazioni & Info - Varcaturo, Napoli</title>
+    <meta name="description" content="Contatta Playa Luna a Varcaturo. Prenota il tuo tavolo al ristorante, il tuo ombrellone in spiaggia o richiedi un preventivo per il tuo evento privato.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.playaluna.it/contatti.html">
+    
+    <!-- Hreflang Tags (International SEO) -->
+    <link rel="alternate" hreflang="it" href="https://www.playaluna.it/contatti.html">
+    <link rel="alternate" hreflang="en" href="https://www.playaluna.it/en/contatti.html">
+    <link rel="alternate" hreflang="x-default" href="https://www.playaluna.it/contatti.html">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Contact Playa Luna | Prenotazioni & Info - Varcaturo, Napoli">
+    <meta property="og:description" content="Contatta Playa Luna a Varcaturo. Prenota il tuo tavolo al ristorante, il tuo ombrellone in spiaggia o richiedi un preventivo per il tuo evento privato.">
+    <meta property="og:url" content="https://www.playaluna.it/contatti.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.playaluna.it/assets/images/hero-home.webp">
+    <meta property="og:site_name" content="Playa Luna">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contact Playa Luna | Prenotazioni & Info - Varcaturo, Napoli">
+    <meta name="twitter:description" content="Contatta Playa Luna a Varcaturo. Prenota il tuo tavolo al ristorante, il tuo ombrellone in spiaggia o richiedi un preventivo per il tuo evento privato.">
+    <meta name="twitter:image" content="https://www.playaluna.it/assets/images/hero-home.webp">
+    
+    
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
+    
+    <link rel="icon" type="image/png" href="assets/favicon.webp">
+    <link rel="apple-touch-icon" href="assets/favicon.webp">
+
+    <style>
+        :root {
+            --sand: #E0D4BB;
+            --gold: #C9A84C;
+            --off-white: #F9F7F2;
+            --white: #FFFFFF;
+            --text-dark: #1A1208;
+            --text-light: #666059;
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+            --slide-padding: 8vw;
+        }
+
+        .decor-line { position: fixed; top: 0; width: 1px; height: 100vh; background: linear-gradient(to bottom, transparent, var(--gold), transparent); opacity: 0.1; z-index: 1002; pointer-events: none; }
+        .line-left { left: 4vw; } .line-right { right: 4vw; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--off-white); color: var(--text-dark); font-family: 'Montserrat', sans-serif; overflow-x: hidden; line-height: 1.6; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 400; }
+
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 2rem var(--slide-padding);
+            display: grid; grid-template-columns: 1fr auto 1fr;
+            align-items: center; z-index: 1000;
+            transition: all 0.5s var(--ease-out-expo);
+        }
+        .navbar.scrolled { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); padding: 1.2rem var(--slide-padding); }
+
+        .nav-left { display: flex; justify-content: flex-start; gap: 2rem; list-style: none; }
+        .nav-right { display: flex; justify-content: flex-end; gap: 2.5rem; list-style: none; align-items: center; }
+        .nav-link { text-decoration: none; color: var(--text-dark); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .nav-link:hover { color: var(--gold); }
+
+        .logo { height: 120px !important; width: auto !important; transition: 0.5s; }
+
+        .hamburger { 
+            display: none; 
+            cursor: pointer; 
+            z-index: 1100;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            padding: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .hamburger span { display: block; width: 25px; height: 2px; background: var(--text-dark); margin: 5px 0; transition: 0.4s; }
+
+        @media (max-width: 1024px) {
+            .navbar { padding: 1.2rem 5vw !important; display: flex !important; justify-content: space-between !important; align-items: center !important; grid-template-columns: unset !important; }
+            .nav-left, .nav-right { display: none !important; }
+            .hamburger {
+                display: block !important;
+                margin-left: auto;
+                background: rgba(255,255,255,0.1) !important;
+                border: 1px solid rgba(0,0,0,0.1) !important;
+                border-radius: 50% !important;
+                padding: 10px !important;
+                backdrop-filter: blur(10px) !important;
+            }
+            .logo { height: 80px !important; }
+            .contact-container { grid-template-columns: 1fr; padding: 0 5vw 6rem; }
+            .contact-hero { padding: 8rem 5vw 4rem; }
+            .contact-hero h1 { font-size: 2.8rem; }
+            .contact-item-card { padding: 2rem; }
+            .map-wrapper { min-height: 400px; }
+            footer { padding: 4rem 5vw; }
+        }
+
+        .lang-switcher { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin-left: 1rem; }
+        .lang-switcher a { text-decoration: none; color: var(--text-dark); opacity: 0.6; transition: 0.3s; }
+        .lang-switcher a.active { opacity: 1; font-weight: 600; }
+
+        .contact-hero { padding: 12rem var(--slide-padding) 6rem; text-align: center; background: var(--white); }
+        .contact-hero h1 { font-size: 4.5rem; margin-bottom: 2rem; }
+
+        .contact-container { 
+            display: grid; 
+            grid-template-columns: 1fr 1.2fr; 
+            gap: 4vw; 
+            padding: 0 var(--slide-padding) 10rem; 
+            align-items: stretch; 
+        }
+        .contact-info-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 1.5rem; 
+        }
+        .contact-item-card { 
+            background: var(--white); 
+            padding: 3rem; 
+            border: 1px solid rgba(0,0,0,0.05); 
+            transition: 0.5s var(--ease-out-expo);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .contact-item-card:hover { border-color: var(--gold); transform: translateX(15px); }
+        .contact-item-card h3 { font-size: 1.8rem; margin-bottom: 1rem; color: var(--gold); }
+        .contact-item-card p { color: var(--text-light); margin-bottom: 2rem; }
+
+        .map-wrapper { 
+            height: 100%; 
+            min-height: 600px; 
+            position: relative; 
+            filter: grayscale(1) contrast(1.2); 
+            opacity: 0.8; 
+            transition: 0.5s; 
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .map-wrapper:hover { filter: none; opacity: 1; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1.2s var(--ease-out-expo); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        footer { background: var(--text-dark); color: var(--white); padding: 8rem var(--slide-padding); text-align: center; }
+
+        .btn-wa {
+            display: inline-flex; align-items: center; gap: 1rem;
+            padding: 1rem 2rem; background: #25d366; color: var(--white);
+            text-decoration: none; border-radius: 50px; font-weight: 600;
+            transition: 0.3s;
+        }
+        .btn-wa:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(37,211,102,0.3); }
+
+        @media (max-width: 1024px) {
+            .contact-container { grid-template-columns: 1fr; }
+            .map-wrapper { min-height: 450px; }
+            .contact-hero h1 { font-size: 3rem; }
+        }
+    </style>
+
+    <!-- Schema.org / LocalBusiness -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Playa Luna",
+      "image": "https://www.playaluna.it/assets/images/hero-home.webp",
+      "@id": "https://www.playaluna.it",
+      "url": "https://www.playaluna.it",
+      "telephone": "+390001112233",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Via Marina di Varcaturo, 42",
+        "addressLocality": "Castel Volturno",
+        "addressRegion": "CE",
+        "postalCode": "81030",
+        "addressCountry": "IT"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.9000348,
+        "longitude": 14.0327057
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+        ],
+        "opens": "12:30",
+        "closes": "16:30"
+      },
+      "servesCuisine": "Seafood, Italian",
+      "priceRange": "$$$"
+    }
+    </script>
+</head>
+<body>
+
+    <div class="decor-line line-left"></div>
+    <div class="decor-line line-right"></div>
+
+    <nav class="navbar scrolled">
+        <ul class="nav-left">
+            <li><a href="culto.html" class="nav-link">Culto</a></li>
+            <li><a href="fiordacqua.html" class="nav-link">Fior d'Acqua</a></li>
+        </ul>
+
+        <a href="index.html" class="logo-link"><img src="assets/logos/logo-playaluna.webp" alt="Playa Luna" class="logo"></a>
+
+        <ul class="nav-right">
+            <li><a href="beach.html" class="nav-link">Spiaggia</a></li>
+            <li><a href="ristorante.html" class="nav-link">Ristorante</a></li>
+            <li><a href="eventi.html" class="nav-link">Eventi</a></li>
+            <li><a href="contatti.html" class="nav-link" style="color: var(--gold) !important;">Contatti</a></li>
+            <li class="lang-switcher">
+                <a href="en/contatti.html">EN</a> | <a href="#" class="active">IT</a>
+            </li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <main>
+        <header class="contact-hero">
+            <div class="reveal">
+                <span style="text-transform:uppercase; letter-spacing:5px; color:var(--gold); font-size:0.8rem;">Siamo qui per te</span>
+                <h1>Inizia la tua Estate</h1>
+            </div>
+        </header>
+
+    <section class="contact-container reveal">
+        <div class="contact-info-list">
+            <div class="contact-item-card">
+                <h3>Ristorante</h3>
+                <p>Prenota il tuo tavolo per un pranzo gourmet vista mare.</p>
+                <a href="https://wa.me/390001112233" class="btn-wa">WhatsApp Ristorante</a>
+            </div>
+            <div class="contact-item-card">
+                <h3>Spiaggia</h3>
+                <p>Richiedi disponibilità per ombrelloni, cabanas o lettini.</p>
+                <a href="https://wa.me/390001112244" class="btn-wa">WhatsApp Spiaggia</a>
+            </div>
+            <div class="contact-item-card">
+                <h3>Eventi</h3>
+                <p>Organizza il tuo evento esclusivo con il nostro team.</p>
+                <a href="https://wa.me/390001112255" class="btn-wa">WhatsApp Eventi</a>
+            </div>
+        </div>
+
+        <div class="map-wrapper">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3015.71643213669!2d14.032705700000003!3d40.9000348!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133b1121a6a05d8f%3A0x5993be11b786c38c!2sLido%20Playa%20Luna!5e0!3m2!1sit!2sit!4v1778512581085!5m2!1sit!2sit" 
+                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </section>
+    </main>
+
+    <footer>
+        <img src="assets/logos/logo-playaluna.webp" alt="Playa Luna" style="height:100px; filter:brightness(0) invert(1);">
+        <div class="footer-info">
+            <p>Via Marina di Varcaturo, 42 - 81030 Castel Volturno (CE)</p>
+            <p>LIDO PLAYALUNA SRL | P.IVA 09146931218</p>
+            <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 2rem;">
+                <a href="https://www.instagram.com/lidoplayaluna/" target="_blank" style="color: var(--white); text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;">@playalunaofficial</a>
+                <a href="https://www.instagram.com/playalunaeventi/" target="_blank" style="color: var(--white); text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;">@playalunaeventi</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/global.js" defer></script>
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fior d'Acqua | Family Editorial Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sky: #dff5fb;
+      --aqua: #7cd6e8;
+      --sea: #1397b4;
+      --deep: #10384b;
+      --foam: #f8fcfd;
+      --sand: #f6efe2;
+      --sun: #ffb36b;
+      --coral: #ff8d72;
+      --leaf: #6c9a7f;
+      --ink: #16313d;
+      --muted: rgba(22, 49, 61, 0.72);
+      --line: rgba(16, 56, 75, 0.12);
+      --shadow: 0 20px 70px rgba(20, 70, 88, 0.12);
+      --radius-xl: 34px;
+      --radius-lg: 26px;
+      --radius-md: 20px;
+      --max: 1240px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Manrope", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(124, 214, 232, 0.22), transparent 24%),
+        radial-gradient(circle at 90% 18%, rgba(255, 179, 107, 0.20), transparent 18%),
+        linear-gradient(180deg, #f7fcfd 0%, #fdf9f2 48%, #f6fbfc 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+      background-size: 22px 22px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.18), transparent 70%);
+      opacity: 0.35;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img,
+    video {
+      display: block;
+      width: 100%;
+    }
+
+    .shell {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      padding: 24px 0;
+    }
+
+    .topbar-inner {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      color: white;
+    }
+
+    .brand-mark {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 34px;
+      line-height: 0.88;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-copy {
+      font-size: 11px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      opacity: 0.84;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-pill {
+      padding: 10px 16px;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-end;
+      padding: 140px 0 40px;
+      overflow: hidden;
+      background: #0f4157;
+    }
+
+    .hero-media,
+    .hero-media::after {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hero-media video {
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(1.03) contrast(1.02) brightness(0.94);
+    }
+
+    .hero-media::after {
+      content: "";
+      background:
+        linear-gradient(180deg, rgba(11, 46, 61, 0.36) 0%, rgba(11, 46, 61, 0.16) 24%, rgba(8, 32, 43, 0.72) 82%, rgba(8, 32, 43, 0.92) 100%),
+        radial-gradient(circle at 22% 12%, rgba(255, 255, 255, 0.18), transparent 22%);
+    }
+
+    .hero-bubble,
+    .hero-bubble::before,
+    .hero-bubble::after {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .hero-bubble {
+      width: 320px;
+      height: 320px;
+      right: -40px;
+      top: 18%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.18), transparent 50%);
+      opacity: 0.7;
+    }
+
+    .hero-bubble::before,
+    .hero-bubble::after {
+      content: "";
+      inset: 24px;
+    }
+
+    .hero-bubble::after {
+      inset: 62px;
+    }
+
+    .hero-layout {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 42px;
+      align-items: end;
+    }
+
+    .hero-copy {
+      color: white;
+      max-width: 760px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      font-size: 12px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 46px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.48);
+    }
+
+    .hero-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(58px, 10vw, 112px);
+      line-height: 0.9;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+      text-wrap: balance;
+    }
+
+    .hero-title em {
+      color: #f7d59b;
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    .hero-text {
+      max-width: 640px;
+      font-size: 17px;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .hero-actions {
+      margin-top: 30px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 24px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, #ffb36b, #ff8d72);
+      color: #173542;
+      box-shadow: 0 20px 36px rgba(255, 141, 114, 0.28);
+    }
+
+    .button-secondary {
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-card {
+      position: relative;
+      padding: 28px;
+      border-radius: var(--radius-xl);
+      background: rgba(247, 252, 253, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(16px);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border-radius: calc(var(--radius-xl) - 12px);
+      border: 1px dashed rgba(255, 255, 255, 0.24);
+      pointer-events: none;
+    }
+
+    .hero-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .hero-card-label {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .hero-card-title {
+      margin-top: 10px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 36px;
+      line-height: 0.95;
+    }
+
+    .round-stamp {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.35;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 12px;
+    }
+
+    .hero-card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .hero-card-item {
+      padding: 14px 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-card-item strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 6px;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-card-item span {
+      font-size: 13px;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.76);
+    }
+
+    .marquee {
+      position: relative;
+      z-index: 3;
+      margin-top: -1px;
+      background: linear-gradient(90deg, #fcd297, #ffad89, #92dded, #fcd297);
+      color: #184556;
+      overflow: hidden;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      border-bottom: 1px solid rgba(24, 69, 86, 0.08);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: drift 28s linear infinite;
+    }
+
+    .marquee span {
+      padding: 16px 26px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    @keyframes drift {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 40px;
+      align-items: end;
+      margin-bottom: 42px;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--sea);
+      margin-bottom: 18px;
+    }
+
+    .label::before {
+      content: "";
+      width: 34px;
+      height: 1px;
+      background: rgba(19, 151, 180, 0.38);
+    }
+
+    .display {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(40px, 5vw, 64px);
+      line-height: 0.96;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+    }
+
+    .lead {
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--muted);
+      max-width: 620px;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 34px;
+      align-items: stretch;
+    }
+
+    .photo-panel {
+      position: relative;
+      min-height: 660px;
+      border-radius: 36px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .photo-panel img {
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(14, 51, 66, 0.08) 0%, rgba(14, 51, 66, 0.48) 100%),
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.2), transparent 18%);
+    }
+
+    .floating-note {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 82px 1fr;
+      gap: 18px;
+      padding: 22px;
+      border-radius: 26px;
+      background: rgba(250, 253, 254, 0.86);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 22px 60px rgba(12, 50, 64, 0.16);
+    }
+
+    .note-number {
+      width: 82px;
+      height: 82px;
+      border-radius: 24px;
+      background: linear-gradient(145deg, var(--sun), var(--coral));
+      color: #173744;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .floating-note strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 18px;
+      color: var(--deep);
+    }
+
+    .floating-note p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(16, 56, 75, 0.72);
+    }
+
+    .story-stack {
+      display: grid;
+      gap: 20px;
+      align-content: start;
+    }
+
+    .story-card {
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(16, 56, 75, 0.08);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 18px 48px rgba(18, 75, 93, 0.08);
+    }
+
+    .story-card h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 34px;
+      line-height: 1;
+      margin-bottom: 14px;
+      color: var(--deep);
+    }
+
+    .story-card p {
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--muted);
+    }
+
+    .ticket-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .ticket {
+      padding: 11px 14px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.62));
+      color: var(--deep);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .stat {
+      padding: 18px 16px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(19, 151, 180, 0.08), rgba(255, 255, 255, 0.7));
+      border: 1px solid rgba(19, 151, 180, 0.12);
+    }
+
+    .stat strong {
+      display: block;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 28px;
+      color: var(--deep);
+      margin-bottom: 6px;
+    }
+
+    .stat span {
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .feature {
+      padding: 26px 22px;
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(239, 250, 252, 0.72));
+      border: 1px solid rgba(16, 56, 75, 0.08);
+      box-shadow: 0 18px 54px rgba(16, 56, 75, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature::before {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      top: -50px;
+      right: -35px;
+      background: rgba(124, 214, 232, 0.14);
+    }
+
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 26px;
+      margin-bottom: 22px;
+      background: linear-gradient(145deg, rgba(255, 179, 107, 0.22), rgba(124, 214, 232, 0.24));
+    }
+
+    .feature h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 30px;
+      line-height: 0.95;
+      margin-bottom: 12px;
+      color: var(--deep);
+    }
+
+    .feature p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    .gallery-wrap {
+      padding: 32px;
+      border-radius: 40px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.58)),
+        linear-gradient(135deg, rgba(124, 214, 232, 0.14), rgba(255, 179, 107, 0.14));
+      border: 1px solid rgba(16, 56, 75, 0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+    }
+
+    .gallery-main,
+    .gallery-side,
+    .gallery-card {
+      border-radius: 28px;
+      overflow: hidden;
+      position: relative;
+      min-height: 260px;
+    }
+
+    .gallery-main img,
+    .gallery-side img,
+    .gallery-card img {
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-stack {
+      display: grid;
+      gap: 18px;
+      grid-template-rows: repeat(2, 1fr);
+    }
+
+    .gallery-main::after,
+    .gallery-card::after,
+    .gallery-side::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(12, 49, 64, 0) 38%, rgba(12, 49, 64, 0.62) 100%);
+    }
+
+    .gallery-caption {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 18px;
+      z-index: 2;
+      color: white;
+    }
+
+    .gallery-caption strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .gallery-caption span {
+      font-size: 13px;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .birthday-band {
+      position: relative;
+      padding: 40px;
+      border-radius: 38px;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(255, 179, 107, 0.88), rgba(255, 141, 114, 0.84)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04));
+      color: #173845;
+      box-shadow: 0 30px 72px rgba(255, 141, 114, 0.24);
+    }
+
+    .birthday-band::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.34), transparent 14%),
+        radial-gradient(circle at 82% 20%, rgba(255, 255, 255, 0.18), transparent 10%),
+        radial-gradient(circle at 72% 78%, rgba(255, 255, 255, 0.16), transparent 10%);
+      pointer-events: none;
+    }
+
+    .birthday-layout {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .birthday-band h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(42px, 5vw, 64px);
+      line-height: 0.94;
+      margin-bottom: 14px;
+    }
+
+    .birthday-band p {
+      max-width: 760px;
+      font-size: 16px;
+      line-height: 1.85;
+      color: rgba(23, 56, 69, 0.82);
+    }
+
+    .birthday-chipset {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .birthday-chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(23, 56, 69, 0.12);
+      background: rgba(255, 255, 255, 0.26);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .birthday-badge {
+      width: 188px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(23, 56, 69, 0.12);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 28px;
+      font-size: 13px;
+      line-height: 1.6;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+    }
+
+    .closing {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 22px;
+    }
+
+    .closing-card,
+    .contact-card {
+      border-radius: 34px;
+      padding: 34px;
+      border: 1px solid rgba(16, 56, 75, 0.08);
+      box-shadow: 0 18px 52px rgba(16, 56, 75, 0.08);
+    }
+
+    .closing-card {
+      background: linear-gradient(180deg, rgba(18, 56, 75, 0.96), rgba(18, 56, 75, 0.88));
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .closing-card::after {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      right: -80px;
+      bottom: -120px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .closing-card h3,
+    .contact-card h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 42px;
+      line-height: 0.96;
+      margin-bottom: 16px;
+    }
+
+    .closing-card p {
+      font-size: 15px;
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.82);
+      max-width: 480px;
+    }
+
+    .closing-points {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .closing-point {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .closing-point::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fcd297, #92dded);
+      flex: 0 0 auto;
+    }
+
+    .contact-card {
+      background: rgba(255, 255, 255, 0.76);
+    }
+
+    .contact-card p {
+      font-size: 15px;
+      line-height: 1.82;
+      color: var(--muted);
+      margin-bottom: 22px;
+      max-width: 550px;
+    }
+
+    .contact-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .contact-list div {
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(16, 56, 75, 0.08);
+      background: rgba(246, 252, 253, 0.92);
+    }
+
+    .contact-list strong {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sea);
+      margin-bottom: 8px;
+    }
+
+    .contact-list span {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--deep);
+    }
+
+    .footnote {
+      margin-top: 18px;
+      font-size: 12px;
+      line-height: 1.75;
+      color: rgba(16, 56, 75, 0.58);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(34px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1080px) {
+      .hero-layout,
+      .section-heading,
+      .intro-grid,
+      .gallery-grid,
+      .closing {
+        grid-template-columns: 1fr;
+      }
+
+      .features {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .birthday-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .birthday-badge {
+        width: 150px;
+      }
+
+      .photo-panel {
+        min-height: 560px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .shell,
+      .topbar-inner {
+        width: min(var(--max), calc(100% - 24px));
+      }
+
+      .topbar {
+        padding: 18px 0;
+      }
+
+      .brand-mark {
+        font-size: 28px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 110px 0 24px;
+      }
+
+      .hero-title {
+        font-size: 64px;
+      }
+
+      .hero-text,
+      .lead,
+      .birthday-band p,
+      .contact-card p,
+      .closing-card p {
+        font-size: 15px;
+      }
+
+      .hero-card {
+        padding: 22px;
+      }
+
+      .hero-card-grid,
+      .stats,
+      .features,
+      .contact-list {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 72px 0;
+      }
+
+      .photo-panel {
+        min-height: 480px;
+      }
+
+      .floating-note {
+        grid-template-columns: 1fr;
+      }
+
+      .birthday-band,
+      .gallery-wrap,
+      .closing-card,
+      .contact-card {
+        padding: 24px;
+      }
+
+      .gallery-wrap {
+        border-radius: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-mark">Fior d'Acqua</div>
+        <div class="brand-copy">Family Pool Experience</div>
+      </div>
+      <nav class="nav-links">
+        <a class="nav-pill" href="#experience">Esperienza</a>
+        <a class="nav-pill" href="#gallery">Atmosfera</a>
+        <a class="nav-pill" href="#birthday">Compleanni</a>
+        <a class="nav-pill" href="#contact">Richiedi Info</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-media">
+      <video autoplay muted loop playsinline poster=".tmp/fda/hero-frame.jpg">
+        <source src=".tmp/fda/Selezione%20materiale%20sito%20FDA/sezione%20hero.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="hero-bubble"></div>
+    <div class="shell hero-layout">
+      <div class="hero-copy reveal">
+        <div class="eyebrow">Varcaturo • piscina lagunare • family editorial</div>
+        <h1 class="hero-title">Un'estate<br><em>in famiglia.</em></h1>
+        <p class="hero-text">
+          Fior d'Acqua e una giornata che scorre semplice: acqua bassa, spazi dedicati ai bambini,
+          area idromassaggio, solarium e comfort pensati per far stare bene adulti e piccoli nello stesso momento.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#contact">Richiedi disponibilita</a>
+          <a class="button button-secondary" href="#experience">Scopri l'esperienza</a>
+        </div>
+      </div>
+
+      <aside class="hero-card reveal">
+        <div class="hero-card-top">
+          <div>
+            <div class="hero-card-label">Il punto di vista</div>
+            <div class="hero-card-title">Acqua bassa,<br>divertimento alto.</div>
+          </div>
+          <div class="round-stamp">Family<br>first</div>
+        </div>
+        <div class="hero-card-grid">
+          <div class="hero-card-item">
+            <strong>Piscina lagunare</strong>
+            <span>Spazio ampio, luminoso e facile da vivere per tutta la giornata.</span>
+          </div>
+          <div class="hero-card-item">
+            <strong>Fondali differenziati</strong>
+            <span>Aree pensate per eta ed esigenze diverse, con piu tranquillita.</span>
+          </div>
+          <div class="hero-card-item">
+            <strong>Area idromassaggio</strong>
+            <span>Un momento di relax in piu mentre il ritmo della giornata resta leggero.</span>
+          </div>
+          <div class="hero-card-item">
+            <strong>Servizi comodi</strong>
+            <span>Docce calde, bagni, spogliatoi e supporto costante del personale.</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>piscina lagunare</span>
+      <span>area bambini</span>
+      <span>solarium</span>
+      <span>bagnini qualificati</span>
+      <span>docce calde</span>
+      <span>spogliatoi</span>
+      <span>comfort per tutta la famiglia</span>
+      <span>piscina lagunare</span>
+      <span>area bambini</span>
+      <span>solarium</span>
+      <span>bagnini qualificati</span>
+      <span>docce calde</span>
+      <span>spogliatoi</span>
+      <span>comfort per tutta la famiglia</span>
+    </div>
+  </div>
+
+  <main>
+    <section class="section shell" id="experience">
+      <div class="section-heading reveal">
+        <div>
+          <div class="label">Il racconto giusto</div>
+          <h2 class="display">Piacere d'acqua, serenita di famiglia.</h2>
+        </div>
+        <p class="lead">
+          Qui il lusso non e ostentazione. E spazio per muoversi, sicurezza percepita, ombra quando serve,
+          sole quando lo desideri e una piscina lagunare che mette al centro il tempo insieme.
+        </p>
+      </div>
+
+      <div class="intro-grid">
+        <figure class="photo-panel reveal">
+          <img src=".tmp/fda/family-pool.jpg" alt="Famiglie e bambini nella piscina di Fior d'Acqua">
+          <figcaption class="floating-note">
+            <div class="note-number">01</div>
+            <div>
+              <strong>La piscina che accoglie tutta la famiglia</strong>
+              <p>
+                Fondali differenziati, giochi d'acqua, area per i piu piccoli e una scena estiva autentica:
+                nessuna posa da resort distante, ma una giornata vera, luminosa e condivisa.
+              </p>
+            </div>
+          </figcaption>
+        </figure>
+
+        <div class="story-stack">
+          <article class="story-card reveal">
+            <h3>Una giornata che fila liscia</h3>
+            <p>
+              Fior d'Acqua nasce per alleggerire la logistica delle famiglie: spazi facili da leggere,
+              aree relax intorno alla piscina, acqua accessibile e servizi pratici che rendono la permanenza
+              piu comoda dall'arrivo fino a fine giornata.
+            </p>
+            <div class="ticket-row">
+              <span class="ticket">Area bimbi</span>
+              <span class="ticket">Relax per adulti</span>
+              <span class="ticket">Giornata semplice</span>
+            </div>
+          </article>
+
+          <article class="story-card reveal">
+            <h3>Sicurezza che si sente</h3>
+            <p>
+              La presenza di bagnini qualificati e personale sempre attento fa parte dell'esperienza quanto il sole
+              e l'acqua. La serenita non e solo promessa: e una sensazione che accompagna davvero la giornata.
+            </p>
+            <div class="stats">
+              <div class="stat">
+                <strong>Acqua</strong>
+                <span>Fondali differenziati per vivere meglio ogni momento.</span>
+              </div>
+              <div class="stat">
+                <strong>Relax</strong>
+                <span>Solarium e ombrelloni distribuiti intorno alla laguna.</span>
+              </div>
+              <div class="stat">
+                <strong>Comfort</strong>
+                <span>Docce, bagni e spogliatoi pensati per semplificare tutto.</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell">
+      <div class="section-heading reveal">
+        <div>
+          <div class="label">Perche funziona</div>
+          <h2 class="display">Quattro motivi per cui ci si resta volentieri.</h2>
+        </div>
+        <p class="lead">
+          Il linguaggio visivo e editoriale qui segue il contenuto reale: non notte, non beach club, non esclusivita fredda.
+          Solo acqua, sole, famiglie e una struttura che rende tutto piu naturale.
+        </p>
+      </div>
+
+      <div class="features">
+        <article class="feature reveal">
+          <div class="feature-icon">~</div>
+          <h3>Piscina lagunare</h3>
+          <p>Una grande superficie d'acqua che restituisce apertura, luce e una sensazione di vacanza immediata.</p>
+        </article>
+        <article class="feature reveal">
+          <div class="feature-icon">◎</div>
+          <h3>Idromassaggio</h3>
+          <p>Una pausa morbida dentro la giornata, pensata per chi accompagna e per chi si concede un momento lento.</p>
+        </article>
+        <article class="feature reveal">
+          <div class="feature-icon">◌</div>
+          <h3>Area bambini</h3>
+          <p>Acqua piu facile, piu gioco, piu autonomia. Il lato family e chiaro gia dal primo sguardo.</p>
+        </article>
+        <article class="feature reveal">
+          <div class="feature-icon">☼</div>
+          <h3>Solarium e servizi</h3>
+          <p>Lettini, ombrelloni, docce calde, bagni e spogliatoi: il comfort qui non e accessorio, e struttura.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell" id="gallery">
+      <div class="section-heading reveal">
+        <div>
+          <div class="label">Atmosfera</div>
+          <h2 class="display">Blu, ombra giusta, acqua chiara, giornate piene.</h2>
+        </div>
+        <p class="lead">
+          Questa galleria usa solo i materiali reali che abbiamo: niente artifici, solo il tono corretto per mostrare
+          com'e davvero stare a Fior d'Acqua quando il progetto parla alle famiglie.
+        </p>
+      </div>
+
+      <div class="gallery-wrap reveal">
+        <div class="gallery-grid">
+          <figure class="gallery-main">
+            <img src=".tmp/fda/fda-frame-01.jpg" alt="Vista ampia della piscina lagunare">
+            <figcaption class="gallery-caption">
+              <strong>Una vasca che si legge subito</strong>
+              <span>Spazio aperto, movimento libero e un colpo d'occhio immediato sulla giornata.</span>
+            </figcaption>
+          </figure>
+          <div class="gallery-stack">
+            <figure class="gallery-card">
+              <img src=".tmp/fda/fda-frame-02.jpg" alt="Solarium con ombrelloni blu e area relax">
+              <figcaption class="gallery-caption">
+                <strong>Relax a bordo vasca</strong>
+                <span>Il solarium rimane vicino all'acqua e semplice da gestire.</span>
+              </figcaption>
+            </figure>
+            <figure class="gallery-card">
+              <img src=".tmp/fda/fda-frame-03.jpg" alt="Vista dell'area con ombrelloni e lettini">
+              <figcaption class="gallery-caption">
+                <strong>Una scena estiva autentica</strong>
+                <span>Il tono giusto e quotidiano, caldo, accessibile, famigliare.</span>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="birthday">
+      <div class="birthday-band reveal">
+        <div class="birthday-layout">
+          <div>
+            <div class="label" style="color:#173845;">
+              <span style="display:inline-flex;align-items:center;gap:10px;">Compleanni</span>
+            </div>
+            <h3>Il compleanno piu divertente dell'estate.</h3>
+            <p>
+              Fior d'Acqua si presta naturalmente a feste di compleanno e giornate speciali per bambini:
+              acqua, gioco, spazi comodi per gli adulti e un contesto che gia da solo crea festa senza forzature.
+            </p>
+            <div class="birthday-chipset">
+              <span class="birthday-chip">Feste family</span>
+              <span class="birthday-chip">Giochi d'acqua</span>
+              <span class="birthday-chip">Spazio adulti + bambini</span>
+              <span class="birthday-chip">Formato estivo</span>
+            </div>
+          </div>
+          <div class="birthday-badge">Concept page<br>family editorial<br>preview</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="contact">
+      <div class="closing">
+        <article class="closing-card reveal">
+          <div class="label" style="color:#f3d7a4;">Tono finale</div>
+          <h3>Qui la giornata non si esibisce.<br>Si vive bene.</h3>
+          <p>
+            Questa proposta sposta il brand su un codice piu coerente: accogliente, estivo, leggibile,
+            editoriale ma non freddo. Tutto racconta famiglie, acqua e comfort invece di inseguire un immaginario luxury generico.
+          </p>
+          <div class="closing-points">
+            <div class="closing-point">Più coerente con il brief PDF</div>
+            <div class="closing-point">Più aderente ai materiali reali</div>
+            <div class="closing-point">Più facile da trasformare in pagina definitiva</div>
+          </div>
+        </article>
+
+        <article class="contact-card reveal">
+          <div class="label">Sezione finale</div>
+          <h3>Pronta per prenotazioni e richieste.</h3>
+          <p>
+            Questa e una preview visuale. I recapiti ufficiali, i prezzi, le policy e il form possono essere collegati nel passaggio successivo,
+            ma l'impianto narrativo e grafico e gia pronto per essere raffinato in pagina finale.
+          </p>
+          <div class="contact-list">
+            <div>
+              <strong>Richieste giornaliere</strong>
+              <span>Disponibilita piscina, solarium, servizi family.</span>
+            </div>
+            <div>
+              <strong>Compleanni estivi</strong>
+              <span>Eventi per bambini e momenti speciali in acqua.</span>
+            </div>
+            <div>
+              <strong>Recapiti da collegare</strong>
+              <span>Telefono, WhatsApp, email o form ufficiale.</span>
+            </div>
+            <div>
+              <strong>Step successivo</strong>
+              <span>Possiamo trasformare questo preview in landing definitiva.</span>
+            </div>
+          </div>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' }); return false;">Rivedi dall'inizio</a>
+            <a class="button" style="border:1px solid rgba(16,56,75,.12); color:var(--deep); background:rgba(255,255,255,.6);" href="playaluna_nikki_rebranding.html">Confronta col mockup attuale</a>
+          </div>
+          <p class="footnote">
+            Preview costruita con i materiali reali presenti nello ZIP `Selezione materiale sito FDA` e con il posizionamento emerso dal brief.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16 });
+
+    document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+  </script>
+</body>
+</html>
