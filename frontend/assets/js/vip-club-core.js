@@ -90,6 +90,27 @@
         return String(value || "").trim();
     }
 
+    function getPhotoFunctionName() {
+        return config.photoFunctionName || "vip-client-photo";
+    }
+
+    function getInitials(value) {
+        const clean = String(value || "")
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean);
+
+        if (!clean.length) {
+            return "VIP";
+        }
+
+        if (clean.length === 1) {
+            return clean[0].slice(0, 2).toUpperCase();
+        }
+
+        return (clean[0][0] + clean[clean.length - 1][0]).toUpperCase();
+    }
+
     window.FDAVip = {
         config,
         hasValidConfig,
@@ -103,6 +124,8 @@
         hideStatus,
         ensureConfigured,
         normalizeCardCode,
-        normalizePhone
+        normalizePhone,
+        getPhotoFunctionName,
+        getInitials
     };
 })();

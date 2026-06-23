@@ -83,6 +83,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     function hydrateProfile(profile) {
+        const preferredName = profile.display_name || profile.full_name || "Ospite VIP";
+
+        hydratePhotoFallback(preferredName);
         setText("vipClientDisplayName", profile.display_name || profile.full_name || "Ospite VIP");
         setText("vipClientFullName", profile.full_name || "Profilo riservato");
         setText("vipClientCardCode", profile.card_code || "FDA-0000-000000");
@@ -99,6 +102,50 @@ document.addEventListener("DOMContentLoaded", async function () {
         hydrateStateMessage(profile.status);
         hydrateActionState(profile.status);
         hydrateStatusPill(profile.status);
+        hydratePhoto();
+    }
+
+    async function hydratePhoto() {
+        const photoNode = document.getElementById("vipClientPhoto");
+        const fallbackNode = document.getElementById("vipClientPhotoFallback");
+        const functionName = window.FDAVip.getPhotoFunctionName();
+
+        if (!photoNode || !functionName) {
+            return;
+        }
+
+        try {
+            const { data, error } = await supabaseClient.functions.invoke(functionName, {
+                body: { token }
+            });
+
+            if (error) {
+                throw error;
+            }
+
+            if (!data || !data.photoUrl) {
+                return;
+            }
+
+            photoNode.src = data.photoUrl;
+            photoNode.hidden = false;
+
+            if (fallbackNode) {
+                fallbackNode.hidden = true;
+            }
+        } catch (err) {
+            console.warn("Foto cliente non disponibile nella card:", err);
+        }
+    }
+
+    function hydratePhotoFallback(name) {
+        const fallbackNode = document.getElementById("vipClientPhotoFallback");
+        if (!fallbackNode) {
+            return;
+        }
+
+        fallbackNode.textContent = window.FDAVip.getInitials(name);
+        fallbackNode.hidden = false;
     }
 
     function hydrateBonuses(bonuses) {

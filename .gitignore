@@ -8,3 +8,5 @@ __pycache__/
 tunnel.txt
 tunnel_url.txt
 swisstransfer_4c4436f9-b14f-4d24-8855-1dc71dce91e9.zip
+supabase/functions/.env
+supabase/functions/.env.*
