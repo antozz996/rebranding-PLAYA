@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La tua card digitale | Fior d'Acqua VIP Club</title>
+    <meta name="description" content="Visualizza la tua card digitale Fior d'Acqua VIP Club, il livello del profilo e i vantaggi disponibili.">
+    <link rel="canonical" href="https://www.playaluna.it/vip-card.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="assets/js/vip-club.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+</head>
+<body class="vip-club-body">
+    <header class="vip-navbar">
+        <div class="vip-shell vip-navbar-inner">
+            <a class="vip-brand" href="fiordacqua.html">
+                <img class="vip-brand-logo" src="assets/logos/fiordacqua-vip-logo.png" alt="Fior d'Acqua VIP Club">
+            </a>
+            <nav class="vip-nav-links" aria-label="Navigazione card">
+                <a class="vip-nav-link" href="vip.html">Il club</a>
+                <button class="vip-nav-link primary" id="vipCardSignOut" type="button">Esci</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="vip-page">
+        <div class="vip-shell">
+            <section class="vip-panel" id="vipCardLoading">
+                <h2>Stiamo aprendo la tua card</h2>
+                <p>
+                    Un istante ancora: stiamo recuperando il tuo profilo riservato e i benefit collegati alla tua esperienza Fior d'Acqua.
+                </p>
+            </section>
+
+            <section hidden id="vipCardView">
+                <div class="vip-split-card">
+                    <article class="vip-card-face">
+                        <div class="vip-card-topline">
+                            <div>
+                                <span>Fior d'Acqua VIP Club</span>
+                                <strong id="vipClientFullName">Profilo riservato</strong>
+                            </div>
+                            <div class="vip-level-badge" id="vipClientLevel">SILVER</div>
+                        </div>
+
+                        <div class="vip-card-name">
+                            <h2 id="vipClientDisplayName">Ospite VIP</h2>
+                            <p>Una card digitale personale per consultare in modo semplice stato, livello e benefit del tuo profilo.</p>
+                        </div>
+
+                        <div class="vip-card-footer">
+                            <div class="vip-card-code" id="vipClientCardCode">FDA-2026-000001</div>
+                            <div class="vip-card-status">
+                                <small>Stato del profilo</small>
+                                <strong id="vipClientStatus">Profilo approvato</strong>
+                            </div>
+                        </div>
+                    </article>
+
+                    <div class="vip-stack">
+                        <article class="vip-panel">
+                            <div class="vip-panel-header">
+                                <div>
+                                    <div class="vip-panel-kicker">Lettura immediata del profilo</div>
+                                    <h2>Profilo attivo</h2>
+                                </div>
+                                <div class="vip-status-pill" id="vipStatusPill">Accesso completo</div>
+                            </div>
+                            <p>
+                                Qui trovi una lettura immediata della tua posizione nel club. La tua card resta il punto di accesso piu rapido e ordinato all'esperienza riservata.
+                            </p>
+
+                            <div class="vip-status-message" id="vipCardStatusMessage" aria-live="polite"></div>
+
+                            <div class="vip-metric-grid" style="margin-top: 20px;">
+                                <div class="vip-metric">
+                                    <span>Livello</span>
+                                    <strong id="vipMetricLevel">SILVER</strong>
+                                </div>
+                                <div class="vip-metric">
+                                    <span>Stato</span>
+                                    <strong id="vipMetricStatus">Profilo approvato</strong>
+                                </div>
+                                <div class="vip-metric">
+                                    <span>Accesso</span>
+                                    <strong id="vipMetricAccess">Accesso completo</strong>
+                                </div>
+                            </div>
+
+                            <div class="vip-helper-box" style="margin-top: 20px;">
+                                Link di verifica card: <strong id="vipClientVerifyUrl">/vip-verify.html</strong>
+                            </div>
+                        </article>
+
+                        <article class="vip-action-band">
+                            <div>
+                                <h3>Prossimo passo riservato</h3>
+                                <p id="vipActionCopy">
+                                    Se il tuo profilo e attivo, puoi proseguire con una richiesta di prenotazione dedicata oppure segnalare un ospite da invitare al club.
+                                </p>
+                                <div class="vip-inline-status" id="vipActionInlineStatus">Accesso completo alla richiesta VIP</div>
+                            </div>
+                            <div class="vip-action-buttons">
+                                <a class="vip-btn vip-btn-primary" id="vipBookingCta" href="vip-booking.html">Richiedi prenotazione</a>
+                                <a class="vip-btn vip-btn-plain" id="vipReferralCta" href="vip-referral.html">Invita un ospite</a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <section class="vip-section vip-panel">
+                    <div class="vip-panel-header">
+                        <div>
+                            <div class="vip-panel-kicker">Benefit visibili sulla card</div>
+                            <h2>Benefit collegati al tuo livello</h2>
+                        </div>
+                    </div>
+                    <p>
+                        Ogni profilo mostra solo i vantaggi coerenti con il proprio livello VIP. In questa fase il club mette al centro una consultazione chiara, elegante e trasparente.
+                    </p>
+                    <div class="vip-bonus-list" id="vipBonusList"></div>
+                    <div class="vip-empty-state" id="vipBonusEmpty" hidden>
+                        Non risultano ancora benefit attivi da mostrare in questa fase. La tua card resta comunque valida come riferimento del profilo.
+                    </div>
+                </section>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/vip-club-config.js"></script>
+    <script src="assets/js/vip-club-core.js"></script>
+    <script src="assets/js/vip-card.js"></script>
+</body>
+</html>

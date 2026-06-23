@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Richiesta prenotazione | Fior d'Acqua VIP Club</title>
+    <meta name="description" content="Invia una richiesta di prenotazione dedicata tramite il tuo profilo Fior d'Acqua VIP Club.">
+    <link rel="canonical" href="https://www.playaluna.it/vip-booking.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="assets/js/vip-club.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+</head>
+<body class="vip-club-body">
+    <header class="vip-navbar">
+        <div class="vip-shell vip-navbar-inner">
+            <a class="vip-brand" href="fiordacqua.html">
+                <img class="vip-brand-logo" src="assets/logos/fiordacqua-vip-logo.png" alt="Fior d'Acqua VIP Club">
+            </a>
+            <nav class="vip-nav-links" aria-label="Navigazione booking VIP">
+                <a class="vip-nav-link" href="vip-card.html">La tua card</a>
+                <a class="vip-nav-link" href="vip.html">Il club</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="vip-page">
+        <div class="vip-shell">
+            <section class="vip-hero-card">
+                <div class="vip-hero-grid">
+                    <div class="vip-hero-copy">
+                        <div class="vip-kicker">Richiesta dedicata</div>
+                        <h1>Prenotazione VIP, con un passaggio chiaro e guidato.</h1>
+                        <p>
+                            Questa pagina raccoglie una richiesta ordinata da parte del tuo profilo VIP.
+                            Non conferma automaticamente la prenotazione: invia allo staff tutti i riferimenti utili per una presa in carico rapida.
+                        </p>
+                    </div>
+                    <aside class="vip-hero-aside">
+                        <h3>Profilo in verifica</h3>
+                        <p>
+                            Stiamo verificando il tuo stato attuale prima di consentire l'invio della richiesta.
+                            I profili in osservazione o non attivi potranno consultare la card, ma non inviare questa form.
+                        </p>
+                    </aside>
+                </div>
+            </section>
+
+            <section class="vip-section vip-grid-2">
+                <article class="vip-panel">
+                    <div class="vip-panel-header">
+                        <div>
+                            <div class="vip-panel-kicker">Accesso richiesta</div>
+                            <h2>Profilo pronto</h2>
+                        </div>
+                        <div class="vip-status-pill is-vip" id="vipBookingProfileLevel">SILVER</div>
+                    </div>
+                    <p>
+                        Richiesta associata al profilo <strong id="vipBookingProfileName">Profilo VIP</strong>.
+                    </p>
+                    <div class="vip-helper-box" id="vipBookingGate" hidden>
+                        <strong>Stato richiesta</strong><br>
+                        <span id="vipBookingGateStatus">Verifica in corso...</span>
+                    </div>
+                </article>
+
+                <article class="vip-panel">
+                    <div class="vip-panel-header">
+                        <div>
+                            <div class="vip-panel-kicker">Indicazioni utili</div>
+                            <h2>Come verra letta</h2>
+                        </div>
+                    </div>
+                    <p>
+                        Lo staff vedra data, fascia oraria, numero di adulti e bambini, preferenze di area e note lasciate dal cliente.
+                        La richiesta nasce con stato <strong>RICHIESTA</strong>.
+                    </p>
+                </article>
+            </section>
+
+            <section class="vip-section vip-panel">
+                <div class="vip-panel-header">
+                    <div>
+                        <div class="vip-panel-kicker">Invio prenotazione</div>
+                        <h2>Richiesta prenotazione VIP</h2>
+                    </div>
+                </div>
+                <p>
+                    Compila solo le informazioni essenziali. Il nostro staff usera questi dati per preparare la presa in carico della tua richiesta dedicata.
+                </p>
+
+                <form class="vip-form" id="vipBookingForm" novalidate>
+                    <div class="vip-grid-2">
+                        <div class="vip-field">
+                            <label for="booking_date">Data richiesta</label>
+                            <input id="booking_date" name="booking_date" type="date" required>
+                        </div>
+                        <div class="vip-field">
+                            <label for="time_slot">Fascia oraria</label>
+                            <select id="time_slot" name="time_slot" required>
+                                <option value="GIORNATA_INTERA">Giornata intera</option>
+                                <option value="MATTINA">Mattina</option>
+                                <option value="POMERIGGIO">Pomeriggio</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="vip-grid-2">
+                        <div class="vip-field">
+                            <label for="adults">Adulti</label>
+                            <input id="adults" name="adults" type="number" min="1" max="20" value="2" required>
+                        </div>
+                        <div class="vip-field">
+                            <label for="children">Bambini</label>
+                            <input id="children" name="children" type="number" min="0" max="20" value="0">
+                        </div>
+                    </div>
+
+                    <div class="vip-field">
+                        <label for="area_preference">Preferenza area</label>
+                        <input id="area_preference" name="area_preference" type="text" placeholder="Solarium centrale, bordo piscina, area family...">
+                    </div>
+
+                    <div class="vip-field">
+                        <label for="client_notes">Note cliente</label>
+                        <textarea id="client_notes" name="client_notes" placeholder="Indica esigenze, dettagli utili o preferenze aggiuntive."></textarea>
+                    </div>
+
+                    <button class="vip-btn vip-btn-primary" id="vipBookingSubmit" type="submit">Invia richiesta VIP</button>
+                </form>
+
+                <div class="vip-status-message" id="vipBookingStatus" aria-live="polite"></div>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/vip-club-config.js"></script>
+    <script src="assets/js/vip-club-core.js"></script>
+    <script src="assets/js/vip-booking.js"></script>
+</body>
+</html>

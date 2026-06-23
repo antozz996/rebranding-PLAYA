@@ -208,6 +208,122 @@
         .btn-playful:hover { transform: translateY(3px); box-shadow: 0 7px 0 #D4B200; }
         .btn-playful:active { transform: translateY(10px); box-shadow: 0 0 0 #D4B200; }
 
+        .vip-club-strip-wrap {
+            background: linear-gradient(180deg, rgba(202, 240, 248, 0.94), rgba(255, 255, 255, 0.96));
+            padding: 0 5vw 2rem;
+            position: relative;
+            z-index: 4;
+        }
+        .vip-club-strip {
+            margin: -3.5rem auto 0;
+            max-width: 1180px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(247,253,255,0.95));
+            border: 1px solid rgba(0, 119, 182, 0.12);
+            box-shadow: 0 24px 60px rgba(2, 62, 138, 0.16);
+            border-radius: 34px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+            gap: 1.5rem;
+            padding: 1.8rem;
+            align-items: center;
+        }
+        .vip-strip-copy {
+            display: grid;
+            gap: 0.85rem;
+        }
+        .vip-strip-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            width: fit-content;
+            padding: 0.7rem 1rem;
+            border-radius: 999px;
+            background: rgba(0, 180, 216, 0.12);
+            color: var(--blue-deep);
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+        .vip-strip-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 0.95;
+            color: var(--blue-deep);
+        }
+        .vip-strip-copy p {
+            font-size: 1rem;
+            line-height: 1.65;
+            margin: 0;
+            max-width: 640px;
+        }
+        .vip-strip-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.35rem;
+        }
+        .vip-strip-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 54px;
+            padding: 0 1.5rem;
+            border-radius: 999px;
+            text-decoration: none;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            transition: 0.25s var(--ease);
+        }
+        .vip-strip-button.primary {
+            background: var(--yellow);
+            color: var(--text-dark);
+            box-shadow: 0 9px 0 #D4B200;
+        }
+        .vip-strip-button.secondary {
+            background: transparent;
+            color: var(--blue-deep);
+            border: 2px solid rgba(0, 119, 182, 0.18);
+        }
+        .vip-strip-button:hover {
+            transform: translateY(-3px);
+        }
+        .vip-strip-aside {
+            border-radius: 28px;
+            padding: 1.4rem;
+            background: linear-gradient(160deg, rgba(0, 180, 216, 0.92), rgba(0, 119, 182, 0.98));
+            color: var(--white);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+        }
+        .vip-strip-aside h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.65rem;
+        }
+        .vip-strip-aside p {
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.92);
+        }
+        .vip-strip-pills {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.65rem;
+            margin-top: 1rem;
+        }
+        .vip-strip-pill {
+            background: rgba(255,255,255,0.16);
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 18px;
+            padding: 0.8rem 0.6rem;
+            text-align: center;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
         /* Sections */
         .section { padding: 8rem 5vw; position: relative; }
         .section-title { font-size: 4rem; text-align: center; margin-bottom: 4rem; color: var(--blue-deep); }
@@ -233,10 +349,19 @@
             .hero-title { font-size: 3.5rem; }
             .kids-grid { grid-template-columns: 1fr; }
             .section-title { font-size: 2.5rem; }
+            .vip-club-strip-wrap { padding: 0 1rem 1.5rem; }
+            .vip-club-strip {
+                margin-top: -2rem;
+                grid-template-columns: 1fr;
+                padding: 1.35rem;
+                border-radius: 28px;
+            }
+            .vip-strip-pills { grid-template-columns: 1fr; }
+            .vip-strip-button { width: 100%; }
         }
     </style>
 </head>
-<body>
+<body data-page="fiordacqua">
 
     <nav class="navbar">
         <div class="nav-left">
@@ -273,6 +398,33 @@
             <a href="https://new-widget.spiagge.it/stabilimenti-balneari/prenotazione/it-na-80014-varca-d-oro-piscine/insertPeriod?yb_booking_license=it-na-80014-varca-d-oro-piscine" target="_blank" class="btn-playful">PRENOTA ORA!</a>
         </div>
     </header>
+
+    <section class="vip-club-strip-wrap">
+        <div class="vip-club-strip reveal">
+            <div class="vip-strip-copy">
+                <div class="vip-strip-badge">Fior d'Acqua VIP Club</div>
+                <h2 class="vip-strip-title">Un accesso piu semplice alla tua estate.</h2>
+                <p>
+                    Un invito riservato per consultare la tua card digitale, ritrovare il profilo attivo e vivere l'esperienza Fior d'Acqua in modo ancora piu ordinato, personale e curato.
+                </p>
+                <div class="vip-strip-actions">
+                    <a href="vip-login.html" class="vip-strip-button primary">Accedi alla card</a>
+                    <a href="vip.html" class="vip-strip-button secondary">Scopri il VIP Club</a>
+                </div>
+            </div>
+            <aside class="vip-strip-aside">
+                <h3>Card digitale, tono Fior d'Acqua.</h3>
+                <p>
+                    Il club non sostituisce la prenotazione standard: la accompagna con un percorso dedicato per gli ospiti invitati e gia attivati dal nostro staff.
+                </p>
+                <div class="vip-strip-pills">
+                    <div class="vip-strip-pill">Card</div>
+                    <div class="vip-strip-pill">Profilo</div>
+                    <div class="vip-strip-pill">Benefit</div>
+                </div>
+            </aside>
+        </div>
+    </section>
 
     <section class="section pool-section" style="background-color: var(--soft-blue);">
         <div class="kids-grid reveal">

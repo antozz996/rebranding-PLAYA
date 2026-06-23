@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segnala un ospite | Fior d'Acqua VIP Club</title>
+    <meta name="description" content="Segnala un ospite da invitare al Fior d'Acqua VIP Club tramite il tuo profilo personale.">
+    <link rel="canonical" href="https://www.playaluna.it/vip-referral.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="assets/js/vip-club.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+</head>
+<body class="vip-club-body">
+    <header class="vip-navbar">
+        <div class="vip-shell vip-navbar-inner">
+            <a class="vip-brand" href="fiordacqua.html">
+                <img class="vip-brand-logo" src="assets/logos/fiordacqua-vip-logo.png" alt="Fior d'Acqua VIP Club">
+            </a>
+            <nav class="vip-nav-links" aria-label="Navigazione referral VIP">
+                <a class="vip-nav-link" href="vip-card.html">La tua card</a>
+                <a class="vip-nav-link" href="vip-booking.html">Prenotazione</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="vip-page">
+        <div class="vip-shell">
+            <section class="vip-hero-card">
+                <div class="vip-hero-grid">
+                    <div class="vip-hero-copy">
+                        <div class="vip-kicker">Invito riservato</div>
+                        <h1>Segnala un ospite da accompagnare nel club.</h1>
+                        <p>
+                            Da qui puoi lasciare allo staff il riferimento di una persona che desideri invitare.
+                            Non si tratta di un'accesso automatico: e una segnalazione ordinata, leggibile e coerente con il tuo profilo VIP.
+                        </p>
+                    </div>
+                    <aside class="vip-hero-aside">
+                        <h3>Come funziona</h3>
+                        <p>
+                            Il nominativo entra in verifica interna. Lo staff potra valutarlo con il contesto corretto, insieme alle note che vorrai lasciare.
+                        </p>
+                    </aside>
+                </div>
+            </section>
+
+            <section class="vip-section vip-grid-2">
+                <article class="vip-panel">
+                    <div class="vip-panel-header">
+                        <div>
+                            <div class="vip-panel-kicker">Abilitazione referral</div>
+                            <h2>Profilo referente</h2>
+                        </div>
+                        <div class="vip-status-pill is-vip" id="vipReferralProfileLevel">SILVER</div>
+                    </div>
+                    <p>
+                        Segnalazione collegata al profilo <strong id="vipReferralProfileName">Profilo VIP</strong>.
+                    </p>
+                    <div class="vip-helper-box" id="vipReferralGate" hidden>
+                        <strong>Stato referral</strong><br>
+                        <span id="vipReferralGateStatus">Verifica in corso...</span>
+                    </div>
+                </article>
+
+                <article class="vip-panel">
+                    <div class="vip-panel-header">
+                        <div>
+                            <div class="vip-panel-kicker">Indicazioni utili</div>
+                            <h2>Cosa viene inviato</h2>
+                        </div>
+                    </div>
+                    <p>
+                        Lo staff ricevera nome dell'ospite, recapito telefonico e note di contesto inserite dal cliente.
+                        La segnalazione nasce con stato <strong>IN_VERIFICA</strong>.
+                    </p>
+                </article>
+            </section>
+
+            <section class="vip-section vip-panel">
+                <div class="vip-panel-header">
+                    <div>
+                        <div class="vip-panel-kicker">Nuova segnalazione</div>
+                        <h2>Invita un ospite</h2>
+                    </div>
+                </div>
+                <p>
+                    Inserisci solo i dati essenziali. Il referral serve a presentare allo staff una persona che vuoi far valutare per il club.
+                </p>
+
+                <form class="vip-form" id="vipReferralForm" novalidate>
+                    <div class="vip-field">
+                        <label for="referred_full_name">Nome e cognome ospite</label>
+                        <input id="referred_full_name" name="referred_full_name" type="text" autocomplete="name" placeholder="Nome Cognome" required>
+                    </div>
+
+                    <div class="vip-field">
+                        <label for="referred_phone">Numero di telefono ospite</label>
+                        <input id="referred_phone" name="referred_phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+39 333 123 4567">
+                        <div class="vip-form-hint">
+                            Facoltativo, ma utile se desideri agevolare il contatto dello staff.
+                        </div>
+                    </div>
+
+                    <div class="vip-field">
+                        <label for="referred_notes">Note cliente</label>
+                        <textarea id="referred_notes" name="referred_notes" placeholder="Spiega in breve il contesto, il motivo dell'invito o i dettagli utili per la valutazione."></textarea>
+                    </div>
+
+                    <button class="vip-btn vip-btn-primary" id="vipReferralSubmit" type="submit">Invia segnalazione</button>
+                </form>
+
+                <div class="vip-status-message" id="vipReferralStatus" aria-live="polite"></div>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/vip-club-config.js"></script>
+    <script src="assets/js/vip-club-core.js"></script>
+    <script src="assets/js/vip-referral.js"></script>
+</body>
+</html>

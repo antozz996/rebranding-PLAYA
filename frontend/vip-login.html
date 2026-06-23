@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accedi alla tua card | Fior d'Acqua VIP Club</title>
+    <meta name="description" content="Accedi alla tua card digitale Fior d'Acqua VIP Club con codice card e numero di telefono associato al profilo.">
+    <link rel="canonical" href="https://www.playaluna.it/vip-login.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="assets/js/vip-club.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+</head>
+<body class="vip-club-body">
+    <header class="vip-navbar">
+        <div class="vip-shell vip-navbar-inner">
+            <a class="vip-brand" href="fiordacqua.html">
+                <img class="vip-brand-logo" src="assets/logos/fiordacqua-vip-logo.png" alt="Fior d'Acqua VIP Club">
+            </a>
+            <nav class="vip-nav-links" aria-label="Navigazione accesso">
+                <a class="vip-nav-link" href="vip.html">Scopri il club</a>
+                <a class="vip-nav-link" href="fiordacqua.html">Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="vip-page">
+        <div class="vip-shell">
+            <section class="vip-hero-card">
+                <div class="vip-hero-grid">
+                    <div class="vip-hero-copy">
+                        <div class="vip-kicker">Accesso riservato</div>
+                        <h1>Entra nella tua card digitale.</h1>
+                        <p>
+                            Inserisci il codice della tua card e il numero di telefono associato al profilo VIP.
+                            Ti accompagneremo subito nella tua area riservata.
+                        </p>
+                    </div>
+                    <aside class="vip-hero-aside">
+                        <h3>Prima di iniziare</h3>
+                        <p>
+                            Ti consigliamo di usare il numero di telefono indicato al momento dell'attivazione del profilo.
+                            Se il tuo accesso non risulta disponibile, il messaggio verra mostrato qui in modo chiaro.
+                        </p>
+                    </aside>
+                </div>
+            </section>
+
+            <section class="vip-section vip-split-card">
+                <article class="vip-panel">
+                    <h2>Accesso card</h2>
+                    <p>
+                        Questo accesso e dedicato ai profili gia invitati o gia attivati dal nostro staff.
+                        Non serve creare un account e non serve password: il tuo percorso parte da card e telefono.
+                    </p>
+
+                    <form class="vip-form" id="vipLoginForm" novalidate>
+                        <div class="vip-field">
+                            <label for="card_code">Codice card</label>
+                            <input id="card_code" name="card_code" type="text" inputmode="text" autocomplete="off" placeholder="FDA-2026-000001" required>
+                        </div>
+                        <div class="vip-field">
+                            <label for="phone">Numero di telefono</label>
+                            <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+39 333 123 4567" required>
+                        </div>
+                        <button class="vip-btn vip-btn-primary" id="vipLoginSubmit" type="submit">Accedi alla card</button>
+                    </form>
+
+                    <div class="vip-status-message" id="vipLoginStatus" aria-live="polite"></div>
+                </article>
+
+                <article class="vip-panel">
+                    <h2>Una esperienza semplice</h2>
+                    <p>
+                        Il club e costruito per essere consultabile in pochi secondi da mobile: stato del profilo,
+                        livello VIP e vantaggi attivi sono raccolti in una card unica, elegante e immediata.
+                    </p>
+                    <div class="vip-note" style="margin-top: 20px;">
+                        Se il tuo profilo e in osservazione, la card resta visibile ma i servizi aggiuntivi non verranno attivati in questa fase.
+                    </div>
+                    <div class="vip-note" style="margin-top: 16px;">
+                        Se ancora non possiedi una card, puoi partire dalla <a href="vip.html" style="color: var(--vip-deep); font-weight: 700;">pagina del club</a> per orientarti meglio.
+                    </div>
+                </article>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/vip-club-config.js"></script>
+    <script src="assets/js/vip-club-core.js"></script>
+    <script src="assets/js/vip-login.js"></script>
+</body>
+</html>
