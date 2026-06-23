@@ -47,6 +47,11 @@
         window.location.href = "vip-login.html";
     }
 
+    function redirectToStaffLogin(returnTo) {
+        const target = returnTo || window.location.pathname.split("/").pop() || "vip-verify.html";
+        window.location.href = "vip-staff-login.html?returnTo=" + encodeURIComponent(target);
+    }
+
     function showStatus(target, message, type) {
         if (!target) {
             return;
@@ -120,6 +125,7 @@
         getSessionToken,
         clearSessionToken,
         redirectToLogin,
+        redirectToStaffLogin,
         showStatus,
         hideStatus,
         ensureConfigured,

@@ -20,6 +20,7 @@
                 <img class="vip-brand-logo" src="assets/logos/fiordacqua-vip-logo.png" alt="Fior d'Acqua VIP Club">
             </a>
             <nav class="vip-nav-links" aria-label="Navigazione verifica card">
+                <a class="vip-nav-link" href="vip-staff-login.html?returnTo=vip-verify.html">Accesso staff</a>
                 <a class="vip-nav-link" href="vip.html">Il club</a>
                 <a class="vip-nav-link" href="fiordacqua.html">Home</a>
             </nav>
@@ -80,8 +81,16 @@
                     <p>
                         Il pannello restituisce nome completo, telefono, livello, stato profilo, numero di warning e foto del cliente se disponibile.
                     </p>
+                    <div class="vip-helper-box" id="vipVerifyAccessBox" style="margin-top: 20px;">
+                        <strong>Accesso staff</strong><br>
+                        <span id="vipVerifyAccessState">Controllo sessione in corso...</span>
+                    </div>
                     <div class="vip-note" style="margin-top: 20px;">
                         Se apri questa pagina con un link del tipo <strong>/vip-verify.html?code=FDA-...</strong>, il codice viene compilato automaticamente.
+                    </div>
+                    <div class="vip-actions" style="margin-top: 20px;">
+                        <a class="vip-btn vip-btn-plain" id="vipVerifyLoginLink" href="vip-staff-login.html?returnTo=vip-verify.html">Apri accesso staff</a>
+                        <button class="vip-btn vip-btn-secondary" id="vipVerifySignOut" type="button">Esci dallo staff</button>
                     </div>
                 </article>
             </section>

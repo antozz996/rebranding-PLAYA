@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accesso staff | Fior d'Acqua VIP Club</title>
+    <meta name="description" content="Accesso staff riservato per strumenti di verifica e controllo operativo del Fior d'Acqua VIP Club.">
+    <link rel="canonical" href="https://www.playaluna.it/vip-staff-login.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="assets/js/vip-club.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+</head>
+<body class="vip-club-body">
+    <header class="vip-navbar">
+        <div class="vip-shell vip-navbar-inner">
+            <a class="vip-brand" href="fiordacqua.html">
+                <img class="vip-brand-logo" src="assets/logos/fiordacqua-vip-logo.png" alt="Fior d'Acqua VIP Club">
+            </a>
+            <nav class="vip-nav-links" aria-label="Navigazione staff">
+                <a class="vip-nav-link" href="vip-verify.html">Verifica card</a>
+                <a class="vip-nav-link" href="fiordacqua.html">Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="vip-page">
+        <div class="vip-shell">
+            <section class="vip-hero-card">
+                <div class="vip-hero-grid">
+                    <div class="vip-hero-copy">
+                        <div class="vip-kicker">Staff access</div>
+                        <h1>Ingresso operativo riservato.</h1>
+                        <p>
+                            Questa area serve ad attivare la sessione staff Supabase nel browser.
+                            Dopo l'accesso potrai usare la verifica card e gli strumenti dedicati senza errori di autorizzazione.
+                        </p>
+                    </div>
+                    <aside class="vip-hero-aside">
+                        <h3>Solo staff autorizzato</h3>
+                        <p>
+                            Usa l'email e la password del tuo account staff gia presente in Supabase Auth.
+                        </p>
+                    </aside>
+                </div>
+            </section>
+
+            <section class="vip-section vip-split-card">
+                <article class="vip-panel">
+                    <div class="vip-panel-header">
+                        <div>
+                            <div class="vip-panel-kicker">Autenticazione staff</div>
+                            <h2>Accedi</h2>
+                        </div>
+                    </div>
+                    <p>
+                        Una volta autenticato, resterai nella sessione staff del browser e la verifica card potra interrogare direttamente la RPC protetta.
+                    </p>
+
+                    <form class="vip-form" id="vipStaffLoginForm" novalidate>
+                        <div class="vip-field">
+                            <label for="staff_email">Email staff</label>
+                            <input id="staff_email" name="staff_email" type="email" autocomplete="email" placeholder="staff@fiordacqua.it" required>
+                        </div>
+                        <div class="vip-field">
+                            <label for="staff_password">Password</label>
+                            <input id="staff_password" name="staff_password" type="password" autocomplete="current-password" required>
+                        </div>
+                        <button class="vip-btn vip-btn-primary" id="vipStaffLoginSubmit" type="submit">Accedi come staff</button>
+                    </form>
+
+                    <div class="vip-status-message" id="vipStaffLoginStatus" aria-live="polite"></div>
+                </article>
+
+                <article class="vip-panel">
+                    <div class="vip-panel-header">
+                        <div>
+                            <div class="vip-panel-kicker">Sessione browser</div>
+                            <h2>Stato accesso</h2>
+                        </div>
+                    </div>
+                    <p id="vipStaffSessionCopy">
+                        Stiamo controllando se nel browser esiste gia una sessione staff valida.
+                    </p>
+                    <div class="vip-helper-box" id="vipStaffSessionBox">
+                        <strong>Utente corrente</strong><br>
+                        <span id="vipStaffCurrentUser">Nessuna sessione attiva</span>
+                    </div>
+                    <div class="vip-actions" style="margin-top: 20px;">
+                        <a class="vip-btn vip-btn-plain" id="vipStaffReturnLink" href="vip-verify.html">Vai alla verifica card</a>
+                        <button class="vip-btn vip-btn-secondary" id="vipStaffSignOut" type="button">Esci dalla sessione staff</button>
+                    </div>
+                </article>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/vip-club-config.js"></script>
+    <script src="assets/js/vip-club-core.js"></script>
+    <script src="assets/js/vip-staff-auth.js"></script>
+</body>
+</html>

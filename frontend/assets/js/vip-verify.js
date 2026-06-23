@@ -1,9 +1,12 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     const form = document.getElementById("vipVerifyForm");
     const statusBox = document.getElementById("vipVerifyStatus");
     const submitButton = document.getElementById("vipVerifySubmit");
     const resultBox = document.getElementById("vipVerifyResult");
     const codeInput = document.getElementById("verify_card_code");
+    const accessStateNode = document.getElementById("vipVerifyAccessState");
+    const signOutButton = document.getElementById("vipVerifySignOut");
+    const loginLink = document.getElementById("vipVerifyLoginLink");
 
     if (!form || !window.FDAVip) {
         return;
@@ -30,20 +33,56 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const initialCode = getCodeFromQuery();
+    const returnTo = buildReturnTo();
+
+    if (loginLink) {
+        loginLink.href = "vip-staff-login.html?returnTo=" + encodeURIComponent(returnTo);
+    }
+
     if (initialCode && codeInput) {
         codeInput.value = initialCode;
     }
+
+    await hydrateAccessState();
 
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
         await verifyCard();
     });
 
+    if (signOutButton) {
+        signOutButton.addEventListener("click", async function () {
+            await supabaseClient.auth.signOut();
+            await hydrateAccessState();
+            if (resultBox) {
+                resultBox.hidden = true;
+            }
+            window.FDAVip.showStatus(
+                statusBox,
+                "Sessione staff chiusa. Per nuove verifiche serve un nuovo accesso.",
+                "success"
+            );
+        });
+    }
+
     if (initialCode) {
         verifyCard();
     }
 
     async function verifyCard() {
+        const isStaffAuthenticated = await hasStaffSession();
+        if (!isStaffAuthenticated) {
+            if (resultBox) {
+                resultBox.hidden = true;
+            }
+            window.FDAVip.showStatus(
+                statusBox,
+                "Per verificare una card devi prima aprire l'accesso staff in questo browser.",
+                "error"
+            );
+            return;
+        }
+
         const cardCode = window.FDAVip.normalizeCardCode(codeInput ? codeInput.value : "");
         if (!cardCode) {
             window.FDAVip.showStatus(
@@ -144,11 +183,22 @@ document.addEventListener("DOMContentLoaded", function () {
         if (photoNode) {
             const photoPath = String(profile.photo_path || "").trim();
             if (photoPath) {
-                photoNode.src = photoPath;
-                photoNode.hidden = false;
-                if (fallbackNode) {
-                    fallbackNode.hidden = true;
-                }
+                resolveStaffPhotoUrl(photoPath).then(function (resolvedUrl) {
+                    if (resolvedUrl) {
+                        photoNode.src = resolvedUrl;
+                        photoNode.hidden = false;
+                        if (fallbackNode) {
+                            fallbackNode.hidden = true;
+                        }
+                        return;
+                    }
+
+                    photoNode.removeAttribute("src");
+                    photoNode.hidden = true;
+                    if (fallbackNode) {
+                        fallbackNode.hidden = false;
+                    }
+                });
             } else {
                 photoNode.removeAttribute("src");
                 photoNode.hidden = true;
@@ -172,16 +222,74 @@ document.addEventListener("DOMContentLoaded", function () {
     function humanizeVerifyError(err) {
         const message = String(err && (err.message || err)).toLowerCase();
 
-        if (message.includes("solo allo staff autenticato")) {
-            return "Questa verifica e riservata allo staff autenticato in Supabase.";
+        if (
+            message.includes("solo allo staff autenticato") ||
+            message.includes("permission denied") ||
+            message.includes("jwt") ||
+            message.includes("42501") ||
+            message.includes("not authenticated")
+        ) {
+            return "Questa verifica e riservata allo staff autenticato. Apri prima l'accesso staff in questo browser.";
         }
 
         return "Non riusciamo a completare la verifica in questo momento.";
     }
 
+    async function hydrateAccessState() {
+        const { data } = await supabaseClient.auth.getSession();
+        const session = data ? data.session : null;
+
+        if (!accessStateNode) {
+            return;
+        }
+
+        if (!session) {
+            accessStateNode.textContent = "Nessuna sessione staff attiva nel browser.";
+            return;
+        }
+
+        accessStateNode.textContent = session.user && session.user.email
+            ? "Sessione attiva: " + session.user.email
+            : "Sessione staff attiva.";
+    }
+
+    async function hasStaffSession() {
+        const { data } = await supabaseClient.auth.getSession();
+        return Boolean(data && data.session);
+    }
+
+    async function resolveStaffPhotoUrl(photoPath) {
+        const cleanPath = String(photoPath || "").trim();
+        if (!cleanPath) {
+            return null;
+        }
+
+        if (/^https?:\/\//i.test(cleanPath)) {
+            return cleanPath;
+        }
+
+        const normalizedPath = cleanPath
+            .replace(/^\/+/, "")
+            .replace(/^client-photos\//, "");
+
+        const { data, error } = await supabaseClient.storage
+            .from("client-photos")
+            .createSignedUrl(normalizedPath, 60 * 20);
+
+        if (error || !data || !data.signedUrl) {
+            return null;
+        }
+
+        return data.signedUrl;
+    }
+
     function getCodeFromQuery() {
         const params = new URLSearchParams(window.location.search);
         return params.get("code") || "";
+    }
+
+    function buildReturnTo() {
+        return "vip-verify.html" + window.location.search;
     }
 
     function setText(id, value) {
