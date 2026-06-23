@@ -59,6 +59,26 @@ $$;
 
 grant execute on function public.test_set_request_claims() to anon, authenticated;
 
+create or replace function public.test_uuid_setting(p_name text)
+returns uuid
+language plpgsql
+as $$
+declare
+  v_value text := current_setting(p_name, true);
+begin
+  if v_value is null or btrim(v_value) = '' then
+    raise exception 'ASSERT FAILED: setting % is vuoto o non impostato.', p_name;
+  end if;
+
+  return v_value::uuid;
+exception
+  when invalid_text_representation then
+    raise exception 'ASSERT FAILED: setting % non contiene un UUID valido (%).', p_name, v_value;
+end;
+$$;
+
+grant execute on function public.test_uuid_setting(text) to anon, authenticated;
+
 -- Seed di test idempotente lato database.
 delete from public.clients
 where card_code in (
@@ -246,7 +266,7 @@ select public.test_set_request_claims();
 select public.test_assert_true(
   exists (
     select 1
-    from public.get_client_profile(current_setting('app.test_vip_token')::uuid) p
+    from public.get_client_profile(public.test_uuid_setting('app.test_vip_token')) p
     where p.card_code = 'FDA-2099-900001'
       and p.status = 'VIP'
   ),
@@ -355,7 +375,7 @@ select public.test_assert_true(
   exists (
     select 1
     from public.create_booking_vip(
-      current_setting('app.test_vip_token')::uuid,
+      public.test_uuid_setting('app.test_vip_token'),
       current_date + 1,
       'GIORNATA_INTERA',
       2,
@@ -393,7 +413,7 @@ select public.test_set_request_claims();
 select public.test_expect_sqlstate(
   format(
     $$select * from public.create_booking_vip('%s'::uuid, current_date + 1, 'MATTINA', 2, 0, 'Test', 'Watch booking')$$,
-    current_setting('app.test_watch_token')
+    public.test_uuid_setting('app.test_watch_token')::text
   )::text,
   'P0001'::text,
   'Un cliente IN_OSSERVAZIONE non deve poter prenotare.'::text
@@ -432,7 +452,7 @@ select public.test_set_request_claims();
 select public.test_expect_sqlstate(
   format(
     $$select * from public.create_booking_vip('%s'::uuid, current_date - 1, 'MATTINA', 2, 0, 'Test', 'Past booking')$$,
-    current_setting('app.test_vip_token')
+    public.test_uuid_setting('app.test_vip_token')::text
   )::text,
   'P0001'::text,
   'Una booking con data passata deve fallire.'::text
@@ -449,7 +469,7 @@ select public.test_set_request_claims();
 select public.test_expect_sqlstate(
   format(
     $$select * from public.create_booking_vip('%s'::uuid, current_date + 1, 'MATTINA', 0, 0, 'Test', 'Invalid adults')$$,
-    current_setting('app.test_vip_token')
+    public.test_uuid_setting('app.test_vip_token')::text
   )::text,
   'P0001'::text,
   'Una booking con adulti fuori range deve fallire.'::text
@@ -467,7 +487,7 @@ select public.test_assert_true(
   exists (
     select 1
     from public.create_referral_vip(
-      current_setting('app.test_vip_token')::uuid,
+      public.test_uuid_setting('app.test_vip_token'),
       'Ospite Referral Test',
       '+39 333 444 5555',
       'Profilo presentato dal cliente VIP'
@@ -488,7 +508,7 @@ select public.test_set_request_claims();
 select public.test_expect_sqlstate(
   format(
     $$select * from public.create_referral_vip('%s'::uuid, 'Ospite Non Ammesso', '+39 300 000 0000', 'Watch referral')$$,
-    current_setting('app.test_watch_token')
+    public.test_uuid_setting('app.test_watch_token')::text
   )::text,
   'P0001'::text,
   'Un cliente IN_OSSERVAZIONE non deve poter creare referral.'::text
@@ -580,13 +600,13 @@ select public.test_assert_true(
 
 delete from public.bookings
 where spot_id in (
-  current_setting('app.test_map_spot_a01')::uuid,
-  current_setting('app.test_map_spot_a02')::uuid
+  public.test_uuid_setting('app.test_map_spot_a01'),
+  public.test_uuid_setting('app.test_map_spot_a02')
 )
   and booking_date in (current_date + 2, current_date + 3);
 
 delete from public.beach_spot_overrides
-where spot_id = current_setting('app.test_map_spot_a02')::uuid
+where spot_id = public.test_uuid_setting('app.test_map_spot_a02')
   and service_date = current_date + 3;
 
 -- 24. Accesso diretto anon a beach_spots: deve essere negato.
@@ -651,7 +671,7 @@ select public.test_assert_true(
   exists (
     select 1
     from public.admin_upsert_spot_override(
-      current_setting('app.test_map_spot_a02')::uuid,
+      public.test_uuid_setting('app.test_map_spot_a02'),
       current_date + 3,
       'BLOCCATA',
       1,
@@ -675,9 +695,9 @@ select public.test_set_request_claims();
 with spot_booking as (
   select *
   from public.create_spot_booking(
-    current_setting('app.test_vip_token')::uuid,
+    public.test_uuid_setting('app.test_vip_token'),
     current_date + 2,
-    current_setting('app.test_map_spot_a01')::uuid,
+    public.test_uuid_setting('app.test_map_spot_a01'),
     2,
     1,
     'Prenotazione spot test'
@@ -690,8 +710,8 @@ select public.test_assert_true(
   exists (
     select 1
     from public.bookings b
-    where b.id = current_setting('app.test_spot_booking_id')::uuid
-      and b.spot_id = current_setting('app.test_map_spot_a01')::uuid
+    where b.id = public.test_uuid_setting('app.test_spot_booking_id')
+      and b.spot_id = public.test_uuid_setting('app.test_map_spot_a01')
       and b.spot_code_snapshot = 'A01'
       and b.umbrellas_snapshot = 1
       and b.sunbeds_snapshot = 2
@@ -711,8 +731,8 @@ select public.test_set_request_claims();
 select public.test_expect_sqlstate(
   format(
     $$select * from public.create_spot_booking('%s'::uuid, current_date + 2, '%s'::uuid, 2, 0, 'Collision test')$$,
-    current_setting('app.test_vip_token'),
-    current_setting('app.test_map_spot_a01')
+    public.test_uuid_setting('app.test_vip_token')::text,
+    public.test_uuid_setting('app.test_map_spot_a01')::text
   )::text,
   'P0001'::text,
   'La stessa postazione non deve essere prenotabile due volte nella stessa data.'::text
@@ -729,8 +749,8 @@ select public.test_set_request_claims();
 select public.test_expect_sqlstate(
   format(
     $$select * from public.create_spot_booking('%s'::uuid, current_date + 3, '%s'::uuid, 2, 0, 'Blocked spot test')$$,
-    current_setting('app.test_vip_token'),
-    current_setting('app.test_map_spot_a02')
+    public.test_uuid_setting('app.test_vip_token')::text,
+    public.test_uuid_setting('app.test_map_spot_a02')::text
   )::text,
   'P0001'::text,
   'Una postazione bloccata da override non deve essere prenotabile.'::text
@@ -784,3 +804,4 @@ select public.test_assert_true(
 drop function if exists public.test_assert_true(boolean, text);
 drop function if exists public.test_expect_sqlstate(text, text, text);
 drop function if exists public.test_set_request_claims();
+drop function if exists public.test_uuid_setting(text);
