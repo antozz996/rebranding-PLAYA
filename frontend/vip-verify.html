@@ -139,12 +139,322 @@
                     </div>
                 </div>
             </section>
+
+            <section class="vip-section vip-panel" id="vipAdminDashboard">
+                <div class="vip-panel-header">
+                    <div>
+                        <div class="vip-panel-kicker">VIP admin dashboard</div>
+                        <h2>Clienti, card e analytics in un solo spazio</h2>
+                    </div>
+                    <div class="vip-status-pill is-approved" id="vipAdminRolePill">Staff operativo</div>
+                </div>
+                <p>
+                    Questa area unifica verifica rapida, creazione profili, modifica clienti, gestione foto e controllo operativo dell'intero club.
+                </p>
+                <div class="vip-status-message" id="vipAdminDashboardStatus" aria-live="polite"></div>
+                <div class="vip-admin-kpi-grid">
+                    <article class="vip-metric">
+                        <span>Clienti totali</span>
+                        <strong id="vipKpiClientsTotal">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>Clienti attivi</span>
+                        <strong id="vipKpiClientsActive">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>Booking richiesti</span>
+                        <strong id="vipKpiBookingsRequested">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>Booking confermati</span>
+                        <strong id="vipKpiBookingsConfirmed">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>Referral generati</span>
+                        <strong id="vipKpiReferralsTotal">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>Referral approvati</span>
+                        <strong id="vipKpiReferralsApproved">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>Warning attivi</span>
+                        <strong id="vipKpiWarningsTotal">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>In osservazione</span>
+                        <strong id="vipKpiClientsWatch">-</strong>
+                    </article>
+                </div>
+            </section>
+
+            <section class="vip-section vip-grid-2">
+                <article class="vip-panel">
+                    <div class="vip-panel-header">
+                        <div>
+                            <div class="vip-panel-kicker">Quick actions</div>
+                            <h2>Azioni rapide</h2>
+                        </div>
+                    </div>
+                    <p>
+                        Strumenti rapidi per lavorare sui profili selezionati senza uscire dalla dashboard.
+                    </p>
+                    <div class="vip-actions">
+                        <button class="vip-btn vip-btn-primary" id="vipAdminNewClient" type="button">Nuovo profilo</button>
+                        <button class="vip-btn vip-btn-plain" id="vipAdminResetForm" type="button">Reset form</button>
+                        <button class="vip-btn vip-btn-plain" id="vipAdminExportCsv" type="button">Export CSV</button>
+                    </div>
+                    <div class="vip-field" style="margin-top: 22px;">
+                        <label for="vipBulkStatus">Cambio stato rapido</label>
+                        <select id="vipBulkStatus" name="vipBulkStatus">
+                            <option value="">Nessun cambio stato</option>
+                            <option value="DA_VERIFICARE">Da verificare</option>
+                            <option value="APPROVATO">Approvato</option>
+                            <option value="VIP">VIP</option>
+                            <option value="IN_OSSERVAZIONE">In osservazione</option>
+                            <option value="SOSPESO">Sospeso</option>
+                            <option value="ARCHIVIATO">Archiviato</option>
+                        </select>
+                    </div>
+                    <div class="vip-field" style="margin-top: 16px;">
+                        <label for="vipBulkNote">Nota staff rapida</label>
+                        <textarea id="vipBulkNote" name="vipBulkNote" placeholder="Aggiungi una nota ai clienti selezionati."></textarea>
+                    </div>
+                    <button class="vip-btn vip-btn-secondary" id="vipAdminApplyBulk" type="button" style="margin-top: 18px;">Applica ai selezionati</button>
+                </article>
+
+                <article class="vip-panel">
+                    <div class="vip-panel-header">
+                        <div>
+                            <div class="vip-panel-kicker">Analisi sintetica</div>
+                            <h2>Ultimi movimenti</h2>
+                        </div>
+                    </div>
+                    <div class="vip-grid-2">
+                        <div class="vip-helper-box">
+                            <strong>Ultime card create</strong>
+                            <div class="vip-admin-activity-list" id="vipRecentClientsList"></div>
+                        </div>
+                        <div class="vip-helper-box">
+                            <strong>Ultimi warning</strong>
+                            <div class="vip-admin-activity-list" id="vipRecentWarningsList"></div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="vip-section vip-grid-2">
+                <article class="vip-panel">
+                    <div class="vip-panel-header">
+                        <div>
+                            <div class="vip-panel-kicker">Ricerca cliente</div>
+                            <h2>Trova e apri un profilo</h2>
+                        </div>
+                    </div>
+                    <p>
+                        Puoi cercare usando nome, telefono, email, card code o referral code.
+                    </p>
+                    <div class="vip-field">
+                        <label for="vipClientSearch">Ricerca libera</label>
+                        <input id="vipClientSearch" name="vipClientSearch" type="text" placeholder="Mario Rossi, 333..., FDA-..., FDA-MARIO..., email...">
+                    </div>
+                    <div class="vip-grid-2" style="margin-top: 16px;">
+                        <div class="vip-field">
+                            <label for="vipClientFilterStatus">Filtro stato</label>
+                            <select id="vipClientFilterStatus" name="vipClientFilterStatus">
+                                <option value="">Tutti gli stati</option>
+                                <option value="DA_VERIFICARE">Da verificare</option>
+                                <option value="APPROVATO">Approvato</option>
+                                <option value="VIP">VIP</option>
+                                <option value="IN_OSSERVAZIONE">In osservazione</option>
+                                <option value="SOSPESO">Sospeso</option>
+                                <option value="ARCHIVIATO">Archiviato</option>
+                            </select>
+                        </div>
+                        <div class="vip-field">
+                            <label for="vipClientFilterLevel">Filtro livello</label>
+                            <select id="vipClientFilterLevel" name="vipClientFilterLevel">
+                                <option value="">Tutti i livelli</option>
+                                <option value="SILVER">Silver</option>
+                                <option value="GOLD">Gold</option>
+                                <option value="BLACK">Black</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="vip-grid-3" style="margin-top: 16px;">
+                        <div class="vip-field">
+                            <label for="vipClientFilterWarnings">Warning</label>
+                            <select id="vipClientFilterWarnings" name="vipClientFilterWarnings">
+                                <option value="">Tutti</option>
+                                <option value="yes">Solo con warning</option>
+                                <option value="no">Solo senza warning</option>
+                            </select>
+                        </div>
+                        <div class="vip-field">
+                            <label for="vipClientFilterPhoto">Foto</label>
+                            <select id="vipClientFilterPhoto" name="vipClientFilterPhoto">
+                                <option value="">Tutti</option>
+                                <option value="yes">Con foto</option>
+                                <option value="no">Senza foto</option>
+                            </select>
+                        </div>
+                        <div class="vip-field">
+                            <label for="vipClientSort">Ordina per</label>
+                            <select id="vipClientSort" name="vipClientSort">
+                                <option value="recent">Piu recenti</option>
+                                <option value="name">Nome</option>
+                                <option value="level">Livello</option>
+                                <option value="status">Stato</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="vip-actions" style="margin-top: 18px;">
+                        <button class="vip-btn vip-btn-primary" id="vipAdminSearchButton" type="button">Aggiorna elenco</button>
+                        <button class="vip-btn vip-btn-plain" id="vipAdminResetFilters" type="button">Reset filtri</button>
+                    </div>
+                    <div class="vip-status-message" id="vipAdminClientsStatus" aria-live="polite"></div>
+                    <div class="vip-admin-search-results" id="vipAdminSearchResults"></div>
+                </article>
+
+                <article class="vip-panel">
+                    <div class="vip-panel-header">
+                        <div>
+                            <div class="vip-panel-kicker">Workspace admin</div>
+                            <h2 id="vipAdminFormModeTitle">Nuovo profilo cliente</h2>
+                        </div>
+                        <div class="vip-status-pill" id="vipAdminFormModePill">Creazione</div>
+                    </div>
+                    <p id="vipAdminSelectionSummary">
+                        Nessun cliente selezionato. Il form e pronto per creare una nuova card.
+                    </p>
+                    <form class="vip-form" id="vipAdminClientForm" novalidate>
+                        <input id="vipAdminClientId" name="vipAdminClientId" type="hidden">
+                        <div class="vip-grid-2">
+                            <div class="vip-field">
+                                <label for="vipAdminFullName">Nome e cognome</label>
+                                <input id="vipAdminFullName" name="vipAdminFullName" type="text" required>
+                            </div>
+                            <div class="vip-field">
+                                <label for="vipAdminPhone">Telefono</label>
+                                <input id="vipAdminPhone" name="vipAdminPhone" type="tel" required>
+                            </div>
+                        </div>
+                        <div class="vip-grid-2">
+                            <div class="vip-field">
+                                <label for="vipAdminEmail">Email</label>
+                                <input id="vipAdminEmail" name="vipAdminEmail" type="email">
+                            </div>
+                            <div class="vip-field">
+                                <label for="vipAdminBirthDate">Data di nascita</label>
+                                <input id="vipAdminBirthDate" name="vipAdminBirthDate" type="date">
+                            </div>
+                        </div>
+                        <div class="vip-grid-2">
+                            <div class="vip-field">
+                                <label for="vipAdminLevel">Livello VIP</label>
+                                <select id="vipAdminLevel" name="vipAdminLevel" required>
+                                    <option value="SILVER">Silver</option>
+                                    <option value="GOLD">Gold</option>
+                                    <option value="BLACK">Black</option>
+                                </select>
+                            </div>
+                            <div class="vip-field">
+                                <label for="vipAdminStatusSelect">Stato profilo</label>
+                                <select id="vipAdminStatusSelect" name="vipAdminStatusSelect" required>
+                                    <option value="DA_VERIFICARE">Da verificare</option>
+                                    <option value="APPROVATO">Approvato</option>
+                                    <option value="VIP">VIP</option>
+                                    <option value="IN_OSSERVAZIONE">In osservazione</option>
+                                    <option value="SOSPESO">Sospeso</option>
+                                    <option value="ARCHIVIATO">Archiviato</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="vip-grid-2">
+                            <label class="vip-admin-check">
+                                <input id="vipAdminPrivacyAccepted" name="vipAdminPrivacyAccepted" type="checkbox">
+                                <span>Privacy accettata</span>
+                            </label>
+                            <label class="vip-admin-check">
+                                <input id="vipAdminMarketingAccepted" name="vipAdminMarketingAccepted" type="checkbox">
+                                <span>Marketing accettato</span>
+                            </label>
+                        </div>
+                        <div class="vip-field">
+                            <label for="vipAdminNotes">Note staff</label>
+                            <textarea id="vipAdminNotes" name="vipAdminNotes" placeholder="Annotazioni interne sul cliente o sullo stato del profilo."></textarea>
+                        </div>
+                        <div class="vip-grid-2">
+                            <div class="vip-field">
+                                <label for="vipAdminPhotoFile">Foto cliente</label>
+                                <input id="vipAdminPhotoFile" name="vipAdminPhotoFile" type="file" accept="image/*">
+                            </div>
+                            <div class="vip-admin-photo-preview">
+                                <div class="vip-admin-photo-shell">
+                                    <img id="vipAdminPhotoPreview" class="vip-verify-photo" alt="Anteprima foto cliente" hidden>
+                                    <div id="vipAdminPhotoFallback" class="vip-verify-photo-fallback">VIP</div>
+                                </div>
+                                <div class="vip-form-hint">Anteprima ritratto profilo</div>
+                            </div>
+                        </div>
+                        <div class="vip-actions">
+                            <button class="vip-btn vip-btn-primary" id="vipAdminSaveButton" type="submit">Crea profilo</button>
+                            <button class="vip-btn vip-btn-plain" id="vipAdminFormResetButton" type="button">Reset</button>
+                        </div>
+                    </form>
+                    <div class="vip-status-message" id="vipAdminFormStatus" aria-live="polite"></div>
+                    <div class="vip-admin-output-grid">
+                        <div class="vip-helper-box">
+                            <strong>Card code</strong><br>
+                            <span id="vipAdminOutputCardCode">-</span>
+                        </div>
+                        <div class="vip-helper-box">
+                            <strong>Referral code</strong><br>
+                            <span id="vipAdminOutputReferralCode">-</span>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="vip-section vip-panel">
+                <div class="vip-panel-header">
+                    <div>
+                        <div class="vip-panel-kicker">Elenco completo clienti</div>
+                        <h2>Vista operativa del club</h2>
+                    </div>
+                    <div class="vip-status-pill" id="vipAdminTableCountPill">0 clienti</div>
+                </div>
+                <p>
+                    Consulta l'elenco completo, seleziona piu clienti e applica azioni rapide senza uscire dalla dashboard.
+                </p>
+                <div class="vip-admin-table-wrap">
+                    <table class="vip-admin-table">
+                        <thead>
+                            <tr>
+                                <th><input id="vipAdminSelectAll" type="checkbox" aria-label="Seleziona tutti"></th>
+                                <th>Cliente</th>
+                                <th>Telefono</th>
+                                <th>Livello</th>
+                                <th>Stato</th>
+                                <th>Card</th>
+                                <th>Warning</th>
+                                <th>Foto</th>
+                                <th>Azione</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vipAdminClientsTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
         </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/vip-club-config.js"></script>
     <script src="assets/js/vip-club-core.js"></script>
+    <script src="assets/js/vip-admin-dashboard.js"></script>
+    <script src="assets/js/vip-admin-clients.js"></script>
+    <script src="assets/js/vip-admin-form.js"></script>
     <script src="assets/js/vip-verify.js"></script>
 </body>
 </html>
