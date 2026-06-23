@@ -43,11 +43,16 @@ Riferimenti:
 - `anon` non puo leggere `public.bookings`
 - `anon` non puo leggere `public.referrals`
 - `anon` non puo leggere `public.warnings`
+- `anon` non puo leggere `public.beach_spots`
+- `anon` non puo leggere `public.beach_spot_overrides`
 - `authenticated` non staff non puo leggere le tabelle operative
 - `authenticated` staff puo leggere `clients`
 - `authenticated` staff puo leggere `bookings`
 - `authenticated` staff puo leggere `referrals`
 - `authenticated` staff puo leggere `warnings`
+- `authenticated` staff puo leggere `beach_layouts`
+- `authenticated` staff puo leggere `beach_spots`
+- `authenticated` staff puo leggere `beach_spot_overrides`
 
 ---
 
@@ -90,6 +95,24 @@ Riferimenti:
 - `children > 20` respinto
 - `time_slot` non valido respinto
 - La booking creata parte con stato `RICHIESTA`
+
+---
+
+## Mappa postazioni
+
+- `get_booking_map_for_date()` restituisce la mappa cliente del giorno
+- `admin_get_booking_map_for_date()` restituisce la mappa staff del giorno
+- Il seed contiene almeno una postazione tipo `A01`
+- Lo staff puo creare o aggiornare un override giornaliero
+- Una postazione `BLOCCATA` non e prenotabile
+- Una postazione con booking `RICHIESTA` non e prenotabile una seconda volta
+- `create_spot_booking()` salva:
+  - `spot_id`
+  - `spot_code_snapshot`
+  - `umbrellas_snapshot`
+  - `sunbeds_snapshot`
+- `create_spot_booking()` usa `GIORNATA_INTERA`
+- La collisione su stessa `spot_id + booking_date` viene bloccata lato backend
 
 ---
 

@@ -514,7 +514,184 @@ select public.test_assert_true(
 );
 rollback;
 
--- 23. Cleanup records.
+-- 23. Seed mappa: spot test presenti.
+select set_config(
+  'app.test_map_spot_a01',
+  coalesce((select bs.id::text from public.beach_spots bs where bs.spot_code = 'A01' limit 1), ''),
+  false
+);
+
+select set_config(
+  'app.test_map_spot_a02',
+  coalesce((select bs.id::text from public.beach_spots bs where bs.spot_code = 'A02' limit 1), ''),
+  false
+);
+
+select public.test_assert_true(
+  current_setting('app.test_map_spot_a01', true) is not null
+  and current_setting('app.test_map_spot_a01', true) <> '',
+  'Il seed deve contenere la postazione A01.'
+);
+
+select public.test_assert_true(
+  current_setting('app.test_map_spot_a02', true) is not null
+  and current_setting('app.test_map_spot_a02', true) <> '',
+  'Il seed deve contenere la postazione A02.'
+);
+
+delete from public.bookings
+where spot_id in (
+  current_setting('app.test_map_spot_a01')::uuid,
+  current_setting('app.test_map_spot_a02')::uuid
+)
+  and booking_date in (current_date + 2, current_date + 3);
+
+delete from public.beach_spot_overrides
+where spot_id = current_setting('app.test_map_spot_a02')::uuid
+  and service_date = current_date + 3;
+
+-- 24. Accesso diretto anon a beach_spots: deve essere negato.
+begin;
+set local role anon;
+select set_config('request.jwt.claim.role', 'anon', true);
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+
+select public.test_expect_sqlstate(
+  'select count(*) from public.beach_spots'::text,
+  '42501'::text,
+  'Anon non deve leggere public.beach_spots direttamente.'::text
+);
+rollback;
+
+-- 25. Mappa cliente pubblica disponibile via RPC.
+begin;
+set local role anon;
+select set_config('request.jwt.claim.role', 'anon', true);
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+
+select public.test_assert_true(
+  exists (
+    select 1
+    from public.get_booking_map_for_date(current_date + 2) m
+    where m.spot_code = 'A01'
+      and m.final_status = 'DISPONIBILE'
+      and m.is_bookable = true
+  ),
+  'La mappa cliente deve esporre la postazione A01 come disponibile.'
+);
+rollback;
+
+-- 26. Mappa staff disponibile via RPC autenticata.
+begin;
+set local role authenticated;
+select set_config('request.jwt.claim.role', 'authenticated', true);
+select set_config('request.jwt.claim.sub', current_setting('app.test_admin_uuid'), true);
+
+select public.test_assert_true(
+  exists (
+    select 1
+    from public.admin_get_booking_map_for_date(current_date + 2) m
+    where m.spot_code = 'A01'
+      and m.base_status = 'DISPONIBILE'
+  ),
+  'Lo staff deve poter leggere la mappa giornaliera via RPC admin.'
+);
+rollback;
+
+-- 27. Override giornaliero staff.
+begin;
+set local role authenticated;
+select set_config('request.jwt.claim.role', 'authenticated', true);
+select set_config('request.jwt.claim.sub', current_setting('app.test_admin_uuid'), true);
+
+select public.test_assert_true(
+  exists (
+    select 1
+    from public.admin_upsert_spot_override(
+      current_setting('app.test_map_spot_a02')::uuid,
+      current_date + 3,
+      'BLOCCATA',
+      1,
+      4,
+      'Spot bloccata per test'
+    ) o
+    where o.action = 'UPSERTED'
+      and o.status = 'BLOCCATA'
+  ),
+  'Lo staff deve poter creare un override giornaliero della postazione.'
+);
+commit;
+
+-- 28. Booking spot disponibile.
+begin;
+set local role anon;
+select set_config('request.jwt.claim.role', 'anon', true);
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+
+with spot_booking as (
+  select *
+  from public.create_spot_booking(
+    current_setting('app.test_vip_token')::uuid,
+    current_date + 2,
+    current_setting('app.test_map_spot_a01')::uuid,
+    2,
+    1,
+    'Prenotazione spot test'
+  )
+)
+select set_config('app.test_spot_booking_id', (select booking_id::text from spot_booking), false);
+commit;
+
+select public.test_assert_true(
+  exists (
+    select 1
+    from public.bookings b
+    where b.id = current_setting('app.test_spot_booking_id')::uuid
+      and b.spot_id = current_setting('app.test_map_spot_a01')::uuid
+      and b.spot_code_snapshot = 'A01'
+      and b.umbrellas_snapshot = 1
+      and b.sunbeds_snapshot = 2
+      and b.time_slot = 'GIORNATA_INTERA'
+      and b.status = 'RICHIESTA'
+  ),
+  'La booking spot deve salvare spot_id e snapshot della configurazione.'
+);
+
+-- 29. Doppia prenotazione stessa postazione: bloccata.
+begin;
+set local role anon;
+select set_config('request.jwt.claim.role', 'anon', true);
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+
+select public.test_expect_sqlstate(
+  format(
+    $$select * from public.create_spot_booking('%s'::uuid, current_date + 2, '%s'::uuid, 2, 0, 'Collision test')$$,
+    current_setting('app.test_vip_token'),
+    current_setting('app.test_map_spot_a01')
+  )::text,
+  'P0001'::text,
+  'La stessa postazione non deve essere prenotabile due volte nella stessa data.'::text
+);
+rollback;
+
+-- 30. Booking su spot bloccata da override.
+begin;
+set local role anon;
+select set_config('request.jwt.claim.role', 'anon', true);
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000000', true);
+
+select public.test_expect_sqlstate(
+  format(
+    $$select * from public.create_spot_booking('%s'::uuid, current_date + 3, '%s'::uuid, 2, 0, 'Blocked spot test')$$,
+    current_setting('app.test_vip_token'),
+    current_setting('app.test_map_spot_a02')
+  )::text,
+  'P0001'::text,
+  'Una postazione bloccata da override non deve essere prenotabile.'::text
+);
+rollback;
+
+-- 31. Cleanup records.
 insert into public.login_attempts (phone, phone_normalized, card_code, success, attempted_at)
 values ('+39 333 000 0000', public.normalize_phone('+39 333 000 0000'), 'FDA-OLD-000', false, now() - interval '31 days');
 
@@ -527,7 +704,7 @@ select public.test_assert_true(
   'cleanup_expired_security_records deve ripulire i vecchi login_attempts.'
 );
 
--- 24. Generazione card code automatica.
+-- 32. Generazione card code automatica.
 insert into public.clients (
   full_name,
   phone,

@@ -11,6 +11,7 @@ Questo setup copre:
 - RLS;
 - RPC;
 - storage foto privato;
+- mappa postazioni spiaggia e override giornalieri;
 - test iniziali.
 
 ---
@@ -126,13 +127,18 @@ Uso previsto:
 
 Il file [supabase/seed.sql](/root/REBRANDING%20PLAYA/supabase/seed.sql:1) inserisce bonus base per i livelli VIP.
 
+Inoltre prepara un layout spiaggia MVP con:
+
+- layout `Fior d'Acqua Main Layout`
+- postazioni seed tipo `A01`, `A02`, `B01`, `B02`
+
 Non crea:
 
 - clienti reali;
 - staff reali;
 - sessioni reali.
 
-Serve solo come popolamento minimo dell'MVP.
+Serve come popolamento minimo dell'MVP, utile anche per testare la futura piantina prenotabile.
 
 ---
 
@@ -167,6 +173,10 @@ Prima di passare alle pagine HTML/JS, conferma:
 - blocco clienti `SOSPESO` e `ARCHIVIATO`;
 - blocco booking/referral per `IN_OSSERVAZIONE`;
 - `verify_client_by_staff(...)`;
+- `get_booking_map_for_date(...)`;
+- `admin_get_booking_map_for_date(...)`;
+- `admin_upsert_spot_override(...)`;
+- `create_spot_booking(...)`;
 - accesso anon diretto alle tabelle negato;
 - storage `client-photos` non pubblico.
 
@@ -207,6 +217,10 @@ Nota operativa per il futuro frontend:
 - `prepare_client_record()` genera `card_code` e `referral_code` solo in `INSERT`; in `UPDATE`, se i campi arrivano vuoti, conserva i valori esistenti.
 - La funzione `cleanup_expired_security_records()` ripulisce sessioni scadute e login attempts piu vecchi di 30 giorni.
 - `verify_client_by_staff()` e stata corretta per evitare ambiguita sul nome `client_id` nel conteggio warning.
+- Le nuove tabelle `beach_layouts`, `beach_spots` e `beach_spot_overrides` estendono il backend senza rompere le booking esistenti.
+- `bookings` ora puo collegarsi a una postazione precisa tramite `spot_id` e snapshot (`spot_code_snapshot`, `umbrellas_snapshot`, `sunbeds_snapshot`).
+- `create_spot_booking(...)` usa sempre `GIORNATA_INTERA` e blocca collisioni sulla stessa postazione e data.
+- La mappa cliente usa solo RPC pubbliche controllate; le tabelle strutturali della spiaggia restano leggibili direttamente solo allo staff.
 
 ---
 
