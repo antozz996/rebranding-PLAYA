@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifica card | Fior d'Acqua VIP Club</title>
+    <meta name="description" content="Verifica rapida staff della card Fior d'Acqua VIP Club con stato profilo, warning e dati essenziali.">
+    <link rel="canonical" href="https://www.playaluna.it/vip-verify.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="assets/js/vip-club.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+</head>
+<body class="vip-club-body">
+    <header class="vip-navbar">
+        <div class="vip-shell vip-navbar-inner">
+            <a class="vip-brand" href="fiordacqua.html">
+                <img class="vip-brand-logo" src="assets/logos/fiordacqua-vip-logo.png" alt="Fior d'Acqua VIP Club">
+            </a>
+            <nav class="vip-nav-links" aria-label="Navigazione verifica card">
+                <a class="vip-nav-link" href="vip.html">Il club</a>
+                <a class="vip-nav-link" href="fiordacqua.html">Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="vip-page">
+        <div class="vip-shell">
+            <section class="vip-hero-card">
+                <div class="vip-hero-grid">
+                    <div class="vip-hero-copy">
+                        <div class="vip-kicker">Staff quick check</div>
+                        <h1>Verifica una card in pochi secondi.</h1>
+                        <p>
+                            Questa pagina e pensata per il controllo rapido da parte dello staff:
+                            inserisci il codice card e ottieni una lettura immediata del profilo, del livello VIP e di eventuali warning.
+                        </p>
+                    </div>
+                    <aside class="vip-hero-aside">
+                        <h3>Accesso riservato allo staff</h3>
+                        <p>
+                            La verifica usa la sessione staff attiva di Supabase Auth. Se non sei autenticato come staff, la richiesta verra bloccata automaticamente dal backend.
+                        </p>
+                    </aside>
+                </div>
+            </section>
+
+            <section class="vip-section vip-grid-2">
+                <article class="vip-panel">
+                    <div class="vip-panel-header">
+                        <div>
+                            <div class="vip-panel-kicker">Input verifica</div>
+                            <h2>Controllo card</h2>
+                        </div>
+                    </div>
+                    <p>
+                        Inserisci il codice della card come compare nel profilo cliente o nel QR di verifica.
+                    </p>
+
+                    <form class="vip-form" id="vipVerifyForm" novalidate>
+                        <div class="vip-field">
+                            <label for="verify_card_code">Codice card</label>
+                            <input id="verify_card_code" name="verify_card_code" type="text" inputmode="text" autocomplete="off" placeholder="FDA-2099-900001" required>
+                        </div>
+                        <button class="vip-btn vip-btn-primary" id="vipVerifySubmit" type="submit">Verifica card</button>
+                    </form>
+
+                    <div class="vip-status-message" id="vipVerifyStatus" aria-live="polite"></div>
+                </article>
+
+                <article class="vip-panel">
+                    <div class="vip-panel-header">
+                        <div>
+                            <div class="vip-panel-kicker">Risposta operativa</div>
+                            <h2>Cosa mostra</h2>
+                        </div>
+                    </div>
+                    <p>
+                        Il pannello restituisce nome completo, telefono, livello, stato profilo, numero di warning e foto del cliente se disponibile.
+                    </p>
+                    <div class="vip-note" style="margin-top: 20px;">
+                        Se apri questa pagina con un link del tipo <strong>/vip-verify.html?code=FDA-...</strong>, il codice viene compilato automaticamente.
+                    </div>
+                </article>
+            </section>
+
+            <section class="vip-section vip-panel" id="vipVerifyResult" hidden>
+                <div class="vip-panel-header">
+                    <div>
+                        <div class="vip-panel-kicker">Esito verifica</div>
+                        <h2 id="vipVerifyClientName">Cliente verificato</h2>
+                    </div>
+                    <div class="vip-status-pill" id="vipVerifyStatusPill">Profilo</div>
+                </div>
+
+                <div class="vip-verify-layout">
+                    <div class="vip-verify-photo-shell">
+                        <img id="vipVerifyPhoto" class="vip-verify-photo" alt="Foto cliente verificato" hidden>
+                        <div id="vipVerifyPhotoFallback" class="vip-verify-photo-fallback">VIP</div>
+                    </div>
+
+                    <div class="vip-verify-data">
+                        <div class="vip-metric-grid">
+                            <div class="vip-metric">
+                                <span>Codice card</span>
+                                <strong id="vipVerifyCardCode">FDA-2099-900001</strong>
+                            </div>
+                            <div class="vip-metric">
+                                <span>Livello</span>
+                                <strong id="vipVerifyLevel">BLACK</strong>
+                            </div>
+                            <div class="vip-metric">
+                                <span>Warning</span>
+                                <strong id="vipVerifyWarnings">0</strong>
+                            </div>
+                        </div>
+
+                        <div class="vip-grid-2" style="margin-top: 18px;">
+                            <div class="vip-helper-box">
+                                <strong>Telefono</strong><br>
+                                <span id="vipVerifyPhone">+39 333 111 0001</span>
+                            </div>
+                            <div class="vip-helper-box">
+                                <strong>Stato profilo</strong><br>
+                                <span id="vipVerifyProfileStatus">Profilo VIP attivo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/vip-club-config.js"></script>
+    <script src="assets/js/vip-club-core.js"></script>
+    <script src="assets/js/vip-verify.js"></script>
+</body>
+</html>
