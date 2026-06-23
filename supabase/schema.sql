@@ -171,7 +171,7 @@ create table if not exists public.bookings (
       'COMPLETATA',
       'NO_SHOW'
     )),
-  check (
+  constraint bookings_spot_snapshot_consistency_chk check (
     (
       spot_id is null
       and spot_code_snapshot is null
@@ -188,6 +188,40 @@ create table if not exists public.bookings (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.bookings
+  add column if not exists spot_id uuid references public.beach_spots(id) on delete set null,
+  add column if not exists spot_code_snapshot text,
+  add column if not exists umbrellas_snapshot integer,
+  add column if not exists sunbeds_snapshot integer;
+
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_constraint
+    where conname = 'bookings_spot_snapshot_consistency_chk'
+      and conrelid = 'public.bookings'::regclass
+  ) then
+    alter table public.bookings
+      add constraint bookings_spot_snapshot_consistency_chk
+      check (
+        (
+          spot_id is null
+          and spot_code_snapshot is null
+          and umbrellas_snapshot is null
+          and sunbeds_snapshot is null
+        )
+        or (
+          spot_id is not null
+          and spot_code_snapshot is not null
+          and umbrellas_snapshot is not null
+          and sunbeds_snapshot is not null
+        )
+      );
+  end if;
+end;
+$$;
 
 create table if not exists public.referrals (
   id uuid primary key default gen_random_uuid(),
