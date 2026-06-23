@@ -446,6 +446,154 @@
                     </table>
                 </div>
             </section>
+
+            <section class="vip-section vip-panel" id="vipBeachAdminSection">
+                <div class="vip-panel-header">
+                    <div>
+                        <div class="vip-panel-kicker">Beach booking admin</div>
+                        <h2>Disponibilita giornaliera e piantina adattiva</h2>
+                    </div>
+                    <div class="vip-status-pill" id="vipBeachAdminDayPill">Seleziona una data</div>
+                </div>
+                <p>
+                    Da qui lo staff decide quante postazioni rendere disponibili ogni giorno, blocca aree, imposta manutenzioni
+                    e controlla in una sola vista chi ha gia prenotato una specifica postazione.
+                </p>
+
+                <div class="vip-grid-2">
+                    <article class="vip-helper-box">
+                        <strong>Contesto giornata</strong><br>
+                        <span>La piantina viene letta dal layout attivo e puo essere corretta giorno per giorno con override puntuali.</span>
+                    </article>
+                    <div class="vip-grid-2">
+                        <div class="vip-field">
+                            <label for="vipBeachAdminDate">Data servizio</label>
+                            <input id="vipBeachAdminDate" name="vipBeachAdminDate" type="date">
+                        </div>
+                        <div class="vip-actions vip-actions-compact">
+                            <button class="vip-btn vip-btn-primary" id="vipBeachAdminRefresh" type="button">Aggiorna mappa</button>
+                            <button class="vip-btn vip-btn-plain" id="vipBeachAdminResetSelection" type="button">Reset selezione</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vip-status-message" id="vipBeachAdminStatus" aria-live="polite"></div>
+
+                <div class="vip-beach-admin-summary">
+                    <article class="vip-metric">
+                        <span>Disponibili</span>
+                        <strong id="vipBeachAvailableCount">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>Occupate</span>
+                        <strong id="vipBeachOccupiedCount">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>Bloccate</span>
+                        <strong id="vipBeachBlockedCount">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>Manutenzione</span>
+                        <strong id="vipBeachMaintenanceCount">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>Override attivi</span>
+                        <strong id="vipBeachOverridesCount">-</strong>
+                    </article>
+                </div>
+
+                <div class="vip-grid-2" style="align-items: start;">
+                    <article class="vip-beach-admin-shell">
+                        <div class="vip-booking-map-topbar">
+                            <div class="vip-booking-legend">
+                                <span class="vip-beach-legend-chip is-available">Disponibile</span>
+                                <span class="vip-beach-legend-chip is-occupied">Occupata</span>
+                                <span class="vip-beach-legend-chip is-blocked">Bloccata</span>
+                                <span class="vip-beach-legend-chip is-maintenance">Manutenzione</span>
+                                <span class="vip-beach-legend-chip is-selected">Selezionata</span>
+                            </div>
+                        </div>
+                        <div class="vip-booking-map-wrap">
+                            <div class="vip-booking-map-headline">
+                                <div>
+                                    <div class="vip-panel-kicker">Piantina operativa</div>
+                                    <h3 id="vipBeachAdminMapTitle">Seleziona una data</h3>
+                                </div>
+                                <div class="vip-booking-map-meta" id="vipBeachAdminMapMeta">Ogni spot mostra stato finale, capienza e booking attivo se presente.</div>
+                            </div>
+                            <div class="vip-booking-map-grid" id="vipBeachAdminMapGrid">
+                                <div class="vip-admin-empty-inline">Scegli una data per leggere la piantina del giorno.</div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="vip-panel vip-beach-admin-editor">
+                        <div class="vip-panel-header">
+                            <div>
+                                <div class="vip-panel-kicker">Editor spot</div>
+                                <h2>Override giornaliero</h2>
+                            </div>
+                            <div class="vip-status-pill" id="vipBeachEditorPill">Nessuna selezione</div>
+                        </div>
+                        <p id="vipBeachSelectedMeta">
+                            Seleziona una postazione dalla mappa per modificarne lo stato o la capienza solo per il giorno scelto.
+                        </p>
+
+                        <div class="vip-booking-selection-card" id="vipBeachSelectedCard">
+                            <div class="vip-booking-selection-code" id="vipBeachSelectedCode">-</div>
+                            <div class="vip-booking-selection-body">
+                                <strong id="vipBeachSelectedLabel">Nessuna postazione selezionata</strong>
+                                <span id="vipBeachSelectedDetails">Lo snapshot finale della giornata apparira qui.</span>
+                            </div>
+                        </div>
+
+                        <form class="vip-form" id="vipBeachOverrideForm" novalidate>
+                            <input id="vipBeachOverrideSpotId" name="vipBeachOverrideSpotId" type="hidden">
+                            <div class="vip-field">
+                                <label for="vipBeachOverrideStatus">Stato giornaliero</label>
+                                <select id="vipBeachOverrideStatus" name="vipBeachOverrideStatus">
+                                    <option value="">Mantieni stato base</option>
+                                    <option value="DISPONIBILE">Disponibile</option>
+                                    <option value="BLOCCATA">Bloccata</option>
+                                    <option value="MANUTENZIONE">Manutenzione</option>
+                                    <option value="RISERVATA">Riservata</option>
+                                </select>
+                            </div>
+                            <div class="vip-grid-2">
+                                <div class="vip-field">
+                                    <label for="vipBeachOverrideUmbrellas">Ombrelloni</label>
+                                    <input id="vipBeachOverrideUmbrellas" name="vipBeachOverrideUmbrellas" type="number" min="0" max="20" placeholder="Base layout">
+                                </div>
+                                <div class="vip-field">
+                                    <label for="vipBeachOverrideSunbeds">Lettini</label>
+                                    <input id="vipBeachOverrideSunbeds" name="vipBeachOverrideSunbeds" type="number" min="0" max="20" placeholder="Base layout">
+                                </div>
+                            </div>
+                            <div class="vip-field">
+                                <label for="vipBeachOverrideNote">Nota staff</label>
+                                <textarea id="vipBeachOverrideNote" name="vipBeachOverrideNote" placeholder="Motivazione override, note di servizio o informazioni operative."></textarea>
+                            </div>
+                            <div class="vip-actions">
+                                <button class="vip-btn vip-btn-primary" id="vipBeachOverrideSave" type="submit">Salva override</button>
+                                <button class="vip-btn vip-btn-plain" id="vipBeachOverrideClear" type="button">Rimuovi override</button>
+                            </div>
+                        </form>
+                    </article>
+                </div>
+
+                <section class="vip-beach-admin-bookings">
+                    <div class="vip-panel-header">
+                        <div>
+                            <div class="vip-panel-kicker">Prenotazioni del giorno</div>
+                            <h2>Occupazione reale per postazione</h2>
+                        </div>
+                        <div class="vip-status-pill" id="vipBeachBookingsPill">0 booking</div>
+                    </div>
+                    <div class="vip-beach-admin-bookings-list" id="vipBeachBookingsList">
+                        <div class="vip-admin-empty-inline">Le prenotazioni della giornata appariranno qui dopo il caricamento della mappa.</div>
+                    </div>
+                </section>
+            </section>
         </div>
     </main>
 
@@ -455,6 +603,7 @@
     <script src="assets/js/vip-admin-dashboard.js"></script>
     <script src="assets/js/vip-admin-clients.js"></script>
     <script src="assets/js/vip-admin-form.js"></script>
+    <script src="assets/js/vip-admin-beach.js"></script>
     <script src="assets/js/vip-verify.js"></script>
 </body>
 </html>

@@ -1,11 +1,24 @@
 document.addEventListener("DOMContentLoaded", async function () {
     const statusBox = document.getElementById("vipBookingStatus");
+    const mapStatusBox = document.getElementById("vipBookingMapStatus");
     const form = document.getElementById("vipBookingForm");
     const submitButton = document.getElementById("vipBookingSubmit");
     const gateBox = document.getElementById("vipBookingGate");
     const gateStatus = document.getElementById("vipBookingGateStatus");
     const profileName = document.getElementById("vipBookingProfileName");
     const profileLevel = document.getElementById("vipBookingProfileLevel");
+    const dateInput = document.getElementById("booking_date");
+    const mapRefreshButton = document.getElementById("vipBookingMapRefresh");
+    const selectionPill = document.getElementById("vipBookingSelectionPill");
+    const mapTitle = document.getElementById("vipBookingMapTitle");
+    const mapMeta = document.getElementById("vipBookingMapMeta");
+    const mapGrid = document.getElementById("vipBookingMapGrid");
+    const selectionCard = document.getElementById("vipBookingSelectionCard");
+    const selectionCode = document.getElementById("vipBookingSelectedSpotCode");
+    const selectionLabel = document.getElementById("vipBookingSelectedSpotLabel");
+    const selectionMeta = document.getElementById("vipBookingSelectedSpotMeta");
+    const spotIdInput = document.getElementById("vipBookingSpotId");
+    const resetSelectionButton = document.getElementById("vipBookingResetSelection");
 
     if (!window.FDAVip || !form) {
         return;
@@ -33,7 +46,16 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
     }
 
-    let currentStatus = null;
+    const state = {
+        currentStatus: null,
+        rows: [],
+        selectedSpotId: "",
+        selectedDate: ""
+    };
+
+    if (dateInput) {
+        dateInput.min = formatDateForInput(new Date());
+    }
 
     try {
         const { data, error } = await supabaseClient.rpc("get_client_profile", {
@@ -49,36 +71,36 @@ document.addEventListener("DOMContentLoaded", async function () {
             throw new Error("Profilo non disponibile.");
         }
 
-        currentStatus = profile.status;
+        state.currentStatus = profile.status;
+
         if (profileName) {
             profileName.textContent = profile.display_name || profile.full_name || "Profilo VIP";
         }
         if (profileLevel) {
             profileLevel.textContent = profile.vip_level || "SILVER";
         }
-
         if (gateBox) {
             gateBox.hidden = false;
         }
 
-        if (currentStatus === "IN_OSSERVAZIONE") {
+        if (state.currentStatus === "IN_OSSERVAZIONE") {
             if (gateStatus) {
-                gateStatus.textContent = "Il tuo profilo puo consultare la card, ma non puo ancora inviare richieste di prenotazione dedicate.";
+                gateStatus.textContent = "Il tuo profilo puo consultare la card, ma non puo ancora prenotare una postazione dedicata.";
             }
             disableForm();
             return;
         }
 
-        if (!["APPROVATO", "VIP"].includes(currentStatus)) {
+        if (!["APPROVATO", "VIP"].includes(state.currentStatus)) {
             if (gateStatus) {
-                gateStatus.textContent = "Il tuo profilo non e abilitato alla richiesta VIP in questo momento.";
+                gateStatus.textContent = "Il tuo profilo non e abilitato alla prenotazione VIP in questo momento.";
             }
             disableForm();
             return;
         }
 
         if (gateStatus) {
-            gateStatus.textContent = "Il tuo profilo e pronto per inviare una richiesta di prenotazione VIP.";
+            gateStatus.textContent = "Il tuo profilo e pronto per scegliere una postazione precisa sulla mappa del giorno.";
         }
     } catch (err) {
         window.FDAVip.clearSessionToken();
@@ -94,10 +116,236 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
     }
 
-    form.addEventListener("submit", async function (event) {
+    bindEvents();
+    renderEmptyMap("Scegli una data per caricare la piantina prenotabile.");
+    resetSelection();
+
+    function bindEvents() {
+        form.addEventListener("submit", onSubmit);
+
+        if (dateInput) {
+            dateInput.addEventListener("change", function () {
+                loadBookingMap(dateInput.value);
+            });
+        }
+
+        if (mapRefreshButton) {
+            mapRefreshButton.addEventListener("click", function () {
+                loadBookingMap(dateInput ? dateInput.value : "");
+            });
+        }
+
+        if (resetSelectionButton) {
+            resetSelectionButton.addEventListener("click", resetSelection);
+        }
+    }
+
+    async function loadBookingMap(dateValue) {
+        if (!["APPROVATO", "VIP"].includes(state.currentStatus)) {
+            return;
+        }
+
+        const normalizedDate = String(dateValue || "").trim();
+        state.selectedDate = normalizedDate;
+        resetSelection();
+
+        if (!normalizedDate) {
+            renderEmptyMap("Scegli una data per caricare la piantina prenotabile.");
+            window.FDAVip.hideStatus(mapStatusBox);
+            return;
+        }
+
+        window.FDAVip.hideStatus(mapStatusBox);
+        mapGrid.innerHTML = "<div class='vip-admin-empty-inline'>Carichiamo la piantina aggiornata del giorno...</div>";
+        if (mapTitle) {
+            mapTitle.textContent = "Caricamento in corso";
+        }
+
+        try {
+            const { data, error } = await supabaseClient.rpc("get_booking_map_for_date", {
+                p_booking_date: normalizedDate
+            });
+
+            if (error) {
+                throw error;
+            }
+
+            state.rows = Array.isArray(data) ? data : [];
+
+            if (!state.rows.length) {
+                renderEmptyMap("Non ci sono postazioni configurate per questa data.");
+                window.FDAVip.showStatus(
+                    mapStatusBox,
+                    "Nessuna postazione disponibile nella configurazione attiva del giorno selezionato.",
+                    "error"
+                );
+                return;
+            }
+
+            renderMap(state.rows, normalizedDate);
+            window.FDAVip.showStatus(
+                mapStatusBox,
+                buildAvailabilityMessage(state.rows),
+                "success"
+            );
+        } catch (err) {
+            state.rows = [];
+            renderEmptyMap("Non riusciamo a leggere la mappa in questo momento.");
+            window.FDAVip.showStatus(
+                mapStatusBox,
+                "Non riusciamo a caricare la piantina del giorno. Riprova tra poco.",
+                "error"
+            );
+        }
+    }
+
+    function renderMap(rows, dateValue) {
+        const groupedRows = groupByRow(rows);
+        const freeSpots = rows.filter(function (row) {
+            return row.final_status === "DISPONIBILE" && row.is_bookable;
+        }).length;
+
+        if (mapTitle) {
+            mapTitle.textContent = "Piantina del " + formatDateLabel(dateValue);
+        }
+        if (mapMeta) {
+            mapMeta.textContent = freeSpots + " postazioni prenotabili adesso, aggiornate in tempo reale.";
+        }
+        if (selectionPill) {
+            selectionPill.textContent = freeSpots ? freeSpots + " spot liberi" : "Nessuno spot libero";
+        }
+
+        mapGrid.innerHTML = "";
+
+        groupedRows.forEach(function (group) {
+            const rowShell = document.createElement("section");
+            rowShell.className = "vip-beach-row";
+
+            const rowLabel = document.createElement("div");
+            rowLabel.className = "vip-beach-row-label";
+            rowLabel.innerHTML =
+                "<strong>Fila " + escapeHtml(group.rowName) + "</strong>" +
+                "<span>" + escapeHtml(group.zoneLabel) + "</span>";
+
+            const rowSpots = document.createElement("div");
+            rowSpots.className = "vip-beach-row-spots";
+
+            group.spots.forEach(function (spot) {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = buildSpotClassName(spot, false);
+                button.disabled = !spot.is_bookable;
+                button.setAttribute("data-spot-id", spot.spot_id);
+                button.innerHTML =
+                    "<strong>" + escapeHtml(spot.spot_code) + "</strong>" +
+                    "<span>" + escapeHtml(spot.label || spot.zone || "Postazione") + "</span>" +
+                    "<small>" + escapeHtml(getSpotMetaLabel(spot)) + "</small>";
+
+                button.addEventListener("click", function () {
+                    selectSpot(spot);
+                });
+
+                rowSpots.appendChild(button);
+            });
+
+            rowShell.appendChild(rowLabel);
+            rowShell.appendChild(rowSpots);
+            mapGrid.appendChild(rowShell);
+        });
+    }
+
+    function renderEmptyMap(message) {
+        if (mapTitle) {
+            mapTitle.textContent = "Seleziona prima la data";
+        }
+        if (mapMeta) {
+            mapMeta.textContent = "Le postazioni vengono aggiornate in base alla disponibilita del giorno.";
+        }
+        if (selectionPill) {
+            selectionPill.textContent = "Seleziona una data";
+        }
+        mapGrid.innerHTML = "<div class='vip-admin-empty-inline'>" + escapeHtml(message) + "</div>";
+    }
+
+    function selectSpot(spot) {
+        if (!spot || !spot.spot_id) {
+            return;
+        }
+
+        if (!spot.is_bookable || spot.final_status !== "DISPONIBILE") {
+            window.FDAVip.showStatus(
+                mapStatusBox,
+                "Questa postazione non e prenotabile in questo momento.",
+                "error"
+            );
+            return;
+        }
+
+        state.selectedSpotId = spot.spot_id;
+
+        if (spotIdInput) {
+            spotIdInput.value = spot.spot_id;
+        }
+        if (selectionCode) {
+            selectionCode.textContent = spot.spot_code || "-";
+        }
+        if (selectionLabel) {
+            selectionLabel.textContent = (spot.label || "Postazione") + " · " + (spot.zone || "Area");
+        }
+        if (selectionMeta) {
+            selectionMeta.textContent = getSpotMetaLabel(spot) + " · disponibile per intera giornata.";
+        }
+        if (selectionPill) {
+            selectionPill.textContent = "Spot " + (spot.spot_code || "selezionato");
+        }
+        if (selectionCard) {
+            selectionCard.classList.add("is-selected");
+        }
+
+        refreshSelectionStyles();
+        window.FDAVip.showStatus(
+            mapStatusBox,
+            "Postazione " + (spot.spot_code || "") + " selezionata. Puoi completare la richiesta.",
+            "success"
+        );
+    }
+
+    function resetSelection() {
+        state.selectedSpotId = "";
+
+        if (spotIdInput) {
+            spotIdInput.value = "";
+        }
+        if (selectionCode) {
+            selectionCode.textContent = "-";
+        }
+        if (selectionLabel) {
+            selectionLabel.textContent = "Nessuna postazione selezionata";
+        }
+        if (selectionMeta) {
+            selectionMeta.textContent = "La configurazione del giorno apparira qui dopo il click sulla mappa.";
+        }
+        if (selectionCard) {
+            selectionCard.classList.remove("is-selected");
+        }
+
+        refreshSelectionStyles();
+    }
+
+    async function onSubmit(event) {
         event.preventDefault();
 
-        if (!["APPROVATO", "VIP"].includes(currentStatus)) {
+        if (!["APPROVATO", "VIP"].includes(state.currentStatus)) {
+            return;
+        }
+
+        if (!dateInput || !String(dateInput.value || "").trim()) {
+            window.FDAVip.showStatus(statusBox, "Scegli prima la data della prenotazione.", "error");
+            return;
+        }
+
+        if (!spotIdInput || !spotIdInput.value) {
+            window.FDAVip.showStatus(statusBox, "Seleziona una postazione precisa dalla mappa prima di inviare la richiesta.", "error");
             return;
         }
 
@@ -105,18 +353,15 @@ document.addEventListener("DOMContentLoaded", async function () {
         submitButton.disabled = true;
         submitButton.textContent = "Invio richiesta...";
 
-        const payload = {
-            p_token: token,
-            p_booking_date: form.booking_date.value,
-            p_time_slot: form.time_slot.value,
-            p_adults: Number(form.adults.value),
-            p_children: Number(form.children.value || 0),
-            p_area_preference: form.area_preference.value,
-            p_notes: form.client_notes.value
-        };
-
         try {
-            const { data, error } = await supabaseClient.rpc("create_booking_vip", payload);
+            const { data, error } = await supabaseClient.rpc("create_spot_booking", {
+                p_token: token,
+                p_booking_date: dateInput.value,
+                p_spot_id: spotIdInput.value,
+                p_adults: Number(form.adults.value),
+                p_children: Number(form.children.value || 0),
+                p_client_notes: form.client_notes.value
+            });
 
             if (error) {
                 throw error;
@@ -129,22 +374,101 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             window.FDAVip.showStatus(
                 statusBox,
-                "Richiesta inviata correttamente. Il nostro staff la prendera in carico a breve.",
+                "Richiesta inviata correttamente per la postazione " + (result.spot_code || "") + ". Lo staff la prendera in carico a breve.",
                 "success"
             );
 
-            form.reset();
+            form.adults.value = "2";
+            form.children.value = "0";
+            form.client_notes.value = "";
+            await loadBookingMap(dateInput.value);
         } catch (err) {
-            window.FDAVip.showStatus(
-                statusBox,
-                humanizeBookingError(err),
-                "error"
-            );
+            window.FDAVip.showStatus(statusBox, humanizeBookingError(err), "error");
         } finally {
             submitButton.disabled = false;
             submitButton.textContent = "Invia richiesta VIP";
         }
-    });
+    }
+
+    function refreshSelectionStyles() {
+        Array.from(document.querySelectorAll(".vip-beach-spot")).forEach(function (button) {
+            const isSelected = button.getAttribute("data-spot-id") === state.selectedSpotId;
+            button.classList.toggle("is-selected", Boolean(isSelected));
+        });
+    }
+
+    function groupByRow(rows) {
+        const groups = [];
+        const map = new Map();
+
+        rows.forEach(function (row) {
+            const key = row.row_name || "A";
+            if (!map.has(key)) {
+                const bucket = {
+                    rowName: key,
+                    zoneLabel: row.zone || "Area VIP",
+                    spots: []
+                };
+                map.set(key, bucket);
+                groups.push(bucket);
+            }
+            map.get(key).spots.push(row);
+        });
+
+        return groups;
+    }
+
+    function buildAvailabilityMessage(rows) {
+        const available = rows.filter(function (row) {
+            return row.final_status === "DISPONIBILE" && row.is_bookable;
+        }).length;
+        const reserved = rows.filter(function (row) {
+            return row.final_status === "RISERVATA";
+        }).length;
+        const blocked = rows.filter(function (row) {
+            return row.final_status === "BLOCCATA";
+        }).length;
+        const maintenance = rows.filter(function (row) {
+            return row.final_status === "MANUTENZIONE";
+        }).length;
+
+        return [
+            available + " disponibili",
+            reserved + " occupate",
+            blocked + " bloccate",
+            maintenance + " in manutenzione"
+        ].join(" · ");
+    }
+
+    function buildSpotClassName(spot, isAdmin) {
+        const classNames = ["vip-beach-spot"];
+        const status = String(spot.final_status || "").toUpperCase();
+
+        if (status === "DISPONIBILE") {
+            classNames.push("is-available");
+        } else if (status === "RISERVATA") {
+            classNames.push("is-occupied");
+        } else if (status === "MANUTENZIONE") {
+            classNames.push("is-maintenance");
+        } else {
+            classNames.push("is-blocked");
+        }
+
+        if (isAdmin) {
+            classNames.push("is-admin");
+        }
+        if (spot.spot_id === state.selectedSpotId) {
+            classNames.push("is-selected");
+        }
+
+        return classNames.join(" ");
+    }
+
+    function getSpotMetaLabel(spot) {
+        const umbrellas = Number.isFinite(Number(spot.umbrellas)) ? Number(spot.umbrellas) : 0;
+        const sunbeds = Number.isFinite(Number(spot.sunbeds)) ? Number(spot.sunbeds) : 0;
+        return umbrellas + " ombrelloni · " + sunbeds + " lettini";
+    }
 
     function disableForm() {
         Array.from(form.elements).forEach(function (element) {
@@ -158,11 +482,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (message.includes("data di prenotazione")) {
             return "Scegli una data valida, non nel passato.";
         }
-        if (message.includes("fascia oraria")) {
-            return "Seleziona una fascia oraria valida per la richiesta.";
+        if (message.includes("postazione selezionata")) {
+            return "La postazione scelta non e valida o non e piu disponibile. Aggiorna la piantina e prova di nuovo.";
         }
         if (message.includes("numero adulti")) {
             return "Indica almeno un adulto per completare la richiesta.";
+        }
+        if (message.includes("numero bambini")) {
+            return "Controlla il numero di bambini inserito.";
         }
         if (message.includes("stato corrente del profilo")) {
             return "Il tuo profilo non puo inviare richieste VIP in questo momento.";
@@ -173,4 +500,39 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         return "Non riusciamo a completare la richiesta in questo momento. Riprova tra poco.";
     }
+
+    function setDateValue(dateString) {
+        if (dateInput) {
+            dateInput.value = dateString;
+        }
+    }
+
+    function formatDateForInput(date) {
+        return [
+            date.getFullYear(),
+            String(date.getMonth() + 1).padStart(2, "0"),
+            String(date.getDate()).padStart(2, "0")
+        ].join("-");
+    }
+
+    function formatDateLabel(dateString) {
+        const date = new Date(dateString + "T00:00:00");
+        return date.toLocaleDateString("it-IT", {
+            weekday: "long",
+            day: "2-digit",
+            month: "long"
+        });
+    }
+
+    function escapeHtml(value) {
+        return String(value || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+    }
+
+    const initialDate = formatDateForInput(new Date());
+    setDateValue(initialDate);
+    loadBookingMap(initialDate);
 });

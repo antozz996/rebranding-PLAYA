@@ -70,12 +70,12 @@
                     <div class="vip-panel-header">
                         <div>
                             <div class="vip-panel-kicker">Indicazioni utili</div>
-                            <h2>Come verra letta</h2>
+                            <h2>Come funziona la selezione</h2>
                         </div>
                     </div>
                     <p>
-                        Lo staff vedra data, fascia oraria, numero di adulti e bambini, preferenze di area e note lasciate dal cliente.
-                        La richiesta nasce con stato <strong>RICHIESTA</strong>.
+                        Scegli la data, osserva la piantina del giorno e seleziona una postazione precisa solo se disponibile.
+                        La richiesta nasce con stato <strong>RICHIESTA</strong> e viene collegata alla postazione scelta.
                     </p>
                 </article>
             </section>
@@ -84,11 +84,12 @@
                 <div class="vip-panel-header">
                     <div>
                         <div class="vip-panel-kicker">Invio prenotazione</div>
-                        <h2>Richiesta prenotazione VIP</h2>
+                        <h2>Mappa prenotabile del giorno</h2>
                     </div>
+                    <div class="vip-status-pill" id="vipBookingSelectionPill">Seleziona una data</div>
                 </div>
                 <p>
-                    Compila solo le informazioni essenziali. Il nostro staff usera questi dati per preparare la presa in carico della tua richiesta dedicata.
+                    L'esperienza e costruita per farti scegliere in modo chiaro una postazione reale. Le disponibilita vengono lette in tempo reale dal backend.
                 </p>
 
                 <form class="vip-form" id="vipBookingForm" novalidate>
@@ -97,14 +98,55 @@
                             <label for="booking_date">Data richiesta</label>
                             <input id="booking_date" name="booking_date" type="date" required>
                         </div>
-                        <div class="vip-field">
-                            <label for="time_slot">Fascia oraria</label>
-                            <select id="time_slot" name="time_slot" required>
-                                <option value="GIORNATA_INTERA">Giornata intera</option>
-                                <option value="MATTINA">Mattina</option>
-                                <option value="POMERIGGIO">Pomeriggio</option>
-                            </select>
+                        <div class="vip-helper-box vip-booking-day-box">
+                            <strong>Formula attiva</strong><br>
+                            <span>Intera giornata, con postazione precisa e conferma staff.</span>
                         </div>
+                    </div>
+
+                    <div class="vip-booking-map-shell">
+                        <div class="vip-booking-map-topbar">
+                            <div class="vip-booking-legend">
+                                <span class="vip-beach-legend-chip is-available">Disponibile</span>
+                                <span class="vip-beach-legend-chip is-occupied">Occupata</span>
+                                <span class="vip-beach-legend-chip is-blocked">Bloccata</span>
+                                <span class="vip-beach-legend-chip is-maintenance">Manutenzione</span>
+                                <span class="vip-beach-legend-chip is-selected">Selezionata</span>
+                            </div>
+                            <button class="vip-btn vip-btn-plain vip-btn-inline" id="vipBookingMapRefresh" type="button">Aggiorna piantina</button>
+                        </div>
+
+                        <div class="vip-status-message" id="vipBookingMapStatus" aria-live="polite"></div>
+
+                        <div class="vip-booking-map-wrap">
+                            <div class="vip-booking-map-headline">
+                                <div>
+                                    <div class="vip-panel-kicker">Beach layout</div>
+                                    <h3 id="vipBookingMapTitle">Seleziona prima la data</h3>
+                                </div>
+                                <div class="vip-booking-map-meta" id="vipBookingMapMeta">Le postazioni vengono aggiornate in base alla disponibilita del giorno.</div>
+                            </div>
+                            <div class="vip-booking-map-grid" id="vipBookingMapGrid">
+                                <div class="vip-admin-empty-inline">Scegli una data per caricare la piantina prenotabile.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vip-booking-selection-shell">
+                        <div class="vip-panel-header">
+                            <div>
+                                <div class="vip-panel-kicker">Postazione scelta</div>
+                                <h3>Riepilogo selezione</h3>
+                            </div>
+                        </div>
+                        <div class="vip-booking-selection-card" id="vipBookingSelectionCard">
+                            <div class="vip-booking-selection-code" id="vipBookingSelectedSpotCode">-</div>
+                            <div class="vip-booking-selection-body">
+                                <strong id="vipBookingSelectedSpotLabel">Nessuna postazione selezionata</strong>
+                                <span id="vipBookingSelectedSpotMeta">La configurazione del giorno apparira qui dopo il click sulla mappa.</span>
+                            </div>
+                        </div>
+                        <input id="vipBookingSpotId" name="vipBookingSpotId" type="hidden" required>
                     </div>
 
                     <div class="vip-grid-2">
@@ -119,16 +161,14 @@
                     </div>
 
                     <div class="vip-field">
-                        <label for="area_preference">Preferenza area</label>
-                        <input id="area_preference" name="area_preference" type="text" placeholder="Solarium centrale, bordo piscina, area family...">
-                    </div>
-
-                    <div class="vip-field">
                         <label for="client_notes">Note cliente</label>
-                        <textarea id="client_notes" name="client_notes" placeholder="Indica esigenze, dettagli utili o preferenze aggiuntive."></textarea>
+                        <textarea id="client_notes" name="client_notes" placeholder="Indica esigenze, dettagli utili o preferenze aggiuntive per la postazione selezionata."></textarea>
                     </div>
 
-                    <button class="vip-btn vip-btn-primary" id="vipBookingSubmit" type="submit">Invia richiesta VIP</button>
+                    <div class="vip-actions">
+                        <button class="vip-btn vip-btn-primary" id="vipBookingSubmit" type="submit">Invia richiesta VIP</button>
+                        <button class="vip-btn vip-btn-plain" id="vipBookingResetSelection" type="button">Reset selezione</button>
+                    </div>
                 </form>
 
                 <div class="vip-status-message" id="vipBookingStatus" aria-live="polite"></div>
