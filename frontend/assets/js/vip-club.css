@@ -472,7 +472,10 @@ body.vip-club-body {
 .vip-card-face {
     position: relative;
     overflow: hidden;
-    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    min-height: 420px;
     padding: 28px;
     border-radius: 30px;
     background:
@@ -491,9 +494,12 @@ body.vip-club-body {
     bottom: -70px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.12);
+    z-index: 0;
 }
 
 .vip-card-topline {
+    position: relative;
+    z-index: 1;
     display: flex;
     justify-content: space-between;
     gap: 16px;
@@ -505,12 +511,12 @@ body.vip-club-body {
     z-index: 1;
     display: inline-grid;
     gap: 10px;
-    margin-top: 26px;
+    margin-top: 2px;
 }
 
 .vip-card-portrait-shell {
-    width: 116px;
-    height: 116px;
+    width: 118px;
+    height: 118px;
     border-radius: 28px;
     padding: 6px;
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.12));
@@ -523,6 +529,11 @@ body.vip-club-body {
     width: 100%;
     height: 100%;
     border-radius: 22px;
+}
+
+.vip-card-portrait[hidden],
+.vip-card-portrait-fallback[hidden] {
+    display: none !important;
 }
 
 .vip-card-portrait {
@@ -583,7 +594,7 @@ body.vip-club-body {
 .vip-card-name {
     position: relative;
     z-index: 1;
-    margin-top: 28px;
+    margin-top: 0;
 }
 
 .vip-card-name h2 {
@@ -595,21 +606,22 @@ body.vip-club-body {
 
 .vip-card-name p {
     margin: 0;
+    max-width: 560px;
     font-size: 1rem;
     line-height: 1.7;
     color: rgba(255, 255, 255, 0.9);
 }
 
 .vip-card-footer {
-    position: absolute;
-    left: 28px;
-    right: 28px;
-    bottom: 26px;
+    position: relative;
     z-index: 1;
     display: flex;
     justify-content: space-between;
     gap: 16px;
     align-items: end;
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .vip-card-code {
@@ -851,7 +863,7 @@ body.vip-club-body {
     }
 
     .vip-card-face {
-        min-height: 320px;
+        min-height: auto;
         padding: 22px;
     }
 
