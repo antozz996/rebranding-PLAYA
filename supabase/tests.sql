@@ -79,6 +79,29 @@ $$;
 
 grant execute on function public.test_uuid_setting(text) to anon, authenticated;
 
+create or replace function public.test_spot_uuid(p_spot_code text)
+returns uuid
+language plpgsql
+as $$
+declare
+  v_spot_id uuid;
+begin
+  select bs.id
+  into v_spot_id
+  from public.beach_spots bs
+  where bs.spot_code = upper(trim(p_spot_code))
+  limit 1;
+
+  if v_spot_id is null then
+    raise exception 'ASSERT FAILED: spot_code % non trovato in public.beach_spots.', p_spot_code;
+  end if;
+
+  return v_spot_id;
+end;
+$$;
+
+grant execute on function public.test_spot_uuid(text) to anon, authenticated;
+
 -- Seed di test idempotente lato database.
 delete from public.clients
 where card_code in (
@@ -574,39 +597,25 @@ select public.test_assert_true(
 rollback;
 
 -- 23. Seed mappa: spot test presenti.
-select set_config(
-  'app.test_map_spot_a01',
-  coalesce((select bs.id::text from public.beach_spots bs where bs.spot_code = 'A01' limit 1), ''),
-  false
-);
-
-select set_config(
-  'app.test_map_spot_a02',
-  coalesce((select bs.id::text from public.beach_spots bs where bs.spot_code = 'A02' limit 1), ''),
-  false
-);
-
 select public.test_assert_true(
-  current_setting('app.test_map_spot_a01', true) is not null
-  and current_setting('app.test_map_spot_a01', true) <> '',
+  exists (select 1 from public.beach_spots where spot_code = 'A01'),
   'Il seed deve contenere la postazione A01.'
 );
 
 select public.test_assert_true(
-  current_setting('app.test_map_spot_a02', true) is not null
-  and current_setting('app.test_map_spot_a02', true) <> '',
+  exists (select 1 from public.beach_spots where spot_code = 'A02'),
   'Il seed deve contenere la postazione A02.'
 );
 
 delete from public.bookings
 where spot_id in (
-  public.test_uuid_setting('app.test_map_spot_a01'),
-  public.test_uuid_setting('app.test_map_spot_a02')
+  public.test_spot_uuid('A01'),
+  public.test_spot_uuid('A02')
 )
   and booking_date in (current_date + 2, current_date + 3);
 
 delete from public.beach_spot_overrides
-where spot_id = public.test_uuid_setting('app.test_map_spot_a02')
+where spot_id = public.test_spot_uuid('A02')
   and service_date = current_date + 3;
 
 -- 24. Accesso diretto anon a beach_spots: deve essere negato.
@@ -671,7 +680,7 @@ select public.test_assert_true(
   exists (
     select 1
     from public.admin_upsert_spot_override(
-      public.test_uuid_setting('app.test_map_spot_a02'),
+      public.test_spot_uuid('A02'),
       current_date + 3,
       'BLOCCATA',
       1,
@@ -697,7 +706,7 @@ with spot_booking as (
   from public.create_spot_booking(
     public.test_uuid_setting('app.test_vip_token'),
     current_date + 2,
-    public.test_uuid_setting('app.test_map_spot_a01'),
+    public.test_spot_uuid('A01'),
     2,
     1,
     'Prenotazione spot test'
@@ -711,7 +720,7 @@ select public.test_assert_true(
     select 1
     from public.bookings b
     where b.id = public.test_uuid_setting('app.test_spot_booking_id')
-      and b.spot_id = public.test_uuid_setting('app.test_map_spot_a01')
+      and b.spot_id = public.test_spot_uuid('A01')
       and b.spot_code_snapshot = 'A01'
       and b.umbrellas_snapshot = 1
       and b.sunbeds_snapshot = 2
@@ -732,7 +741,7 @@ select public.test_expect_sqlstate(
   format(
     $$select * from public.create_spot_booking('%s'::uuid, current_date + 2, '%s'::uuid, 2, 0, 'Collision test')$$,
     public.test_uuid_setting('app.test_vip_token')::text,
-    public.test_uuid_setting('app.test_map_spot_a01')::text
+    public.test_spot_uuid('A01')::text
   )::text,
   'P0001'::text,
   'La stessa postazione non deve essere prenotabile due volte nella stessa data.'::text
@@ -750,7 +759,7 @@ select public.test_expect_sqlstate(
   format(
     $$select * from public.create_spot_booking('%s'::uuid, current_date + 3, '%s'::uuid, 2, 0, 'Blocked spot test')$$,
     public.test_uuid_setting('app.test_vip_token')::text,
-    public.test_uuid_setting('app.test_map_spot_a02')::text
+    public.test_spot_uuid('A02')::text
   )::text,
   'P0001'::text,
   'Una postazione bloccata da override non deve essere prenotabile.'::text
@@ -805,3 +814,4 @@ drop function if exists public.test_assert_true(boolean, text);
 drop function if exists public.test_expect_sqlstate(text, text, text);
 drop function if exists public.test_set_request_claims();
 drop function if exists public.test_uuid_setting(text);
+drop function if exists public.test_spot_uuid(text);
