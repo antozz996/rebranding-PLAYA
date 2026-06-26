@@ -48,7 +48,16 @@
                 </div>
             </section>
 
-            <section class="vip-section vip-grid-2">
+            <section class="vip-section vip-tabs-shell">
+                <div class="vip-tabs" role="tablist" aria-label="Sezioni dashboard VIP">
+                    <button class="vip-tab is-active" type="button" data-vip-tab-target="verify" aria-selected="true">Verifica</button>
+                    <button class="vip-tab" type="button" data-vip-tab-target="clients" aria-selected="false">Clienti</button>
+                    <button class="vip-tab" type="button" data-vip-tab-target="pool" aria-selected="false">Gestione piscina</button>
+                    <button class="vip-tab" type="button" data-vip-tab-target="bookings" aria-selected="false">Prenotazioni</button>
+                </div>
+            </section>
+
+            <section class="vip-section vip-grid-2 vip-tab-panel" data-vip-tab-panel="verify">
                 <article class="vip-panel">
                     <div class="vip-panel-header">
                         <div>
@@ -70,7 +79,6 @@
 
                     <div class="vip-status-message" id="vipVerifyStatus" aria-live="polite"></div>
                 </article>
-
                 <article class="vip-panel">
                     <div class="vip-panel-header">
                         <div>
@@ -95,7 +103,7 @@
                 </article>
             </section>
 
-            <section class="vip-section vip-panel" id="vipVerifyResult" hidden>
+            <section class="vip-section vip-panel vip-tab-panel" id="vipVerifyResult" hidden data-vip-tab-panel="verify" data-vip-tab-preserve-state="true">
                 <div class="vip-panel-header">
                     <div>
                         <div class="vip-panel-kicker">Esito verifica</div>
@@ -140,7 +148,7 @@
                 </div>
             </section>
 
-            <section class="vip-section vip-panel" id="vipAdminDashboard">
+            <section class="vip-section vip-panel vip-tab-panel" id="vipAdminDashboard" data-vip-tab-panel="clients" hidden>
                 <div class="vip-panel-header">
                     <div>
                         <div class="vip-panel-kicker">VIP admin dashboard</div>
@@ -185,10 +193,26 @@
                         <span>In osservazione</span>
                         <strong id="vipKpiClientsWatch">-</strong>
                     </article>
+                    <article class="vip-metric">
+                        <span>Layout attivi</span>
+                        <strong id="vipKpiBeachLayoutsActive">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>Spot totali</span>
+                        <strong id="vipKpiBeachSpotsTotal">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>Booking spot oggi</span>
+                        <strong id="vipKpiBeachBookingsToday">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>Override oggi</span>
+                        <strong id="vipKpiBeachOverridesToday">-</strong>
+                    </article>
                 </div>
             </section>
 
-            <section class="vip-section vip-grid-2">
+            <section class="vip-section vip-grid-2 vip-tab-panel" data-vip-tab-panel="clients" hidden>
                 <article class="vip-panel">
                     <div class="vip-panel-header">
                         <div>
@@ -243,7 +267,7 @@
                 </article>
             </section>
 
-            <section class="vip-section vip-grid-2">
+            <section class="vip-section vip-grid-2 vip-tab-panel" data-vip-tab-panel="clients" hidden>
                 <article class="vip-panel">
                     <div class="vip-panel-header">
                         <div>
@@ -416,7 +440,7 @@
                 </article>
             </section>
 
-            <section class="vip-section vip-panel">
+            <section class="vip-section vip-panel vip-tab-panel" data-vip-tab-panel="clients" hidden>
                 <div class="vip-panel-header">
                     <div>
                         <div class="vip-panel-kicker">Elenco completo clienti</div>
@@ -447,17 +471,17 @@
                 </div>
             </section>
 
-            <section class="vip-section vip-panel" id="vipBeachAdminSection">
+            <section class="vip-section vip-panel vip-tab-panel" id="vipBeachAdminSection" data-vip-tab-panel="pool" hidden>
                 <div class="vip-panel-header">
                     <div>
-                        <div class="vip-panel-kicker">Beach booking admin</div>
-                        <h2>Disponibilita giornaliera e piantina adattiva</h2>
+                        <div class="vip-panel-kicker">Gestione piscina</div>
+                        <h2>Piantina giornaliera e override</h2>
                     </div>
                     <div class="vip-status-pill" id="vipBeachAdminDayPill">Seleziona una data</div>
                 </div>
                 <p>
-                    Da qui lo staff decide quante postazioni rendere disponibili ogni giorno, blocca aree, imposta manutenzioni
-                    e controlla in una sola vista chi ha gia prenotato una specifica postazione.
+                    Da qui lo staff decide quante postazioni rendere disponibili ogni giorno, blocca aree e imposta manutenzioni
+                    con un controllo puntuale della piantina.
                 </p>
 
                 <div class="vip-grid-2">
@@ -519,7 +543,7 @@
                                     <div class="vip-panel-kicker">Piantina operativa</div>
                                     <h3 id="vipBeachAdminMapTitle">Seleziona una data</h3>
                                 </div>
-                                <div class="vip-booking-map-meta" id="vipBeachAdminMapMeta">Ogni spot mostra stato finale, capienza e booking attivo se presente.</div>
+                                <div class="vip-booking-map-meta" id="vipBeachAdminMapMeta">Ogni spot mostra stato finale e capienza.</div>
                             </div>
                             <div class="vip-booking-map-grid" id="vipBeachAdminMapGrid">
                                 <div class="vip-admin-empty-inline">Scegli una data per leggere la piantina del giorno.</div>
@@ -581,18 +605,80 @@
                     </article>
                 </div>
 
-                <section class="vip-beach-admin-bookings">
-                    <div class="vip-panel-header">
-                        <div>
-                            <div class="vip-panel-kicker">Prenotazioni del giorno</div>
-                            <h2>Occupazione reale per postazione</h2>
+            </section>
+
+            <section class="vip-section vip-panel vip-tab-panel" data-vip-tab-panel="bookings" hidden>
+                <div class="vip-panel-header">
+                    <div>
+                        <div class="vip-panel-kicker">Prenotazioni</div>
+                        <h2>Prenotazioni autonome e in pending</h2>
+                    </div>
+                    <div class="vip-status-pill" id="vipBookingsDayPill">Oggi</div>
+                </div>
+                <p>
+                    Qui trovi le prenotazioni da seguire in autonomia e quelle ancora in pending, separate per stato e ordinate per giornata.
+                </p>
+
+                <div class="vip-grid-2">
+                    <article class="vip-helper-box">
+                        <strong>Vista operativa</strong><br>
+                        <span>Il tab raggruppa le richieste in attesa e le prenotazioni gia confermate, con filtro per data e stato.</span>
+                    </article>
+                    <div class="vip-grid-2">
+                        <div class="vip-field">
+                            <label for="vipBookingsDate">Data prenotazione</label>
+                            <input id="vipBookingsDate" name="vipBookingsDate" type="date">
                         </div>
-                        <div class="vip-status-pill" id="vipBeachBookingsPill">0 booking</div>
+                        <div class="vip-field">
+                            <label for="vipBookingsFilterStatus">Stato</label>
+                            <select id="vipBookingsFilterStatus" name="vipBookingsFilterStatus">
+                                <option value="">Tutte le prenotazioni</option>
+                                <option value="RICHIESTA">In pending</option>
+                                <option value="CONFERMATA">Confermate</option>
+                                <option value="RIFIUTATA">Rifiutate</option>
+                                <option value="ANNULLATA">Annullate</option>
+                                <option value="COMPLETATA">Completate</option>
+                                <option value="NO_SHOW">No show</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="vip-beach-admin-bookings-list" id="vipBeachBookingsList">
-                        <div class="vip-admin-empty-inline">Le prenotazioni della giornata appariranno qui dopo il caricamento della mappa.</div>
+                </div>
+
+                <div class="vip-bookings-toolbar">
+                    <div class="vip-field">
+                        <label for="vipBookingsSearch">Ricerca prenotazione</label>
+                        <input id="vipBookingsSearch" name="vipBookingsSearch" type="text" placeholder="Nome cliente, card, spot, note...">
                     </div>
-                </section>
+                    <div class="vip-actions vip-actions-compact">
+                        <button class="vip-btn vip-btn-primary" id="vipBookingsRefresh" type="button">Aggiorna elenco</button>
+                        <button class="vip-btn vip-btn-plain" id="vipBookingsReset" type="button">Reset filtri</button>
+                    </div>
+                </div>
+
+                <div class="vip-status-message" id="vipBookingsStatus" aria-live="polite"></div>
+
+                <div class="vip-bookings-summary-grid">
+                    <article class="vip-metric">
+                        <span>Totale</span>
+                        <strong id="vipBookingsTotalCount">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>In pending</span>
+                        <strong id="vipBookingsPendingCount">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>Confermate</span>
+                        <strong id="vipBookingsConfirmedCount">-</strong>
+                    </article>
+                    <article class="vip-metric">
+                        <span>Con spot</span>
+                        <strong id="vipBookingsWithSpotCount">-</strong>
+                    </article>
+                </div>
+
+                <div class="vip-bookings-list" id="vipBookingsList">
+                    <div class="vip-admin-empty-inline">Seleziona una data per vedere le prenotazioni.</div>
+                </div>
             </section>
         </div>
     </main>
@@ -604,6 +690,7 @@
     <script src="assets/js/vip-admin-clients.js"></script>
     <script src="assets/js/vip-admin-form.js"></script>
     <script src="assets/js/vip-admin-beach.js"></script>
+    <script src="assets/js/vip-admin-bookings.js"></script>
     <script src="assets/js/vip-verify.js"></script>
 </body>
 </html>

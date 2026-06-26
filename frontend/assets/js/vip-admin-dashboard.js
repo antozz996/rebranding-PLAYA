@@ -125,7 +125,20 @@
                 countRows("referrals", function (query) {
                     return query.eq("status", "APPROVATO");
                 }),
-                countRows("warnings")
+                countRows("warnings"),
+                countRows("beach_layouts", function (query) {
+                    return query.eq("is_active", true);
+                }),
+                countRows("beach_spots"),
+                countRows("bookings", function (query) {
+                    return query
+                        .eq("booking_date", getTodayIsoDate())
+                        .not("spot_id", "is", null)
+                        .in("status", ["RICHIESTA", "CONFERMATA"]);
+                }),
+                countRows("beach_spot_overrides", function (query) {
+                    return query.eq("service_date", getTodayIsoDate());
+                })
             ]);
 
             setText("vipKpiClientsTotal", totals[0]);
@@ -136,6 +149,10 @@
             setText("vipKpiReferralsTotal", totals[5]);
             setText("vipKpiReferralsApproved", totals[6]);
             setText("vipKpiWarningsTotal", totals[7]);
+            setText("vipKpiBeachLayoutsActive", totals[8]);
+            setText("vipKpiBeachSpotsTotal", totals[9]);
+            setText("vipKpiBeachBookingsToday", totals[10]);
+            setText("vipKpiBeachOverridesToday", totals[11]);
 
             await loadRecentActivity();
         } catch (err) {
@@ -257,6 +274,15 @@
         if (node) {
             node.textContent = value;
         }
+    }
+
+    function getTodayIsoDate() {
+        const now = new Date();
+        return [
+            now.getFullYear(),
+            String(now.getMonth() + 1).padStart(2, "0"),
+            String(now.getDate()).padStart(2, "0")
+        ].join("-");
     }
 
     function bindQuickActions() {

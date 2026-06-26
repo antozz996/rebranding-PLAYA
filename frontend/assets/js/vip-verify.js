@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const accessStateNode = document.getElementById("vipVerifyAccessState");
     const signOutButton = document.getElementById("vipVerifySignOut");
     const loginLink = document.getElementById("vipVerifyLoginLink");
+    const tabButtons = Array.from(document.querySelectorAll("[data-vip-tab-target]"));
+    const tabPanels = Array.from(document.querySelectorAll(".vip-tab-panel[data-vip-tab-panel]"));
 
     if (!form || !window.FDAVip) {
         return;
@@ -43,6 +45,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         codeInput.value = initialCode;
     }
 
+    setActiveTab("verify");
     await hydrateAccessState();
 
     form.addEventListener("submit", async function (event) {
@@ -68,6 +71,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (initialCode) {
         verifyCard();
     }
+
+    tabButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            setActiveTab(button.getAttribute("data-vip-tab-target") || "verify");
+        });
+    });
 
     async function verifyCard() {
         const isStaffAuthenticated = await hasStaffSession();
@@ -256,6 +265,41 @@ document.addEventListener("DOMContentLoaded", async function () {
     async function hasStaffSession() {
         const { data } = await supabaseClient.auth.getSession();
         return Boolean(data && data.session);
+    }
+
+    function setActiveTab(tabName) {
+        const normalizedTab = tabName || "verify";
+
+        tabButtons.forEach(function (button) {
+            const isActive = button.getAttribute("data-vip-tab-target") === normalizedTab;
+            button.classList.toggle("is-active", isActive);
+            button.setAttribute("aria-selected", isActive ? "true" : "false");
+        });
+
+        tabPanels.forEach(function (panel) {
+            const panelTab = panel.getAttribute("data-vip-tab-panel");
+            const preserveState = panel.getAttribute("data-vip-tab-preserve-state") === "true";
+
+            if (panelTab !== normalizedTab) {
+                if (preserveState && panel.dataset.vipHiddenBeforeTab === undefined) {
+                    panel.dataset.vipHiddenBeforeTab = String(panel.hidden);
+                }
+                panel.hidden = true;
+                return;
+            }
+
+            if (preserveState && panel.dataset.vipHiddenBeforeTab !== undefined) {
+                panel.hidden = panel.dataset.vipHiddenBeforeTab === "true";
+                delete panel.dataset.vipHiddenBeforeTab;
+                return;
+            }
+
+            if (preserveState && panel.hidden) {
+                return;
+            }
+
+            panel.hidden = false;
+        });
     }
 
     async function resolveStaffPhotoUrl(photoPath) {

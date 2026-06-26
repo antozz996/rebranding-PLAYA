@@ -1,0 +1,6 @@
+.agents
+.vercel
+backups
+scratch
+**/*.bak.nav
+test_page_temp.html

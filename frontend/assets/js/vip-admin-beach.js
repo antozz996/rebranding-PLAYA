@@ -10,8 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const mapMeta = document.getElementById("vipBeachAdminMapMeta");
     const dayPill = document.getElementById("vipBeachAdminDayPill");
     const editorPill = document.getElementById("vipBeachEditorPill");
-    const bookingsPill = document.getElementById("vipBeachBookingsPill");
-    const bookingsList = document.getElementById("vipBeachBookingsList");
     const overrideForm = document.getElementById("vipBeachOverrideForm");
     const overrideSpotId = document.getElementById("vipBeachOverrideSpotId");
     const overrideStatus = document.getElementById("vipBeachOverrideStatus");
@@ -117,7 +115,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (!state.rows.length) {
                 renderEmptyMap("Nessuna postazione configurata per il layout attivo.");
-                renderBookings([]);
                 renderCounters([]);
                 window.FDAVip.showStatus(statusBox, "Nessuna postazione trovata per la data selezionata.", "error");
                 return;
@@ -125,7 +122,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             renderMap(state.rows, normalizedDate);
             renderCounters(state.rows);
-            renderBookings(state.rows);
 
             if (preserveSelection && state.selectedSpotId) {
                 const currentSpot = findSpotById(state.selectedSpotId);
@@ -144,7 +140,6 @@ document.addEventListener("DOMContentLoaded", function () {
         } catch (err) {
             state.rows = [];
             renderEmptyMap("Non riusciamo a leggere la piantina in questo momento.");
-            renderBookings([]);
             renderCounters([]);
             window.FDAVip.showStatus(
                 statusBox,
@@ -164,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
             mapTitle.textContent = "Piantina staff del " + formatDateLabel(dateValue);
         }
         if (mapMeta) {
-            mapMeta.textContent = availableCount + " spot disponibili ora. Clicca una postazione per modificarla.";
+            mapMeta.textContent = availableCount + " spot disponibili ora. Clicca una postazione per modificarne lo stato.";
         }
         if (dayPill) {
             dayPill.textContent = formatShortDate(dateValue);
@@ -220,57 +215,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }).length);
     }
 
-    function renderBookings(rows) {
-        if (!bookingsList) {
-            return;
-        }
-
-        const bookings = rows
-            .filter(function (row) {
-                return Boolean(row.active_booking_id);
-            })
-            .reduce(function (acc, row) {
-                if (!acc.lookup[row.active_booking_id]) {
-                    acc.lookup[row.active_booking_id] = true;
-                    acc.rows.push(row);
-                }
-                return acc;
-            }, { lookup: {}, rows: [] })
-            .rows;
-
-        bookingsList.innerHTML = "";
-
-        if (bookingsPill) {
-            bookingsPill.textContent = bookings.length + " booking";
-        }
-
-        if (!bookings.length) {
-            bookingsList.innerHTML = "<div class='vip-admin-empty-inline'>Nessuna prenotazione attiva per la giornata selezionata.</div>";
-            return;
-        }
-
-        bookings.forEach(function (row) {
-            const item = document.createElement("article");
-            item.className = "vip-beach-admin-booking-item";
-            item.innerHTML =
-                "<strong>" + dashboard.escapeHtml(row.spot_code || "-") + "</strong>" +
-                "<span>" + dashboard.escapeHtml(row.booking_client_name || "Cliente riservato") + "</span>" +
-                "<small>" + dashboard.escapeHtml((row.zone || "Area VIP") + " · " + (row.active_booking_status || "RICHIESTA")) + "</small>";
-            item.addEventListener("click", function () {
-                state.selectedSpotId = row.spot_id;
-                populateEditor(row);
-                refreshSelectionStyles();
-            });
-            bookingsList.appendChild(item);
-        });
-    }
-
     function renderEmptyMap(message) {
         if (mapTitle) {
             mapTitle.textContent = "Seleziona una data";
         }
         if (mapMeta) {
-            mapMeta.textContent = "Ogni spot mostra stato finale, capienza e booking attivo se presente.";
+            mapMeta.textContent = "Ogni spot mostra stato finale e capienza.";
         }
         if (dayPill) {
             dayPill.textContent = "Seleziona una data";
@@ -312,8 +262,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         if (selectedMeta) {
             selectedMeta.textContent = spot.active_booking_id
-                ? "Booking attivo associato a " + (spot.booking_client_name || "cliente riservato") + "."
-                : "Nessun booking attivo. Puoi applicare un override giornaliero.";
+                ? "Postazione occupata nella giornata selezionata."
+                : "Nessuna occupazione attiva. Puoi applicare un override giornaliero.";
         }
         if (editorPill) {
             editorPill.textContent = spot.spot_code || "Selezionata";
@@ -496,7 +446,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function getSpotBadge(spot) {
-        const suffix = spot.active_booking_id ? " · booking attivo" : "";
+        const suffix = spot.active_booking_id ? " · occupata" : "";
         return (spot.umbrellas || 0) + " omb · " + (spot.sunbeds || 0) + " let" + suffix;
     }
 
