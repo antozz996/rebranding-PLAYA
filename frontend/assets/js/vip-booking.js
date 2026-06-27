@@ -302,10 +302,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             button.style.transform = "rotate(" + rotation + "deg)";
             button.style.zIndex = String(clamp(toInteger(spot.z_index, 0), 0, 999));
 
-            button.innerHTML =
-                "<strong>" + escapeHtml(spot.spot_code) + "</strong>" +
-                "<span>" + escapeHtml(spot.label || spot.zone || "Postazione") + "</span>" +
-                "<small>" + escapeHtml(getSpotMetaLabel(spot)) + "</small>";
+            button.innerHTML = escapeHtml(spot.spot_code);
 
             button.addEventListener("click", function () {
                 selectSpot(spot);

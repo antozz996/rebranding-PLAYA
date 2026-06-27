@@ -507,10 +507,7 @@ document.addEventListener("DOMContentLoaded", function () {
             node.style.height = height + "px";
             node.style.transform = "rotate(" + rotation + "deg)";
             node.style.zIndex = String(clamp(toInteger(spot.z_index, 0), 0, 999));
-            node.innerHTML =
-                "<span class='vip-layout-spot-code'>" + dashboard.escapeHtml(spot.spot_code || "-") + "</span>" +
-                "<span class='vip-layout-spot-label'>" + dashboard.escapeHtml(spot.label || spot.zone || "Postazione") + "</span>" +
-                "<span class='vip-layout-spot-meta'>" + dashboard.escapeHtml(buildLayoutSpotMeta(spot)) + "</span>";
+            node.innerHTML = dashboard.escapeHtml(spot.spot_code || "-");
 
             node.addEventListener("click", function () {
                 state.selectedLayoutSpotKey = spot._localKey;
@@ -1184,10 +1181,7 @@ document.addEventListener("DOMContentLoaded", function () {
             button.style.transform = "rotate(" + rotation + "deg)";
             button.style.zIndex = String(clamp(toInteger(spot.z_index, 0), 0, 999));
 
-            button.innerHTML =
-                "<strong>" + dashboard.escapeHtml(spot.spot_code) + "</strong>" +
-                "<span>" + dashboard.escapeHtml(spot.label || spot.zone || "Postazione") + "</span>" +
-                "<small>" + dashboard.escapeHtml(getSpotBadge(spot)) + "</small>";
+            button.innerHTML = dashboard.escapeHtml(spot.spot_code);
 
             button.addEventListener("click", function () {
                 state.selectedSpotId = spot.spot_id;
