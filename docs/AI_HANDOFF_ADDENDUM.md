@@ -1,6 +1,6 @@
-# AI Handoff Addendum: Regole di Prenotazione e Piantina Personalizzata (Absolute Positioning)
+# AI Handoff Addendum: Regole di Prenotazione e Piantina Personalizzata (Circular Markers)
 
-Questo documento descrive le ultime modifiche apportate al progetto per aggiungere la gestione delle regole di prenotazione dal pannello staff e la piantina personalizzata a posizionamento assoluto.
+Questo documento descrive le ultime modifiche apportate al progetto per aggiungere la gestione delle regole di prenotazione dal pannello staff e la piantina personalizzata con marker circolari (pallini).
 
 ---
 
@@ -22,27 +22,34 @@ Questo documento descrive le ultime modifiche apportate al progetto per aggiunge
 
 ---
 
-## 2. Piantina Personalizzata con Posizionamento Assoluto
+## 2. Piantina Personalizzata con Marker Circolari (Pallini)
 
-Per allineare il layout della piscina all'immagine reale fornita dal cliente (piscina a fagiolo/curva con ombrelloni), è stato implementato il posizionamento assoluto in tutte le viste:
+Per allineare il layout della piscina all'immagine reale fornita dal cliente (piscina a fagiolo con ombrelloni), le postazioni sono state convertite in **pallini circolari colorati**:
 
 1.  **Immagine di Sfondo**:
     *   L'immagine della piantina è stata salvata in [pool-layout-bg.png](file:///root/REBRANDING%20PLAYA/frontend/assets/images/pool-layout-bg.png).
 2.  **Stili CSS Canvas** ([vip-club.css](file:///root/REBRANDING%20PLAYA/frontend/assets/js/vip-club.css)):
     *   Sia `.vip-layout-editor-canvas` (editor permanente staff) che `.vip-booking-map-grid` (mappa prenotazione cliente ed overrides staff) hanno ora dimensioni fisse di `1200x760px` con l'immagine di sfondo caricata in `cover` e centrata.
-    *   Aggiunto `overflow-x: auto` alla classe contenitore `.vip-booking-map-wrap` per consentire lo scorrimento orizzontale fluido su dispositivi mobili senza compromettere il design.
-3.  **Rendering dei Bottoni**:
-    *   Invece di raggruppare per righe flex, le postazioni vengono disegnate sulla mappa come bottoni posizionati in modo assoluto tramite le proprietà `x`, `y`, `width`, `height` e `rotation` registrate nel database.
-    *   Questa logica è stata implementata in:
+    *   Aggiunto `overflow-x: auto` alla classe contenitore `.vip-booking-map-wrap` per consentire lo scorrimento orizzontale fluido su dispositivi mobili.
+3.  **Marker Circolari (Pallini)**:
+    *   Le classi `.vip-beach-spot` e `.vip-layout-spot` sono state ridefinite per essere cerchi perfetti di `44x44px` con testo centrato.
+    *   Nelle viste mappa vengono nascosti i dettagli secondari (etichette, note, capienza lettini) all'interno del pulsante (mostrando solo il codice dell'ombrellone es. "A01"), rendendo il layout estremamente pulito e premium.
+    *   I dettagli completi continuano ad essere mostrati nel box di riepilogo in basso quando una postazione viene cliccata.
+    *   Le maniglie di ridimensionamento e rotazione del layout editor (`.vip-layout-handle`, `.vip-layout-rotate-handle`) sono state nascoste (`display: none`), in modo che lo staff possa solo trascinare e posizionare i cerchi.
+4.  **Logica JS**:
+    *   Le postazioni vengono posizionate in modo assoluto in base a `x` e `y` salvati nel database.
+    *   Questa logica è implementata in:
         *   Staff Layout Editor: [vip-admin-beach.js](file:///root/REBRANDING%20PLAYA/frontend/assets/js/vip-admin-beach.js) (`renderLayoutCanvas`).
         *   Staff Daily Overrides Map: [vip-admin-beach.js](file:///root/REBRANDING%20PLAYA/frontend/assets/js/vip-admin-beach.js) (`renderMap`).
         *   Client Booking Map: [vip-booking.js](file:///root/REBRANDING%20PLAYA/frontend/assets/js/vip-booking.js) (`renderMap`).
 
 ---
 
-## 3. Codifica Cromatico-Branding delle Postazioni
+## 3. Codifica Cromatico-Branding dei Pallini
 
-I colori delle postazioni sulla mappa (sia lato cliente che staff) sono stati aggiornati:
-*   **Postazioni prenotate (`OCCUPATA`)**: diventano di colore **Grigio** (classe `.is-booked`).
-*   **Postazioni disponibili (`DISPONIBILE`)**: diventano di colore **Verde** premium (classe `.is-available`).
-*   Aggiunto il chip di legenda "Prenotata" (Grigio) in [vip-booking.html](file:///root/REBRANDING%20PLAYA/frontend/vip-booking.html) e [vip-verify.html](file:///root/REBRANDING%20PLAYA/frontend/vip-verify.html).
+*   **Disponibile (`DISPONIBILE`)**: Pallino **Verde** solido (`#28a745`) con testo bianco.
+*   **Prenotato (`OCCUPATA`)**: Pallino **Grigio** solido (`#6c757d`) con testo bianco.
+*   **Riservato dallo Staff (`RISERVATA`)**: Pallino **Arancione** solido (`#ffb347`) con testo bianco.
+*   **Bloccato / Rifiutato (`BLOCCATA`)**: Pallino **Rosso** solido (`#ef476f`) con testo bianco.
+*   **Manutenzione (`MANUTENZIONE`)**: Pallino **Viola** solido (`#5d6ad2`) con testo bianco.
+*   **Selezionato**: Pallino ingrandito (`scale(1.15)`) con un alone giallo brillante di evidenziazione.
