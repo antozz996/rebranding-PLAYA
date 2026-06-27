@@ -261,7 +261,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     function renderMap(rows, dateValue) {
-        const groupedRows = groupByRow(rows);
         const freeSpots = rows.filter(function (row) {
             return row.final_status === "DISPONIBILE" && row.is_bookable;
         }).length;
@@ -278,41 +277,43 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         mapGrid.innerHTML = "";
 
-        groupedRows.forEach(function (group) {
-            const rowShell = document.createElement("section");
-            rowShell.className = "vip-beach-row";
+        const CANVAS_WIDTH = 1200;
+        const CANVAS_HEIGHT = 760;
+        const MIN_SIZE = 72;
 
-            const rowLabel = document.createElement("div");
-            rowLabel.className = "vip-beach-row-label";
-            rowLabel.innerHTML =
-                "<strong>Fila " + escapeHtml(group.rowName) + "</strong>" +
-                "<span>" + escapeHtml(group.zoneLabel) + "</span>";
+        rows.forEach(function (spot) {
+            const button = document.createElement("button");
+            const left = clamp(toNumber(spot.x, 0), 0, CANVAS_WIDTH - MIN_SIZE);
+            const top = clamp(toNumber(spot.y, 0), 0, CANVAS_HEIGHT - MIN_SIZE);
+            const width = clamp(toNumber(spot.width, 150), MIN_SIZE, 320);
+            const height = clamp(toNumber(spot.height, 118), MIN_SIZE, 240);
+            const rotation = clamp(toNumber(spot.rotation, 0), -180, 180);
 
-            const rowSpots = document.createElement("div");
-            rowSpots.className = "vip-beach-row-spots";
+            button.type = "button";
+            button.className = buildSpotClassName(spot, false);
+            button.disabled = !spot.is_bookable;
+            button.setAttribute("data-spot-id", spot.spot_id);
+            
+            button.style.position = "absolute";
+            button.style.left = left + "px";
+            button.style.top = top + "px";
+            button.style.width = width + "px";
+            button.style.height = height + "px";
+            button.style.transform = "rotate(" + rotation + "deg)";
+            button.style.zIndex = String(clamp(toInteger(spot.z_index, 0), 0, 999));
 
-            group.spots.forEach(function (spot) {
-                const button = document.createElement("button");
-                button.type = "button";
-                button.className = buildSpotClassName(spot, false);
-                button.disabled = !spot.is_bookable;
-                button.setAttribute("data-spot-id", spot.spot_id);
-                button.innerHTML =
-                    "<strong>" + escapeHtml(spot.spot_code) + "</strong>" +
-                    "<span>" + escapeHtml(spot.label || spot.zone || "Postazione") + "</span>" +
-                    "<small>" + escapeHtml(getSpotMetaLabel(spot)) + "</small>";
+            button.innerHTML =
+                "<strong>" + escapeHtml(spot.spot_code) + "</strong>" +
+                "<span>" + escapeHtml(spot.label || spot.zone || "Postazione") + "</span>" +
+                "<small>" + escapeHtml(getSpotMetaLabel(spot)) + "</small>";
 
-                button.addEventListener("click", function () {
-                    selectSpot(spot);
-                });
-
-                rowSpots.appendChild(button);
+            button.addEventListener("click", function () {
+                selectSpot(spot);
             });
 
-            rowShell.appendChild(rowLabel);
-            rowShell.appendChild(rowSpots);
-            mapGrid.appendChild(rowShell);
+            mapGrid.appendChild(button);
         });
+        refreshSelectionStyles();
     }
 
     function renderEmptyMap(message) {
@@ -692,6 +693,20 @@ document.addEventListener("DOMContentLoaded", async function () {
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
             .replace(/"/g, "&quot;");
+    }
+
+    function toInteger(value, fallback) {
+        const numberValue = Number.parseInt(value, 10);
+        return Number.isFinite(numberValue) ? numberValue : Number(fallback || 0);
+    }
+
+    function toNumber(value, fallback) {
+        const numberValue = Number(value);
+        return Number.isFinite(numberValue) ? numberValue : Number(fallback || 0);
+    }
+
+    function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
     }
 
     const initialDate = formatDateForInput(new Date());
