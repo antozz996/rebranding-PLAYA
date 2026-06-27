@@ -75,9 +75,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             dashboard.setClientsRows(enrichedClients);
             dashboard.setSelectedClientIds([]);
-            renderSearchResults(enrichedClients.slice(0, 6));
+            renderSearchResults(enrichedClients.slice(0, 8));
             renderTable(enrichedClients);
-            updateCountPill(enrichedClients.length);
+            updateCountPill(enrichedClients.length, count || enrichedClients.length);
         } catch (err) {
             renderEmptyTable();
             window.FDAVip.showStatus(
@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "<strong>" + dashboard.escapeHtml(row.full_name) + "</strong>" +
                 "<span>" + dashboard.escapeHtml(row.card_code || row.phone || "-") + "</span>";
             button.addEventListener("click", function () {
-                dashboard.setEditingClient(row);
+                openClientEditor(row);
             });
             resultsNode.appendChild(button);
         });
@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "<td><strong>" + dashboard.escapeHtml(row.full_name) + "</strong><div class='vip-admin-row-sub'>" + dashboard.escapeHtml(row.referral_code || "-") + "</div></td>",
                 "<td>" + dashboard.escapeHtml(row.phone || "-") + "</td>",
                 "<td>" + dashboard.escapeHtml(row.vip_level || "-") + "</td>",
-                "<td>" + dashboard.escapeHtml(row.status || "-") + "</td>",
+                "<td>" + buildStatusChip(row.status) + "</td>",
                 "<td>" + dashboard.escapeHtml(row.card_code || "-") + "</td>",
                 "<td>" + String(row.warnings_count || 0) + "</td>",
                 "<td>" + (row.photo_path ? "Si" : "No") + "</td>",
@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
             ].join("");
 
             tr.querySelector("[data-action='open']").addEventListener("click", function () {
-                dashboard.setEditingClient(row);
+                openClientEditor(row);
             });
 
             tr.querySelector(".vip-admin-row-check").addEventListener("change", onRowCheckChange);
@@ -215,12 +215,17 @@ document.addEventListener("DOMContentLoaded", function () {
             selectAllCheckbox.checked = false;
         }
         tableBody.innerHTML = "<tr><td colspan='9'><div class='vip-admin-empty-inline'>Nessun cliente disponibile nella vista corrente.</div></td></tr>";
-        updateCountPill(0);
+        updateCountPill(0, 0);
     }
 
-    function updateCountPill(total) {
+    function updateCountPill(visibleTotal, rawTotal) {
         if (tableCountPill) {
-            tableCountPill.textContent = total + " clienti";
+            if (rawTotal > visibleTotal) {
+                tableCountPill.textContent = visibleTotal + " visibili su " + rawTotal;
+                return;
+            }
+
+            tableCountPill.textContent = visibleTotal + " clienti";
         }
     }
 
@@ -248,6 +253,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!nextStatus && !noteValue) {
             window.FDAVip.showStatus(statusBox, "Scegli almeno un cambio stato o una nota staff rapida.", "error");
+            return;
+        }
+
+        if (!window.confirm(buildBulkConfirmationMessage(selectedIds.length, nextStatus, noteValue))) {
             return;
         }
 
@@ -333,6 +342,64 @@ document.addEventListener("DOMContentLoaded", function () {
         return current ? current + "\n" + nextNote : nextNote;
     }
 
+    function buildBulkConfirmationMessage(selectedCount, nextStatus, noteValue) {
+        const actions = [];
+
+        if (nextStatus) {
+            actions.push("cambio stato in \"" + humanizeStatus(nextStatus) + "\"");
+        }
+
+        if (noteValue) {
+            actions.push("aggiunta nota staff");
+        }
+
+        return "Confermi " + actions.join(" + ") + " per " + selectedCount + " clienti selezionati?";
+    }
+
+    function openClientEditor(client) {
+        dashboard.setEditingClient(client);
+
+        const formNode = document.getElementById("vipAdminClientForm");
+        if (formNode) {
+            formNode.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+    }
+
+    function buildStatusChip(status) {
+        const normalizedStatus = String(status || "").trim();
+        return "<span class='vip-status-pill vip-status-pill-inline " + getStatusClass(normalizedStatus) + "'>" +
+            dashboard.escapeHtml(humanizeStatus(normalizedStatus)) +
+            "</span>";
+    }
+
+    function getStatusClass(status) {
+        if (status === "VIP") {
+            return "is-vip";
+        }
+
+        if (status === "APPROVATO") {
+            return "is-approved";
+        }
+
+        return "is-watch";
+    }
+
+    function humanizeStatus(status) {
+        const labels = {
+            DA_VERIFICARE: "Da verificare",
+            APPROVATO: "Approvato",
+            VIP: "VIP",
+            IN_OSSERVAZIONE: "In osservazione",
+            SOSPESO: "Sospeso",
+            ARCHIVIATO: "Archiviato"
+        };
+
+        return labels[status] || "Profilo";
+    }
+
     function getCurrentFilters() {
         return {
             status: filterStatus ? filterStatus.value : "",
@@ -346,6 +413,24 @@ document.addEventListener("DOMContentLoaded", function () {
     function bindEvents() {
         if (refreshButton) {
             refreshButton.addEventListener("click", loadClients);
+        }
+        if (searchInput) {
+            searchInput.addEventListener("input", debounce(loadClients, 220));
+        }
+        if (filterStatus) {
+            filterStatus.addEventListener("change", loadClients);
+        }
+        if (filterLevel) {
+            filterLevel.addEventListener("change", loadClients);
+        }
+        if (filterWarnings) {
+            filterWarnings.addEventListener("change", loadClients);
+        }
+        if (filterPhoto) {
+            filterPhoto.addEventListener("change", loadClients);
+        }
+        if (sortSelect) {
+            sortSelect.addEventListener("change", loadClients);
         }
         if (resetButton) {
             resetButton.addEventListener("click", function () {
@@ -389,5 +474,17 @@ document.addEventListener("DOMContentLoaded", function () {
             loadClients();
             dashboard.loadDashboardStats();
         });
+    }
+
+    function debounce(fn, delay) {
+        let timer = null;
+        return function () {
+            const args = arguments;
+            const context = this;
+            window.clearTimeout(timer);
+            timer = window.setTimeout(function () {
+                fn.apply(context, args);
+            }, delay);
+        };
     }
 });

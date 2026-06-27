@@ -680,16 +680,23 @@ body.vip-club-body {
 
 .vip-tabs {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
     gap: 12px;
     padding: 12px;
     border-radius: 24px;
     border: 1px solid rgba(2, 62, 138, 0.08);
     background: rgba(255, 255, 255, 0.8);
     box-shadow: 0 14px 28px rgba(2, 62, 138, 0.08);
+    scrollbar-width: thin;
+    position: sticky;
+    top: 14px;
+    z-index: 12;
+    backdrop-filter: blur(14px);
 }
 
 .vip-tab {
+    flex: 0 0 auto;
     min-height: 48px;
     padding: 0 18px;
     border-radius: 999px;
@@ -716,6 +723,13 @@ body.vip-club-body {
     border-color: rgba(255, 214, 0, 0.56);
     background: linear-gradient(135deg, rgba(255, 214, 0, 0.2), rgba(0, 180, 216, 0.14));
     box-shadow: 0 10px 20px rgba(2, 62, 138, 0.08);
+}
+
+.vip-status-pill-inline {
+    min-height: 34px;
+    padding: 0 12px;
+    font-size: 0.7rem;
+    white-space: nowrap;
 }
 
 [data-vip-tab-panel][hidden] {
@@ -1231,6 +1245,225 @@ body.vip-club-body {
     gap: 18px;
 }
 
+.vip-inline-tabs {
+    display: inline-flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+    padding: 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(2, 62, 138, 0.08);
+    box-shadow: 0 14px 24px rgba(2, 62, 138, 0.06);
+}
+
+.vip-inline-tab {
+    min-height: 42px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: rgba(5, 53, 103, 0.72);
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, color 0.22s ease;
+}
+
+.vip-inline-tab:hover,
+.vip-inline-tab:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(255, 214, 0, 0.38);
+    color: var(--vip-deep);
+}
+
+.vip-inline-tab.is-active {
+    background: rgba(0, 119, 182, 0.08);
+    border-color: rgba(0, 119, 182, 0.14);
+    color: var(--vip-deep);
+}
+
+.vip-pool-subpanel {
+    display: grid;
+    gap: 22px;
+    margin-top: 24px;
+}
+
+.vip-pool-subpanel[hidden] {
+    display: none;
+}
+
+.vip-beach-layout-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.vip-layout-workspace-grid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+}
+
+.vip-layout-actions-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.vip-layout-editor-shell {
+    display: grid;
+}
+
+.vip-layout-editor-viewport {
+    width: 100%;
+    overflow: auto;
+    padding-bottom: 10px;
+}
+
+.vip-layout-editor-canvas {
+    position: relative;
+    min-height: 760px;
+    border-radius: 30px;
+    border: 1px solid rgba(2, 62, 138, 0.08);
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.72)),
+        linear-gradient(90deg, rgba(0, 119, 182, 0.08) 1px, transparent 1px),
+        linear-gradient(rgba(0, 119, 182, 0.08) 1px, transparent 1px),
+        radial-gradient(circle at top left, rgba(255, 214, 0, 0.08), transparent 24%),
+        linear-gradient(180deg, rgba(202, 240, 248, 0.52), rgba(247, 253, 255, 0.92));
+    background-size: auto, 40px 40px, 40px 40px, auto, auto;
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.42);
+}
+
+.vip-layout-spot {
+    position: absolute;
+    display: grid;
+    align-content: center;
+    gap: 5px;
+    padding: 14px;
+    border-radius: 24px;
+    border: 1px solid rgba(2, 62, 138, 0.1);
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--vip-deep);
+    text-align: left;
+    box-shadow: 0 16px 28px rgba(2, 62, 138, 0.08);
+    cursor: grab;
+    user-select: none;
+    transition: box-shadow 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+}
+
+.vip-layout-spot:hover,
+.vip-layout-spot:focus-visible {
+    box-shadow: 0 22px 36px rgba(2, 62, 138, 0.12);
+}
+
+.vip-layout-spot:active {
+    cursor: grabbing;
+}
+
+.vip-layout-spot.is-available {
+    border-color: rgba(46, 196, 182, 0.38);
+    background: linear-gradient(180deg, rgba(244, 255, 253, 0.98), rgba(46, 196, 182, 0.12));
+}
+
+.vip-layout-spot.is-occupied {
+    border-color: rgba(255, 179, 71, 0.44);
+    background: linear-gradient(180deg, rgba(255, 251, 243, 0.98), rgba(255, 179, 71, 0.16));
+}
+
+.vip-layout-spot.is-blocked {
+    border-color: rgba(239, 71, 111, 0.34);
+    background: linear-gradient(180deg, rgba(255, 245, 247, 0.98), rgba(239, 71, 111, 0.14));
+}
+
+.vip-layout-spot.is-maintenance {
+    border-color: rgba(93, 106, 210, 0.34);
+    background: linear-gradient(180deg, rgba(247, 248, 255, 0.98), rgba(93, 106, 210, 0.14));
+}
+
+.vip-layout-spot.is-selected {
+    border-color: rgba(255, 214, 0, 0.82);
+    box-shadow: 0 0 0 4px rgba(255, 214, 0, 0.18), 0 24px 38px rgba(2, 62, 138, 0.14);
+}
+
+.vip-layout-spot.shape-round {
+    border-radius: 999px;
+}
+
+.vip-layout-spot.shape-cabana {
+    border-radius: 34px;
+}
+
+.vip-layout-spot-code {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+.vip-layout-spot-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: rgba(5, 53, 103, 0.8);
+}
+
+.vip-layout-spot-meta {
+    font-size: 0.72rem;
+    color: rgba(5, 53, 103, 0.6);
+}
+
+.vip-layout-handle,
+.vip-layout-rotate-handle {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: var(--vip-white);
+    border: 2px solid var(--vip-deep);
+    box-shadow: 0 6px 14px rgba(2, 62, 138, 0.16);
+}
+
+.vip-layout-handle {
+    cursor: nwse-resize;
+}
+
+.vip-layout-handle.is-nw {
+    top: -8px;
+    left: -8px;
+    cursor: nwse-resize;
+}
+
+.vip-layout-handle.is-ne {
+    top: -8px;
+    right: -8px;
+    cursor: nesw-resize;
+}
+
+.vip-layout-handle.is-sw {
+    bottom: -8px;
+    left: -8px;
+    cursor: nesw-resize;
+}
+
+.vip-layout-handle.is-se {
+    right: -8px;
+    bottom: -8px;
+    cursor: nwse-resize;
+}
+
+.vip-layout-rotate-handle {
+    top: -28px;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    transform: translateX(-50%);
+    background: var(--vip-sun);
+    border-color: rgba(2, 62, 138, 0.16);
+    cursor: grab;
+}
+
 .vip-beach-row {
     display: grid;
     gap: 12px;
@@ -1504,6 +1737,48 @@ body.vip-club-body {
     color: rgba(5, 53, 103, 0.86);
 }
 
+.vip-booking-admin-editor-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(240px, 0.75fr);
+    gap: 14px;
+}
+
+.vip-booking-admin-editor-field {
+    margin: 0;
+}
+
+.vip-booking-admin-textarea {
+    min-height: 122px;
+    resize: vertical;
+}
+
+.vip-booking-admin-editor-panel {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding: 16px;
+    border-radius: 22px;
+    border: 1px solid rgba(2, 62, 138, 0.08);
+    background: rgba(255, 255, 255, 0.86);
+}
+
+.vip-booking-admin-editor-panel strong {
+    font-size: 0.92rem;
+    color: var(--vip-deep);
+}
+
+.vip-booking-admin-editor-panel span {
+    font-size: 0.86rem;
+    line-height: 1.55;
+    color: rgba(5, 53, 103, 0.68);
+}
+
+.vip-booking-admin-inline-actions,
+.vip-booking-admin-actions-wrap {
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
 .vip-booking-admin-footer {
     display: flex;
     align-items: center;
@@ -1620,8 +1895,17 @@ body.vip-club-body {
     .vip-admin-kpi-grid,
     .vip-admin-output-grid,
     .vip-beach-admin-summary,
-    .vip-bookings-summary-grid {
+    .vip-bookings-summary-grid,
+    .vip-beach-layout-summary {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .vip-booking-admin-editor-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .vip-layout-workspace-grid {
+        grid-template-columns: 1fr;
     }
 
     .vip-navbar-inner {
@@ -1669,7 +1953,8 @@ body.vip-club-body {
     .vip-admin-kpi-grid,
     .vip-admin-output-grid,
     .vip-beach-admin-summary,
-    .vip-bookings-summary-grid {
+    .vip-bookings-summary-grid,
+    .vip-beach-layout-summary {
         grid-template-columns: 1fr;
     }
 
@@ -1688,7 +1973,7 @@ body.vip-club-body {
     }
 
     .vip-tab {
-        width: 100%;
+        width: auto;
     }
 
     .vip-booking-map-headline,
@@ -1714,5 +1999,15 @@ body.vip-club-body {
     .vip-booking-admin-meta,
     .vip-booking-admin-notes {
         grid-template-columns: 1fr;
+    }
+
+    .vip-inline-tabs,
+    .vip-layout-actions-row {
+        width: 100%;
+    }
+
+    .vip-inline-tab {
+        width: 100%;
+        justify-content: center;
     }
 }

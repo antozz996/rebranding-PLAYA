@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             mapMeta.textContent = freeSpots + " postazioni prenotabili adesso, aggiornate in tempo reale.";
         }
         if (selectionPill) {
-            selectionPill.textContent = freeSpots ? freeSpots + " spot liberi" : "Nessuno spot libero";
+            selectionPill.textContent = freeSpots ? freeSpots + " postazioni libere" : "Nessuna postazione libera";
         }
 
         mapGrid.innerHTML = "";
@@ -296,7 +296,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             selectionMeta.textContent = getSpotMetaLabel(spot) + " · disponibile per intera giornata.";
         }
         if (selectionPill) {
-            selectionPill.textContent = "Spot " + (spot.spot_code || "selezionato");
+            selectionPill.textContent = "Postazione " + (spot.spot_code || "selezionata");
         }
         if (selectionCard) {
             selectionCard.classList.add("is-selected");

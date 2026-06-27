@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     const initialCode = getCodeFromQuery();
+    const initialTab = getInitialTab();
     const returnTo = buildReturnTo();
 
     if (loginLink) {
@@ -45,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         codeInput.value = initialCode;
     }
 
-    setActiveTab("verify");
+    setActiveTab(initialTab, false);
     await hydrateAccessState();
 
     form.addEventListener("submit", async function (event) {
@@ -74,8 +75,17 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     tabButtons.forEach(function (button) {
         button.addEventListener("click", function () {
-            setActiveTab(button.getAttribute("data-vip-tab-target") || "verify");
+            setActiveTab(button.getAttribute("data-vip-tab-target") || "verify", true);
         });
+    });
+
+    window.addEventListener("fda-vip-admin:activate-tab", function (event) {
+        const targetTab = event.detail ? event.detail.tab : "";
+        if (!targetTab) {
+            return;
+        }
+
+        setActiveTab(targetTab, true);
     });
 
     async function verifyCard() {
@@ -134,6 +144,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             if (resultBox) {
                 resultBox.hidden = false;
             }
+            setActiveTab("verify", true);
 
             window.FDAVip.showStatus(
                 statusBox,
@@ -267,8 +278,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         return Boolean(data && data.session);
     }
 
-    function setActiveTab(tabName) {
-        const normalizedTab = tabName || "verify";
+    function setActiveTab(tabName, syncHistory) {
+        const normalizedTab = isAllowedTab(tabName) ? tabName : "verify";
 
         tabButtons.forEach(function (button) {
             const isActive = button.getAttribute("data-vip-tab-target") === normalizedTab;
@@ -300,6 +311,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             panel.hidden = false;
         });
+
+        if (syncHistory) {
+            writeTabState(normalizedTab);
+        }
     }
 
     async function resolveStaffPhotoUrl(photoPath) {
@@ -332,8 +347,33 @@ document.addEventListener("DOMContentLoaded", async function () {
         return params.get("code") || "";
     }
 
+    function getInitialTab() {
+        const params = new URLSearchParams(window.location.search);
+        const tabFromQuery = params.get("tab");
+        if (isAllowedTab(tabFromQuery)) {
+            return tabFromQuery;
+        }
+
+        const hashValue = String(window.location.hash || "").replace(/^#/, "");
+        if (isAllowedTab(hashValue)) {
+            return hashValue;
+        }
+
+        return "verify";
+    }
+
     function buildReturnTo() {
-        return "vip-verify.html" + window.location.search;
+        return "vip-verify.html" + window.location.search + window.location.hash;
+    }
+
+    function isAllowedTab(value) {
+        return ["verify", "clients", "pool", "bookings"].includes(String(value || "").trim());
+    }
+
+    function writeTabState(tabName) {
+        const nextUrl = new URL(window.location.href);
+        nextUrl.hash = tabName === "verify" ? "" : tabName;
+        window.history.replaceState({}, "", nextUrl.toString());
     }
 
     function setText(id, value) {

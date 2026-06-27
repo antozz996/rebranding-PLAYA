@@ -20,32 +20,42 @@
     async function getStaffSession() {
         const supabaseClient = getSupabaseClient();
         if (!supabaseClient) {
-            return { session: null, isStaff: false };
+            return { session: null, isStaff: false, isAdmin: false };
         }
 
         const { data } = await supabaseClient.auth.getSession();
         const session = data ? data.session : null;
         if (!session || !session.user) {
-            return { session: null, isStaff: false };
+            return { session: null, isStaff: false, isAdmin: false };
         }
 
         try {
-            const { data: staffFlag, error } = await supabaseClient.rpc("is_staff", {
-                p_user_id: session.user.id
-            });
+            const [staffResponse, adminResponse] = await Promise.all([
+                supabaseClient.rpc("is_staff", {
+                    p_user_id: session.user.id
+                }),
+                supabaseClient.rpc("is_admin", {
+                    p_user_id: session.user.id
+                })
+            ]);
 
-            if (error) {
-                throw error;
+            if (staffResponse.error) {
+                throw staffResponse.error;
+            }
+            if (adminResponse.error) {
+                throw adminResponse.error;
             }
 
             return {
                 session,
-                isStaff: Boolean(staffFlag)
+                isStaff: Boolean(staffResponse.data),
+                isAdmin: Boolean(adminResponse.data)
             };
         } catch (err) {
             return {
                 session,
-                isStaff: false
+                isStaff: false,
+                isAdmin: false
             };
         }
     }
@@ -61,6 +71,24 @@
             window.FDAVip.showStatus(
                 statusBox,
                 customMessage || "Questa sezione e disponibile solo per staff autenticato.",
+                "error"
+            );
+        }
+
+        return false;
+    }
+
+    async function ensureAdminSession(statusBox, customMessage) {
+        const { session, isAdmin } = await getStaffSession();
+
+        if (session && isAdmin) {
+            return true;
+        }
+
+        if (statusBox) {
+            window.FDAVip.showStatus(
+                statusBox,
+                customMessage || "Questa operazione e disponibile solo per admin autenticato.",
                 "error"
             );
         }
@@ -318,6 +346,7 @@
         getSupabaseClient,
         getStaffSession,
         ensureStaffSession,
+        ensureAdminSession,
         loadDashboardStats,
         setClientsRows,
         setSelectedClientIds,

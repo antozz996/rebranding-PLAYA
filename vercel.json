@@ -1,0 +1,28 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/frontend/index.html" },
+    { "source": "/index.html", "destination": "/frontend/index.html" },
+    { "source": "/assets/:path*", "destination": "/frontend/assets/:path*" },
+    { "source": "/en/:path*", "destination": "/frontend/en/:path*" },
+    { "source": "/robots.txt", "destination": "/frontend/robots.txt" },
+    { "source": "/sitemap.xml", "destination": "/frontend/sitemap.xml" },
+    { "source": "/beach.html", "destination": "/frontend/beach.html" },
+    { "source": "/contatti.html", "destination": "/frontend/contatti.html" },
+    { "source": "/culto.html", "destination": "/frontend/culto.html" },
+    { "source": "/damai-contatti.html", "destination": "/frontend/damai-contatti.html" },
+    { "source": "/damai-eventi.html", "destination": "/frontend/damai-eventi.html" },
+    { "source": "/damai.html", "destination": "/frontend/damai.html" },
+    { "source": "/eventi.html", "destination": "/frontend/eventi.html" },
+    { "source": "/fiordacqua.html", "destination": "/frontend/fiordacqua.html" },
+    { "source": "/network.html", "destination": "/frontend/network.html" },
+    { "source": "/privacy-policy.html", "destination": "/frontend/privacy-policy.html" },
+    { "source": "/ristorante.html", "destination": "/frontend/ristorante.html" },
+    { "source": "/vip.html", "destination": "/frontend/vip.html" },
+    { "source": "/vip-booking.html", "destination": "/frontend/vip-booking.html" },
+    { "source": "/vip-card.html", "destination": "/frontend/vip-card.html" },
+    { "source": "/vip-login.html", "destination": "/frontend/vip-login.html" },
+    { "source": "/vip-referral.html", "destination": "/frontend/vip-referral.html" },
+    { "source": "/vip-staff-login.html", "destination": "/frontend/vip-staff-login.html" },
+    { "source": "/vip-verify.html", "destination": "/frontend/vip-verify.html" }
+  ]
+}

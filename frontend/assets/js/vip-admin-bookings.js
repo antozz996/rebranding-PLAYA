@@ -243,32 +243,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const item = document.createElement("article");
             item.className = "vip-booking-admin-item";
 
-            const actions = [];
-            if (row.status === "RICHIESTA") {
-                actions.push(
-                    "<button type='button' class='vip-booking-admin-action is-primary' data-action='confirm-booking'>Conferma</button>"
-                );
-                actions.push(
-                    "<button type='button' class='vip-booking-admin-action is-danger' data-action='reject-booking'>Rifiuta</button>"
-                );
-            } else if (row.status === "CONFERMATA") {
-                actions.push(
-                    "<button type='button' class='vip-booking-admin-action is-neutral' data-action='unlock-booking'>Sblocca</button>"
-                );
-                actions.push(
-                    "<button type='button' class='vip-booking-admin-action is-danger' data-action='reject-booking'>Rifiuta</button>"
-                );
-            } else if (row.status === "RIFIUTATA" || row.status === "ANNULLATA") {
-                actions.push(
-                    "<button type='button' class='vip-booking-admin-action is-neutral' data-action='reopen-booking'>Riporta in pending</button>"
-                );
-            }
-
-            if (client.id) {
-                actions.push(
-                    "<button type='button' class='vip-booking-admin-action' data-action='open-client'>Apri cliente</button>"
-                );
-            }
+            const actions = buildActionMarkup(row, client);
+            const currentStaffNotes = dashboard.escapeHtml(row.staff_notes || "");
 
             item.innerHTML = [
                 "<div class='vip-booking-admin-topline'>",
@@ -276,63 +252,112 @@ document.addEventListener("DOMContentLoaded", function () {
                 "    <strong>" + dashboard.escapeHtml(client.full_name || "Cliente riservato") + "</strong>",
                 "    <span>" + dashboard.escapeHtml(formatBookingLabel(row)) + "</span>",
                 "  </div>",
-                "  <div class='vip-status-pill " + getStatusClass(row.status) + "'>" + dashboard.escapeHtml(row.status || "-") + "</div>",
+                "  <div class='vip-status-pill " + getStatusClass(row.status) + "'>" + dashboard.escapeHtml(humanizeBookingStatus(row.status)) + "</div>",
                 "</div>",
                 "<div class='vip-booking-admin-meta'>",
                 "  <span><strong>Card:</strong> " + dashboard.escapeHtml(client.card_code || "-") + "</span>",
                 "  <span><strong>Telefono:</strong> " + dashboard.escapeHtml(client.phone || "-") + "</span>",
-                "  <span><strong>Spot:</strong> " + dashboard.escapeHtml(spot.spot_code || row.spot_code_snapshot || "Nessuno") + "</span>",
+                "  <span><strong>Postazione:</strong> " + dashboard.escapeHtml(spot.spot_code || row.spot_code_snapshot || "Nessuna") + "</span>",
                 "  <span><strong>Area:</strong> " + dashboard.escapeHtml(row.area_preference || spot.zone || "-") + "</span>",
                 "  <span><strong>Adulti:</strong> " + dashboard.escapeHtml(String(row.adults || 0)) + "</span>",
                 "  <span><strong>Bambini:</strong> " + dashboard.escapeHtml(String(row.children || 0)) + "</span>",
                 "</div>",
                 "<div class='vip-booking-admin-notes'>",
                 "  <div><strong>Note cliente</strong><p>" + dashboard.escapeHtml(row.client_notes || "Nessuna nota cliente.") + "</p></div>",
-                "  <div><strong>Note staff</strong><p>" + dashboard.escapeHtml(row.staff_notes || "Nessuna nota staff.") + "</p></div>",
+                "  <div><strong>Note staff correnti</strong><p>" + dashboard.escapeHtml(row.staff_notes || "Nessuna nota staff.") + "</p></div>",
+                "</div>",
+                "<div class='vip-booking-admin-editor-grid'>",
+                "  <div class='vip-field vip-booking-admin-editor-field'>",
+                "    <label for='vipBookingStaffNote-" + row.id + "'>Aggiorna nota staff</label>",
+                "    <textarea id='vipBookingStaffNote-" + row.id + "' class='vip-booking-admin-textarea' placeholder='Conferma, rifiuto, esigenze operative, variazioni giornata...'>" + currentStaffNotes + "</textarea>",
+                "  </div>",
+                "  <div class='vip-booking-admin-editor-panel'>",
+                "    <strong>Azioni operative</strong>",
+                "    <span>Conferma, rifiuta, riapri o chiudi la pratica mantenendo lo storico note nello stesso blocco.</span>",
+                "    <div class='vip-actions vip-actions-compact vip-booking-admin-inline-actions'>",
+                "      <button type='button' class='vip-booking-admin-action is-neutral' data-action='save-notes'>Salva nota</button>",
+                (row.spot_id || row.spot_code_snapshot
+                    ? "      <button type='button' class='vip-booking-admin-action' data-action='open-pool'>Gestione piscina</button>"
+                    : ""),
+                "    </div>",
+                "  </div>",
                 "</div>",
                 "<div class='vip-booking-admin-footer'>",
                 "  <small>" + dashboard.escapeHtml(formatDateLabel(row.booking_date) + " · " + formatShortTime(row.created_at)) + "</small>",
-                "  <div class='vip-actions vip-actions-compact'>" + actions.join("") + "</div>",
+                "  <div class='vip-actions vip-actions-compact vip-booking-admin-actions-wrap'>" + actions.join("") + "</div>",
                 "</div>"
             ].join("");
 
+            const noteTextarea = item.querySelector(".vip-booking-admin-textarea");
             const openClientButton = item.querySelector("[data-action='open-client']");
             const confirmButton = item.querySelector("[data-action='confirm-booking']");
             const rejectButton = item.querySelector("[data-action='reject-booking']");
             const unlockButton = item.querySelector("[data-action='unlock-booking']");
             const reopenButton = item.querySelector("[data-action='reopen-booking']");
+            const completeButton = item.querySelector("[data-action='complete-booking']");
+            const noShowButton = item.querySelector("[data-action='no-show-booking']");
+            const saveNotesButton = item.querySelector("[data-action='save-notes']");
+            const openPoolButton = item.querySelector("[data-action='open-pool']");
 
             if (confirmButton) {
                 confirmButton.addEventListener("click", function () {
-                    updateBookingStatus(row, "CONFERMATA");
+                    requestStatusChange(row, "CONFERMATA", noteTextarea);
                 });
             }
 
             if (rejectButton) {
                 rejectButton.addEventListener("click", function () {
-                    updateBookingStatus(row, "RIFIUTATA");
+                    requestStatusChange(row, "RIFIUTATA", noteTextarea);
                 });
             }
 
             if (unlockButton) {
                 unlockButton.addEventListener("click", function () {
-                    updateBookingStatus(row, "RICHIESTA");
+                    requestStatusChange(row, "RICHIESTA", noteTextarea);
                 });
             }
 
             if (reopenButton) {
                 reopenButton.addEventListener("click", function () {
-                    updateBookingStatus(row, "RICHIESTA");
+                    requestStatusChange(row, "RICHIESTA", noteTextarea);
+                });
+            }
+
+            if (completeButton) {
+                completeButton.addEventListener("click", function () {
+                    requestStatusChange(row, "COMPLETATA", noteTextarea);
+                });
+            }
+
+            if (noShowButton) {
+                noShowButton.addEventListener("click", function () {
+                    requestStatusChange(row, "NO_SHOW", noteTextarea);
                 });
             }
 
             if (openClientButton && client.id) {
                 openClientButton.addEventListener("click", function () {
                     dashboard.setEditingClient(client);
-                    const clientsTab = document.querySelector("[data-vip-tab-target='clients']");
-                    if (clientsTab) {
-                        clientsTab.click();
-                    }
+                    window.dispatchEvent(new CustomEvent("fda-vip-admin:activate-tab", {
+                        detail: { tab: "clients" }
+                    }));
+                });
+            }
+
+            if (saveNotesButton) {
+                saveNotesButton.addEventListener("click", function () {
+                    saveBookingNotes(row, noteTextarea);
+                });
+            }
+
+            if (openPoolButton) {
+                openPoolButton.addEventListener("click", function () {
+                    window.dispatchEvent(new CustomEvent("fda-vip-admin:activate-tab", {
+                        detail: { tab: "pool" }
+                    }));
+                    window.dispatchEvent(new CustomEvent("fda-vip-admin:activate-pool-subtab", {
+                        detail: { tab: "overrides" }
+                    }));
                 });
             }
 
@@ -340,7 +365,28 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    async function updateBookingStatus(row, nextStatus) {
+    async function requestStatusChange(row, nextStatus, noteTextarea) {
+        const confirmationMessage = buildStatusConfirmationMessage(row, nextStatus);
+        if (!window.confirm(confirmationMessage)) {
+            return;
+        }
+
+        const nextNotes = noteTextarea ? String(noteTextarea.value || "").trim() : String(row.staff_notes || "").trim();
+        await updateBookingStatus(row, nextStatus, nextNotes);
+    }
+
+    async function saveBookingNotes(row, noteTextarea) {
+        const nextNotes = noteTextarea ? String(noteTextarea.value || "").trim() : "";
+
+        if (nextNotes === String(row.staff_notes || "").trim()) {
+            window.FDAVip.showStatus(statusBox, "Nessuna modifica rilevata nelle note staff.", "success");
+            return;
+        }
+
+        await updateBookingStatus(row, row.status, nextNotes, true);
+    }
+
+    async function updateBookingStatus(row, nextStatus, nextNotes, keepStatusMessage) {
         const supabaseClient = dashboard.getSupabaseClient();
         if (!supabaseClient || !(await dashboard.ensureStaffSession(statusBox))) {
             return;
@@ -349,7 +395,10 @@ document.addEventListener("DOMContentLoaded", function () {
         window.FDAVip.hideStatus(statusBox);
 
         try {
-            const payload = { status: nextStatus };
+            const payload = {
+                status: nextStatus,
+                staff_notes: nextNotes || null
+            };
             const { error } = await supabaseClient
                 .from("bookings")
                 .update(payload)
@@ -361,7 +410,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             window.FDAVip.showStatus(
                 statusBox,
-                buildStatusFeedback(nextStatus),
+                keepStatusMessage ? "Note staff aggiornate correttamente." : buildStatusFeedback(nextStatus),
                 "success"
             );
 
@@ -390,7 +439,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return [
             formatDateLabel(row.booking_date),
             timeSlotLabels[row.time_slot] || row.time_slot || "-",
-            row.status === "RICHIESTA" ? "In pending" : row.status === "CONFERMATA" ? "Confermata" : row.status || "-"
+            humanizeBookingStatus(row.status)
         ].join(" · ");
     }
 
@@ -399,6 +448,12 @@ document.addEventListener("DOMContentLoaded", function () {
             return "is-approved";
         }
         if (status === "RICHIESTA") {
+            return "is-watch";
+        }
+        if (status === "COMPLETATA") {
+            return "is-approved";
+        }
+        if (status === "RIFIUTATA" || status === "ANNULLATA" || status === "NO_SHOW") {
             return "is-watch";
         }
         return "is-vip";
@@ -412,9 +467,75 @@ document.addEventListener("DOMContentLoaded", function () {
             return "Prenotazione rifiutata e postazione liberata.";
         }
         if (status === "RICHIESTA") {
-            return "Prenotazione riportata in pending.";
+            return "Prenotazione riportata in attesa.";
+        }
+        if (status === "COMPLETATA") {
+            return "Prenotazione marcata come completata.";
+        }
+        if (status === "NO_SHOW") {
+            return "Prenotazione segnata come no show.";
         }
         return "Stato prenotazione aggiornato.";
+    }
+
+    function buildActionMarkup(row, client) {
+        const actions = [];
+
+        if (row.status === "RICHIESTA") {
+            actions.push(
+                "<button type='button' class='vip-booking-admin-action is-primary' data-action='confirm-booking'>Conferma</button>",
+                "<button type='button' class='vip-booking-admin-action is-danger' data-action='reject-booking'>Rifiuta</button>"
+            );
+        } else if (row.status === "CONFERMATA") {
+            actions.push(
+                "<button type='button' class='vip-booking-admin-action is-primary' data-action='complete-booking'>Completa</button>",
+                "<button type='button' class='vip-booking-admin-action is-neutral' data-action='unlock-booking'>Riapri</button>",
+                "<button type='button' class='vip-booking-admin-action is-neutral' data-action='no-show-booking'>No show</button>",
+                "<button type='button' class='vip-booking-admin-action is-danger' data-action='reject-booking'>Rifiuta</button>"
+            );
+        } else if (row.status === "RIFIUTATA" || row.status === "ANNULLATA" || row.status === "NO_SHOW") {
+            actions.push(
+                "<button type='button' class='vip-booking-admin-action is-neutral' data-action='reopen-booking'>Riporta in attesa</button>"
+            );
+        } else if (row.status === "COMPLETATA") {
+            actions.push(
+                "<button type='button' class='vip-booking-admin-action is-neutral' data-action='reopen-booking'>Riapri pratica</button>"
+            );
+        }
+
+        if (client.id) {
+            actions.push(
+                "<button type='button' class='vip-booking-admin-action' data-action='open-client'>Apri cliente</button>"
+            );
+        }
+
+        return actions;
+    }
+
+    function buildStatusConfirmationMessage(row, nextStatus) {
+        const clientName = row.client && row.client.full_name ? row.client.full_name : "questo cliente";
+        const actions = {
+            CONFERMATA: "Confermare la prenotazione di ",
+            RIFIUTATA: "Rifiutare la prenotazione di ",
+            RICHIESTA: "Riportare in attesa la prenotazione di ",
+            COMPLETATA: "Segnare come completata la prenotazione di ",
+            NO_SHOW: "Segnare come no show la prenotazione di "
+        };
+
+        return (actions[nextStatus] || "Aggiornare la prenotazione di ") + clientName + "?";
+    }
+
+    function humanizeBookingStatus(status) {
+        const labels = {
+            RICHIESTA: "In attesa",
+            CONFERMATA: "Confermata",
+            RIFIUTATA: "Rifiutata",
+            ANNULLATA: "Annullata",
+            COMPLETATA: "Completata",
+            NO_SHOW: "No show"
+        };
+
+        return labels[status] || status || "-";
     }
 
     function formatDateForInput(date) {

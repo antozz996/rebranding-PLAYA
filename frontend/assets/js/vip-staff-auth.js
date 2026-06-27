@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function () {
+    const FALLBACK_RETURN_TO = "vip-verify.html";
     const form = document.getElementById("vipStaffLoginForm");
     const statusBox = document.getElementById("vipStaffLoginStatus");
     const submitButton = document.getElementById("vipStaffLoginSubmit");
@@ -135,8 +136,31 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     function getReturnTo() {
         const params = new URLSearchParams(window.location.search);
-        const target = params.get("returnTo") || "vip-verify.html";
-        return target.includes(".html") ? target : "vip-verify.html";
+        return sanitizeReturnTo(params.get("returnTo"));
+    }
+
+    function sanitizeReturnTo(value) {
+        const rawValue = String(value || "").trim();
+        if (!rawValue) {
+            return FALLBACK_RETURN_TO;
+        }
+
+        if (/^https?:\/\//i.test(rawValue) || rawValue.startsWith("//")) {
+            return FALLBACK_RETURN_TO;
+        }
+
+        const hashIndex = rawValue.indexOf("#");
+        const hashPart = hashIndex >= 0 ? rawValue.slice(hashIndex) : "";
+        const withoutHash = hashIndex >= 0 ? rawValue.slice(0, hashIndex) : rawValue;
+        const queryIndex = withoutHash.indexOf("?");
+        const pathPart = queryIndex >= 0 ? withoutHash.slice(0, queryIndex) : withoutHash;
+        const queryPart = queryIndex >= 0 ? withoutHash.slice(queryIndex) : "";
+
+        if (pathPart !== FALLBACK_RETURN_TO) {
+            return FALLBACK_RETURN_TO;
+        }
+
+        return pathPart + queryPart + hashPart;
     }
 
     function humanizeAuthError(err) {

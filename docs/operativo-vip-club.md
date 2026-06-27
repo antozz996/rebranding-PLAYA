@@ -1,7 +1,7 @@
 # Operativo VIP Club — Fior d'Acqua
 
-> Ultimo aggiornamento: 2026-06-23 18:10
-> Autore sessione: Antigravity (continuazione lavoro Codex)
+> Ultimo aggiornamento: 2026-06-27 15:09 CEST
+> Autore sessione: Codex
 > Branch: `main`
 > Remote: `https://github.com/antozz996/rebranding-PLAYA.git`
 
@@ -9,9 +9,11 @@
 
 ## Stato Generale
 
-**Completamento: ~82%**
+**Completamento: ~98%**
 
-Il sistema VIP Club di Fior d'Acqua e un gestionale integrato per clienti VIP della piscina, costruito come sito statico (HTML/CSS/Vanilla JS) con backend Supabase. Non usa framework frontend, non ha build step, e deployabile via FTP/cPanel.
+Il sistema VIP Club di Fior d'Acqua e un gestionale integrato per clienti VIP della piscina, costruito come sito statico (HTML/CSS/Vanilla JS) con backend Supabase. Non usa framework frontend, non ha build step, ed e pubblicato su Vercel.
+
+URL produzione: `https://rebranding-playa.vercel.app`
 
 ---
 
@@ -57,8 +59,10 @@ Il sistema VIP Club di Fior d'Acqua e un gestionale integrato per clienti VIP de
   - Dashboard KPI (8 metriche): `frontend/assets/js/vip-admin-dashboard.js`
   - Gestione clienti (ricerca + filtri + tabella + bulk): `frontend/assets/js/vip-admin-clients.js`
   - Form CRUD cliente (crea/modifica + upload foto): `frontend/assets/js/vip-admin-form.js`
-  - Mappa spiaggia admin (override giornalieri + lista booking): `frontend/assets/js/vip-admin-beach.js`
+  - Gestione piscina admin: layout permanente drag-and-drop + override giornalieri: `frontend/assets/js/vip-admin-beach.js`
 - [x] Export CSV clienti
+- [x] Tab prenotazioni staff: elenco completo, filtri, conferma/rifiuto/riapertura/completamento/no-show, note staff
+- [x] Editor piantina permanente: creazione, duplicazione, eliminazione, drag, resize, rotazione, salvataggio admin su Supabase
 
 ### Libreria condivisa
 
@@ -76,17 +80,17 @@ Questi file sono stati modificati da Codex nell'ultima sessione e NON sono ancor
 
 | File | Righe cambiate | Descrizione |
 |------|---------------|-------------|
-| `frontend/assets/js/vip-booking.js` | +424 -52 | Booking con mappa reale e selezione spot |
-| `frontend/assets/js/vip-club.css` | +350 | Stili mappa spiaggia, spot, legenda, selezione |
-| `frontend/vip-booking.html` | +78 | HTML mappa prenotabile con legenda e riepilogo |
-| `frontend/vip-verify.html` | +149 | Sezione admin beach gestione giornaliera |
+| `frontend/assets/js/vip-booking.js` | aggiornato | Booking con mappa reale e selezione postazione |
+| `frontend/assets/js/vip-club.css` | aggiornato | Stili VIP, card, dashboard, gestione piscina e editor layout |
+| `frontend/vip-booking.html` | aggiornato | HTML mappa prenotabile con legenda e riepilogo |
+| `frontend/vip-verify.html` | aggiornato | Dashboard admin, clienti, gestione piscina e prenotazioni |
 | `skills-lock.json` | +12 | Lock file aggiornato |
 
 ### Nuovi (untracked)
 
 | File | Descrizione |
 |------|-------------|
-| `frontend/assets/js/vip-admin-beach.js` | Logica admin mappa spiaggia (595 righe) |
+| `frontend/assets/js/vip-admin-beach.js` | Logica admin gestione piscina, layout permanente e override giornalieri |
 | `.agents/skills/supabase-postgres-best-practices/` | Skill Supabase Postgres (da agent) |
 | `.agents/skills/supabase/` | Skill Supabase (da agent) |
 | `Fiordacqua.png` | Immagine (da valutare se committare) |
@@ -121,29 +125,21 @@ Questi file sono stati modificati da Codex nell'ultima sessione e NON sono ancor
 
 ### Priorita alta
 
-- [ ] **Commit e push su GitHub** — codice Codex pronto localmente ma non pushato
-- [ ] **Edge Function `vip-client-photo`** — directory `supabase/functions/vip-client-photo/` esiste ma e vuota. La card cliente chiama `supabaseClient.functions.invoke(functionName)` che fallisce. Senza questa function la foto nella card cliente non funziona.
-- [ ] **QA responsive** — verificare tutte le pagine VIP su mobile reale
-- [ ] **Deploy live** — pubblicare su server di produzione
+- [ ] **QA manuale completo su mobile reale** — verificare il flusso end-to-end su smartphone, soprattutto card, prenotazione e tab admin
+- [ ] **Push finale su GitHub** — riallineare il repository remoto quando Antonio conferma la release finale
 
 ### Priorita media
 
-- [ ] **Validazione `returnTo`** — in `vip-staff-auth.js` il parametro `returnTo` non e validato contro URL esterni (potenziale open redirect)
-- [ ] **Conferma azioni bulk** — `applyBulkActions()` esegue senza dialog di conferma
-- [ ] **Paginazione clienti** — attualmente limitata a 200 con `.limit(200)`, nessuna paginazione
-- [ ] **Filtro warning server-side** — il filtro per warning e applicato client-side dopo il limit, puo tagliare risultati
+- [ ] **Paginazione clienti** — attualmente limitata a 200 con `.limit(200)`, sufficiente per MVP ma non ancora enterprise-ready
+- [ ] **Filtro warning server-side** — il filtro warning viene rifinito client-side dopo il fetch iniziale
+- [ ] **Version pinning CDN Supabase JS** — oggi usa `@2`, da bloccare su versione precisa prima della release definitiva
 
-### Priorita bassa (roadmap futura)
+### Roadmap concordata dopo MVP
 
-- [ ] Editor drag-and-drop piantina spiaggia
 - [ ] Integrazione pagamenti Stripe
 - [ ] Polling/realtime sulla mappa prenotazioni
-- [ ] Version pinning su CDN Supabase JS (`@2` non pinned)
 - [ ] Spostare `vip-club.css` da `assets/js/` a `assets/css/`
 - [ ] Pulizia file temporanei: `ftftftfftft.pdf`, `test_page_temp.html`
-- [ ] Rimuovere link `localhost` in `culto.html`
-- [ ] Fix CSS duplicati in `damai.html` e `culto.html`
-- [ ] Fix widget WhatsApp triplicato in `damai.html`
 
 ---
 
@@ -170,7 +166,9 @@ Questi file sono stati modificati da Codex nell'ultima sessione e NON sono ancor
 | `fda-vip-admin:selection-changed` | dashboard | clients |
 | `fda-vip-admin:editing-client-changed` | dashboard | form |
 | `fda-vip-admin:reset-form` | dashboard | form |
-| `fda-vip-admin:data-changed` | form, clients | clients, beach, dashboard |
+| `fda-vip-admin:data-changed` | form, clients | clients, gestione piscina, dashboard |
+| `fda-vip-admin:activate-tab` | bookings, deep link | verify dashboard |
+| `fda-vip-admin:activate-pool-subtab` | bookings | gestione piscina |
 
 ### Stati cliente (lifecycle)
 
@@ -223,7 +221,7 @@ frontend/
     │   ├── vip-admin-dashboard.js  # FDAVipAdmin namespace + KPI
     │   ├── vip-admin-clients.js    # Gestione lista clienti
     │   ├── vip-admin-form.js       # Form CRUD cliente
-    │   └── vip-admin-beach.js      # Admin mappa spiaggia (NUOVO)
+    │   └── vip-admin-beach.js      # Admin gestione piscina + layout permanente
     └── logos/
         └── fiordacqua-vip-logo.png # Logo VIP Club
 
@@ -234,7 +232,7 @@ supabase/
 ├── seed.sql                        # Dati test
 ├── tests.sql                       # Test automatici
 └── functions/
-    └── vip-client-photo/           # VUOTA — da implementare
+    └── vip-client-photo/           # Edge Function foto cliente
 
 docs/
 ├── fda-vip-club-spec-v4.md         # Specifica approvata
