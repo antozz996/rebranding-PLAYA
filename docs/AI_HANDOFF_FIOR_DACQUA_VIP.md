@@ -21,6 +21,7 @@ L'obiettivo e dare ai clienti VIP:
 - prenotazione VIP su postazione precisa se disponibile;
 - invio referral/inviti;
 - QR di prenotazione dopo la richiesta;
+- check-in staff da QR con stato operativo `ARRIVATA`;
 - email QR al cliente quando il provider email e configurato.
 
 L'obiettivo per lo staff/admin e avere:
@@ -129,6 +130,7 @@ Pagine:
 - `frontend/vip-login.html`: login cliente con `card_code + telefono`.
 - `frontend/vip-card.html`: card digitale cliente.
 - `frontend/vip-booking.html`: richiesta prenotazione con mappa e QR pass.
+- `frontend/vip-checkin.html`: pagina staff riservata per leggere QR prenotazione, mostrare dati cliente/booking e segnare `ARRIVATA` o `NO_SHOW`.
 - `frontend/vip-referral.html`: referral cliente.
 - `frontend/vip-staff-login.html`: login staff.
 - `frontend/vip-verify.html`: dashboard staff/admin unificata.
@@ -151,6 +153,7 @@ Script staff/admin:
 - `frontend/assets/js/vip-staff-auth.js`: login staff e verifica ruolo `is_staff()`.
 - `frontend/assets/js/vip-staff-guard.js`: guard pagina staff, nasconde dashboard ai non staff.
 - `frontend/assets/js/vip-verify.js`: verifica card e gestione tab dashboard.
+- `frontend/assets/js/vip-checkin.js`: legge il QR booking, mostra dati cliente/prenotazione e aggiorna status `ARRIVATA`/`NO_SHOW`.
 - `frontend/assets/js/vip-admin-dashboard.js`: namespace `window.FDAVipAdmin`, sessione staff/admin, KPI.
 - `frontend/assets/js/vip-admin-clients.js`: lista clienti, filtri, bulk update, export CSV.
 - `frontend/assets/js/vip-admin-form.js`: form crea/modifica cliente e upload foto.
@@ -168,6 +171,7 @@ File SQL:
 - `supabase/storage-policies.sql`: bucket privato `client-photos`.
 - `supabase/seed.sql`: bonus e layout/postazioni iniziali.
 - `supabase/tests.sql`: test SQL.
+- `supabase/patch-booking-checkin.sql`: patch per database gia creati, aggiunge `ARRIVATA` e aggiorna occupazione postazione.
 
 Edge Functions:
 
@@ -289,10 +293,10 @@ QR:
 - Il QR contiene un link staff del tipo:
 
 ```text
-https://rebranding-playa.vercel.app/vip-verify.html?tab=bookings&booking=<BOOKING_ID>&date=<YYYY-MM-DD>
+https://rebranding-playa.vercel.app/vip-checkin.html?booking=<BOOKING_ID>&date=<YYYY-MM-DD>
 ```
 
-- Se aperto da staff autenticato, porta alla tab `Prenotazioni` filtrata sulla richiesta.
+- Se aperto da staff autenticato, apre il check-in della prenotazione e mostra dati cliente, card, telefono, stato, postazione, note e azioni operative.
 - Se aperto da non staff, mostra il guard e richiede login staff.
 
 Email:
@@ -326,7 +330,7 @@ Tab dashboard:
 Booking status:
 
 ```text
-RICHIESTA -> CONFERMATA -> COMPLETATA
+RICHIESTA -> CONFERMATA -> ARRIVATA -> COMPLETATA
          -> RIFIUTATA
          -> ANNULLATA
          -> NO_SHOW
@@ -335,6 +339,7 @@ RICHIESTA -> CONFERMATA -> COMPLETATA
 Azioni staff nella tab `Prenotazioni`:
 
 - `Conferma`: `RICHIESTA` -> `CONFERMATA`.
+- `Arrivata`: `RICHIESTA`/`CONFERMATA` -> `ARRIVATA`.
 - `Rifiuta`: libera la postazione perche lo status esce dagli attivi.
 - `Riapri`: riporta a `RICHIESTA`.
 - `Completa`: chiude positivamente.
@@ -343,7 +348,7 @@ Azioni staff nella tab `Prenotazioni`:
 - `Apri cliente`: porta al profilo cliente.
 - `Gestione piscina`: porta agli override giornalieri.
 
-La postazione e considerata occupata se esiste booking `RICHIESTA` o `CONFERMATA` sulla stessa data/postazione.
+La postazione e considerata occupata se esiste booking `RICHIESTA`, `CONFERMATA` o `ARRIVATA` sulla stessa data/postazione.
 
 ---
 
@@ -419,7 +424,7 @@ Cliente:
 - Booking blocca postazioni occupate/bloccate.
 - Booking crea richiesta `RICHIESTA`.
 - Dopo booking appare QR.
-- QR link porta a `vip-verify.html?tab=bookings...`.
+- QR link porta a `vip-checkin.html?booking=...&date=...`.
 - Email mostra messaggio corretto: inviata, skipped o non configurata.
 
 Staff:
@@ -487,4 +492,3 @@ Quando si cambia frontend:
 - proteggere ogni vista staff con `vip-staff-guard.js`;
 - verificare mobile;
 - verificare route Vercel.
-

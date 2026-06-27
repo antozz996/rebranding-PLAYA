@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /vip-staff-login.html
 Disallow: /vip-verify.html
+Disallow: /vip-checkin.html
 
 Sitemap: https://www.playaluna.it/sitemap.xml

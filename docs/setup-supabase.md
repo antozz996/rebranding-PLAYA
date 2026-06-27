@@ -65,6 +65,12 @@ Ordine consigliato:
 
 Esegui i file dentro `SQL Editor`.
 
+Se il database e gia stato creato prima dell'introduzione del check-in QR, esegui anche:
+
+- [supabase/patch-booking-checkin.sql](/root/REBRANDING%20PLAYA/supabase/patch-booking-checkin.sql:1)
+
+Questa patch aggiunge lo stato booking `ARRIVATA`, aggiorna l'indice di occupazione postazione e allinea la mappa piscina.
+
 Nota importante:
 
 - esegui questi file dal `SQL Editor` del progetto Supabase;

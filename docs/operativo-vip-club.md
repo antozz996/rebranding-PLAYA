@@ -60,6 +60,7 @@ URL produzione: `https://rebranding-playa.vercel.app`
 
 - [x] Login staff: `frontend/vip-staff-login.html` + `frontend/assets/js/vip-staff-auth.js`
 - [x] Guard staff centralizzato: `frontend/assets/js/vip-staff-guard.js`
+- [x] Check-in prenotazione da QR: `frontend/vip-checkin.html` + `frontend/assets/js/vip-checkin.js`
 - [x] Pagina unificata admin: `frontend/vip-verify.html` (610 righe)
   - Verifica card rapida: `frontend/assets/js/vip-verify.js`
   - Dashboard KPI (8 metriche): `frontend/assets/js/vip-admin-dashboard.js`
@@ -68,7 +69,7 @@ URL produzione: `https://rebranding-playa.vercel.app`
   - Gestione piscina admin: layout permanente drag-and-drop + override giornalieri: `frontend/assets/js/vip-admin-beach.js`
 - [x] Export CSV clienti
 - [x] Tab prenotazioni staff: elenco completo, filtri, conferma/rifiuto/riapertura/completamento/no-show, note staff
-- [x] Deep link QR verso tab prenotazioni con filtro booking/date
+- [x] Deep link QR verso check-in staff con filtro booking/date
 - [x] Editor piantina permanente: creazione, duplicazione, eliminazione, drag, resize, rotazione, salvataggio admin su Supabase
 
 ### Libreria condivisa
@@ -179,19 +180,21 @@ DA_VERIFICARE → APPROVATO → VIP
 ### Booking lifecycle
 
 ```
-RICHIESTA → CONFERMATA → COMPLETATA
+RICHIESTA → CONFERMATA → ARRIVATA → COMPLETATA
          → RIFIUTATA
          → ANNULLATA
          → NO_SHOW
 ```
 
-Le booking nascono come `RICHIESTA`, lo staff conferma manualmente.
+Le booking nascono come `RICHIESTA`, lo staff conferma manualmente e al check-in puo segnarle come `ARRIVATA`.
 
 ### QR prenotazione
 
-Dopo una richiesta booking, il cliente vede un QR che punta alla dashboard staff:
+Dopo una richiesta booking, il cliente vede un QR che punta alla pagina staff di check-in:
 
-`/vip-verify.html?tab=bookings&booking=<BOOKING_ID>&date=<YYYY-MM-DD>`
+`/vip-checkin.html?booking=<BOOKING_ID>&date=<YYYY-MM-DD>`
+
+La pagina `vip-checkin.html` mostra prenotazione attiva, dati cliente, card, telefono, livello, stato profilo, postazione e note. Da li lo staff puo segnare `ARRIVATA`, `NO_SHOW`, aprire la prenotazione o aprire il cliente nella dashboard.
 
 La pagina staff resta nascosta finche `vip-staff-guard.js` non conferma `is_staff()`.
 

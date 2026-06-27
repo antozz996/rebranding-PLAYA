@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check-in prenotazione | Fior d'Acqua VIP Club</title>
+    <meta name="description" content="Pagina staff riservata per leggere il QR prenotazione Fior d'Acqua VIP Club e segnare l'arrivo del cliente.">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <link rel="canonical" href="https://www.playaluna.it/vip-checkin.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="assets/js/vip-club.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+</head>
+<body class="vip-club-body vip-staff-guard-pending">
+    <section class="vip-staff-gate" id="vipStaffGate" aria-live="polite">
+        <div class="vip-staff-gate-card">
+            <div class="vip-panel-kicker">Accesso protetto</div>
+            <h1 data-staff-gate-title>Controllo accesso staff</h1>
+            <p data-staff-gate-copy>
+                Stiamo verificando la sessione staff prima di mostrare il check-in prenotazioni.
+            </p>
+            <div class="vip-actions">
+                <a class="vip-btn vip-btn-primary" data-staff-gate-login href="vip-staff-login.html?returnTo=vip-checkin.html">Accedi come staff</a>
+                <a class="vip-btn vip-btn-plain" href="vip.html">Torna al VIP Club</a>
+            </div>
+        </div>
+    </section>
+
+    <header class="vip-navbar vip-staff-protected">
+        <div class="vip-shell vip-navbar-inner">
+            <a class="vip-brand" href="fiordacqua.html">
+                <img class="vip-brand-logo" src="assets/logos/fiordacqua-vip-logo.png" alt="Fior d'Acqua VIP Club">
+            </a>
+            <nav class="vip-nav-links" aria-label="Navigazione check-in prenotazioni">
+                <a class="vip-nav-link" href="vip-verify.html?tab=bookings">Prenotazioni</a>
+                <a class="vip-nav-link" href="vip-verify.html">Dashboard staff</a>
+                <a class="vip-nav-link" href="fiordacqua.html">Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="vip-page vip-staff-protected">
+        <div class="vip-shell">
+            <section class="vip-hero-card vip-checkin-hero">
+                <div class="vip-hero-grid">
+                    <div class="vip-hero-copy">
+                        <div class="vip-kicker">QR prenotazione</div>
+                        <h1>Check-in rapido all'arrivo.</h1>
+                        <p>
+                            Scansiona il QR ricevuto dal cliente e verifica subito prenotazione attiva,
+                            postazione assegnata e dati essenziali del profilo VIP.
+                        </p>
+                    </div>
+                    <aside class="vip-hero-aside">
+                        <h3>Uso operativo</h3>
+                        <p>
+                            Se la prenotazione e valida puoi segnarla come arrivata. In caso di assenza,
+                            puoi registrare un no show mantenendo lo storico nello stesso record.
+                        </p>
+                    </aside>
+                </div>
+            </section>
+
+            <section class="vip-section vip-panel">
+                <div class="vip-panel-header">
+                    <div>
+                        <div class="vip-panel-kicker">Lettura QR</div>
+                        <h2>Dettaglio prenotazione</h2>
+                    </div>
+                    <div class="vip-status-pill" id="vipCheckinStatusPill">In caricamento</div>
+                </div>
+
+                <div class="vip-status-message" id="vipCheckinStatus" aria-live="polite"></div>
+
+                <div class="vip-checkin-empty" id="vipCheckinEmpty">
+                    <strong>Nessuna prenotazione caricata.</strong>
+                    <span>Apri questa pagina da un QR o da un link con parametro booking.</span>
+                </div>
+
+                <div class="vip-checkin-layout" id="vipCheckinResult" hidden>
+                    <article class="vip-checkin-client-card">
+                        <div class="vip-checkin-client-top">
+                            <div class="vip-checkin-avatar" id="vipCheckinInitials">VIP</div>
+                            <div>
+                                <span>Cliente</span>
+                                <h3 id="vipCheckinClientName">Cliente VIP</h3>
+                            </div>
+                        </div>
+                        <div class="vip-checkin-client-meta">
+                            <span><strong>Card</strong><em id="vipCheckinCardCode">-</em></span>
+                            <span><strong>Telefono</strong><em id="vipCheckinPhone">-</em></span>
+                            <span><strong>Email</strong><em id="vipCheckinEmail">-</em></span>
+                            <span><strong>Livello</strong><em id="vipCheckinLevel">-</em></span>
+                            <span><strong>Profilo</strong><em id="vipCheckinClientStatus">-</em></span>
+                        </div>
+                    </article>
+
+                    <article class="vip-checkin-booking-card">
+                        <div class="vip-metric-grid vip-checkin-metrics">
+                            <div class="vip-metric">
+                                <span>Data</span>
+                                <strong id="vipCheckinDate">-</strong>
+                            </div>
+                            <div class="vip-metric">
+                                <span>Postazione</span>
+                                <strong id="vipCheckinSpot">-</strong>
+                            </div>
+                            <div class="vip-metric">
+                                <span>Persone</span>
+                                <strong id="vipCheckinPeople">-</strong>
+                            </div>
+                        </div>
+
+                        <div class="vip-booking-admin-notes vip-checkin-notes">
+                            <div>
+                                <strong>Note cliente</strong>
+                                <p id="vipCheckinClientNotes">Nessuna nota cliente.</p>
+                            </div>
+                            <div>
+                                <strong>Note staff</strong>
+                                <p id="vipCheckinStaffNotes">Nessuna nota staff.</p>
+                            </div>
+                        </div>
+
+                        <div class="vip-checkin-actions">
+                            <button class="vip-booking-admin-action is-primary" id="vipCheckinMarkArrived" type="button">Segna arrivata</button>
+                            <button class="vip-booking-admin-action is-neutral" id="vipCheckinNoShow" type="button">No show</button>
+                            <a class="vip-booking-admin-action" id="vipCheckinOpenBookings" href="vip-verify.html?tab=bookings">Apri prenotazioni</a>
+                            <a class="vip-booking-admin-action" id="vipCheckinOpenClient" href="vip-verify.html?tab=clients">Apri cliente</a>
+                            <button class="vip-booking-admin-action is-neutral" id="vipCheckinRefresh" type="button">Aggiorna</button>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/vip-club-config.js"></script>
+    <script src="assets/js/vip-club-core.js"></script>
+    <script src="assets/js/vip-staff-guard.js"></script>
+    <script src="assets/js/vip-checkin.js"></script>
+</body>
+</html>

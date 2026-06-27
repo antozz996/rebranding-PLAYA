@@ -119,9 +119,8 @@
         return getPublicSiteUrl() + "/" + cleanPath;
     }
 
-    function buildBookingStaffUrl(bookingId, bookingDate) {
-        const url = new URL(buildAbsoluteUrl("vip-verify.html"));
-        url.searchParams.set("tab", "bookings");
+    function buildBookingCheckinUrl(bookingId, bookingDate) {
+        const url = new URL(buildAbsoluteUrl("vip-checkin.html"));
         url.searchParams.set("booking", String(bookingId || "").trim());
 
         if (bookingDate) {
@@ -129,6 +128,10 @@
         }
 
         return url.toString();
+    }
+
+    function buildBookingStaffUrl(bookingId, bookingDate) {
+        return buildBookingCheckinUrl(bookingId, bookingDate);
     }
 
     function buildQrImageUrl(payload, size) {
@@ -178,6 +181,7 @@
         getBookingEmailFunctionName,
         getPublicSiteUrl,
         buildAbsoluteUrl,
+        buildBookingCheckinUrl,
         buildBookingStaffUrl,
         buildQrImageUrl,
         getInitials

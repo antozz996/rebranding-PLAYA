@@ -99,9 +99,12 @@ Riferimenti:
 - `time_slot` non valido respinto
 - La booking creata parte con stato `RICHIESTA`
 - Dopo `create_spot_booking()` il frontend mostra il QR pass
-- Il QR punta a `vip-verify.html?tab=bookings&booking=<BOOKING_ID>&date=<YYYY-MM-DD>`
+- Il QR punta a `vip-checkin.html?booking=<BOOKING_ID>&date=<YYYY-MM-DD>`
 - Aprendo il QR da browser non staff compare il guard staff
-- Aprendo il QR da staff autenticato si apre la tab `Prenotazioni` filtrata sulla booking
+- Aprendo il QR da staff autenticato si apre il check-in con dati cliente e prenotazione
+- `Segna arrivata` aggiorna la booking a `ARRIVATA`
+- Una booking `ARRIVATA` mantiene la postazione occupata nella mappa
+- `No show` aggiorna la booking a `NO_SHOW`
 
 ---
 
@@ -130,6 +133,7 @@ Riferimenti:
 - Lo staff puo creare o aggiornare un override giornaliero
 - Una postazione `BLOCCATA` non e prenotabile
 - Una postazione con booking `RICHIESTA` non e prenotabile una seconda volta
+- Una postazione con booking `CONFERMATA` o `ARRIVATA` non e prenotabile una seconda volta
 - `create_spot_booking()` salva:
   - `spot_id`
   - `spot_code_snapshot`

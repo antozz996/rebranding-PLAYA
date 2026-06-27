@@ -46,7 +46,9 @@ window.FDA_VIP_CONFIG = window.FDA_VIP_CONFIG || {
 - `vip-booking.html` genera un QR pass dopo la richiesta e prova a inviarlo via Edge Function `vip-booking-email`.
 - `vip-referral.html` permette l'invito referral dal cliente abilitato.
 - `vip-verify.html` e la dashboard staff: verifica card, gestione clienti, gestione piscina, prenotazioni e layout permanente.
+- `vip-checkin.html` e la pagina staff da QR prenotazione per segnare `ARRIVATA` o `NO_SHOW`.
 - `vip-verify.html` e nascosta da `vip-staff-guard.js` finche `is_staff()` non conferma il ruolo.
+- `vip-checkin.html` usa lo stesso guard staff e non mostra dati a clienti/non staff.
 - il token cliente viene salvato in `sessionStorage`.
 
 ## URL Live
@@ -92,7 +94,7 @@ Se la funzione non e ancora deployata, la card mostra comunque un fallback con i
 Quando una prenotazione viene creata con `create_spot_booking(...)`, il frontend:
 
 1. mostra un pass prenotazione;
-2. genera un QR verso `vip-verify.html?tab=bookings&booking=<BOOKING_ID>&date=<YYYY-MM-DD>`;
+2. genera un QR verso `vip-checkin.html?booking=<BOOKING_ID>&date=<YYYY-MM-DD>`;
 3. prova a invocare la Edge Function `vip-booking-email`.
 
 Deploy funzione:
@@ -123,7 +125,8 @@ Se Resend o l'email cliente non sono configurati, la funzione risponde `skipped`
 7. prova logout con il pulsante `Esci`
 8. crea una prenotazione e verifica comparsa QR
 9. apri il link QR da browser non staff e verifica che appaia il guard staff
-10. accedi staff e verifica che la tab prenotazioni si filtri sulla booking
+10. accedi staff e verifica che `vip-checkin.html` mostri booking, cliente e pulsanti `Segna arrivata` / `No show`
+11. dalla pagina check-in apri la dashboard prenotazioni e verifica che la booking sia filtrata
 
 ## Nota Importante
 

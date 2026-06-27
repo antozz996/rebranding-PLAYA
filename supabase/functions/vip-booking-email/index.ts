@@ -44,8 +44,7 @@ function getPublicSiteUrl() {
 }
 
 function buildStaffBookingUrl(bookingId: string, bookingDate: string) {
-    const url = new URL(getPublicSiteUrl() + "/vip-verify.html");
-    url.searchParams.set("tab", "bookings");
+    const url = new URL(getPublicSiteUrl() + "/vip-checkin.html");
     url.searchParams.set("booking", bookingId);
 
     if (bookingDate) {

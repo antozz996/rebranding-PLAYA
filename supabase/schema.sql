@@ -163,9 +163,11 @@ create table if not exists public.bookings (
   client_notes text,
   staff_notes text,
   status text not null default 'RICHIESTA'
+    constraint bookings_status_chk
     check (status in (
       'RICHIESTA',
       'CONFERMATA',
+      'ARRIVATA',
       'RIFIUTATA',
       'ANNULLATA',
       'COMPLETATA',
@@ -319,7 +321,7 @@ create index if not exists bookings_spot_booking_date_idx
 create unique index if not exists bookings_active_spot_day_idx
   on public.bookings (spot_id, booking_date)
   where spot_id is not null
-    and status in ('RICHIESTA', 'CONFERMATA');
+    and status in ('RICHIESTA', 'CONFERMATA', 'ARRIVATA');
 
 create index if not exists referrals_referrer_status_idx
   on public.referrals (referrer_client_id, status);
@@ -928,7 +930,7 @@ as $$
     from public.bookings b
     where b.spot_id = bs.id
       and b.booking_date = p_booking_date
-      and b.status in ('RICHIESTA', 'CONFERMATA')
+      and b.status in ('RICHIESTA', 'CONFERMATA', 'ARRIVATA')
     order by b.created_at desc
     limit 1
   ) bk on true

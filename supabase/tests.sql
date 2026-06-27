@@ -732,7 +732,24 @@ select public.test_assert_true(
   'La booking spot deve salvare spot_id e snapshot della configurazione.'
 );
 
--- 29. Doppia prenotazione stessa postazione: bloccata.
+update public.bookings
+set status = 'ARRIVATA',
+    staff_notes = coalesce(staff_notes || E'\n', '') || 'Test check-in: cliente arrivato.'
+where id = public.test_uuid_setting('app.test_spot_booking_id');
+
+select public.test_assert_true(
+  exists (
+    select 1
+    from public.get_booking_map_rows(current_date + 2) m
+    where m.spot_id = public.test_spot_uuid('A01')
+      and m.active_booking_status = 'ARRIVATA'
+      and m.final_status = 'OCCUPATA'
+      and m.is_bookable = false
+  ),
+  'Una booking ARRIVATA deve mantenere la postazione occupata nella mappa.'
+);
+
+-- 29. Doppia prenotazione stessa postazione: bloccata anche se ARRIVATA.
 begin;
 set local role anon;
 select set_config('request.jwt.claim.role', 'anon', true);

@@ -162,7 +162,7 @@
                     return query
                         .eq("booking_date", getTodayIsoDate())
                         .not("spot_id", "is", null)
-                        .in("status", ["RICHIESTA", "CONFERMATA"]);
+                        .in("status", ["RICHIESTA", "CONFERMATA", "ARRIVATA"]);
                 }),
                 countRows("beach_spot_overrides", function (query) {
                     return query.eq("service_date", getTodayIsoDate());

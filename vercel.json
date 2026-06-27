@@ -11,6 +11,12 @@
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
       ]
+    },
+    {
+      "source": "/vip-checkin.html",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
     }
   ],
   "rewrites": [
@@ -34,6 +40,7 @@
     { "source": "/vip.html", "destination": "/frontend/vip.html" },
     { "source": "/vip-booking.html", "destination": "/frontend/vip-booking.html" },
     { "source": "/vip-card.html", "destination": "/frontend/vip-card.html" },
+    { "source": "/vip-checkin.html", "destination": "/frontend/vip-checkin.html" },
     { "source": "/vip-login.html", "destination": "/frontend/vip-login.html" },
     { "source": "/vip-referral.html", "destination": "/frontend/vip-referral.html" },
     { "source": "/vip-staff-login.html", "destination": "/frontend/vip-staff-login.html" },

@@ -75,7 +75,7 @@ La funzione esistente viene modificata per supportare:
 2. **Template Dinamico**:
    - Se lo stato della prenotazione è `RICHIESTA`, mostra un avviso che la prenotazione è in attesa di approvazione.
    - Se lo stato è `CONFERMATA`, mostra un messaggio di avvenuta conferma e invita a mostrare il QR code al check-in.
-3. **QR Code**: Il QR punta al link di check-in dello staff: `PUBLIC_SITE_URL + "/vip-verify.html?tab=bookings&booking=<BOOKING_ID>&date=<YYYY-MM-DD>"`.
+3. **QR Code**: Il QR punta al link di check-in dello staff: `PUBLIC_SITE_URL + "/vip-checkin.html?booking=<BOOKING_ID>&date=<YYYY-MM-DD>"`.
 
 ---
 
