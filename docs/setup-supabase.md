@@ -11,7 +11,8 @@ Questo setup copre:
 - RLS;
 - RPC;
 - storage foto privato;
-- mappa postazioni spiaggia e override giornalieri;
+- mappa postazioni piscina e override giornalieri;
+- Edge Functions per foto cliente e QR/email prenotazione;
 - test iniziali.
 
 ---
@@ -123,11 +124,52 @@ Uso previsto:
 
 ---
 
-## 6. Esegui il seed iniziale
+## 6. Deploy Edge Functions
+
+Le Edge Functions permettono di usare controlli server-side senza esporre `service_role` nel frontend.
+
+Funzione foto cliente:
+
+```bash
+supabase functions deploy vip-client-photo
+```
+
+Funzione email QR prenotazione:
+
+```bash
+supabase functions deploy vip-booking-email
+```
+
+Secret necessarie per `vip-client-photo`:
+
+- `SUPABASE_SERVICE_ROLE_KEY` oppure `SUPABASE_SECRET_KEYS`
+
+Secret necessarie per `vip-booking-email`:
+
+- `SUPABASE_SERVICE_ROLE_KEY` oppure `SUPABASE_SECRET_KEYS`
+- `PUBLIC_SITE_URL`
+- `RESEND_API_KEY`
+- `BOOKING_EMAIL_FROM`
+- `BOOKING_EMAIL_REPLY_TO` opzionale
+
+Esempio senza valori reali:
+
+```bash
+supabase secrets set PUBLIC_SITE_URL=https://rebranding-playa.vercel.app
+supabase secrets set RESEND_API_KEY=INSERISCI_CHIAVE_RESEND
+supabase secrets set BOOKING_EMAIL_FROM="Fior d'Acqua VIP <vip@tuodominio.it>"
+supabase secrets set BOOKING_EMAIL_REPLY_TO=info@tuodominio.it
+```
+
+Se Resend non e ancora configurato, `vip-booking-email` non blocca la prenotazione: restituisce `skipped` e il cliente vede comunque il QR in pagina.
+
+---
+
+## 7. Esegui il seed iniziale
 
 Il file [supabase/seed.sql](/root/REBRANDING%20PLAYA/supabase/seed.sql:1) inserisce bonus base per i livelli VIP.
 
-Inoltre prepara un layout spiaggia MVP con:
+Inoltre prepara un layout piscina MVP con:
 
 - layout `Fior d'Acqua Main Layout`
 - postazioni seed tipo `A01`, `A02`, `B01`, `B02`
@@ -142,7 +184,7 @@ Serve come popolamento minimo dell'MVP, utile anche per testare la futura pianti
 
 ---
 
-## 7. Prepara il file test
+## 8. Prepara il file test
 
 Apri [supabase/tests.sql](/root/REBRANDING%20PLAYA/supabase/tests.sql:1).
 
@@ -160,7 +202,7 @@ Nota pratica emersa dal test reale:
 
 ---
 
-## 8. Cosa deve funzionare prima del frontend
+## 9. Cosa deve funzionare prima del frontend
 
 Prima di passare alle pagine HTML/JS, conferma:
 
@@ -177,20 +219,27 @@ Prima di passare alle pagine HTML/JS, conferma:
 - `admin_get_booking_map_for_date(...)`;
 - `admin_upsert_spot_override(...)`;
 - `create_spot_booking(...)`;
+- `vip-client-photo` deployata o fallback foto accettato;
+- `vip-booking-email` deployata o comportamento `skipped` accettato finche manca Resend;
 - accesso anon diretto alle tabelle negato;
 - storage `client-photos` non pubblico.
 
 ---
 
-## 9. Configurazione frontend futura
+## 10. Configurazione frontend
 
-Quando passeremo al frontend, il file `supabase-config.js` dovra usare solo:
+Il file [frontend/assets/js/vip-club-config.js](/root/REBRANDING%20PLAYA/frontend/assets/js/vip-club-config.js:1) deve usare solo valori pubblici:
 
 ```js
-const SUPABASE_URL = "INSERISCI_SUPABASE_URL";
-const SUPABASE_ANON_KEY = "INSERISCI_SUPABASE_ANON_KEY";
-
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+window.FDA_VIP_CONFIG = window.FDA_VIP_CONFIG || {
+  supabaseUrl: "https://TUO-PROGETTO.supabase.co",
+  supabaseAnonKey: "TUO_SUPABASE_ANON_KEY",
+  storageKey: "fda_vip_session_token",
+  photoFunctionName: "vip-client-photo",
+  bookingEmailFunctionName: "vip-booking-email",
+  publicSiteUrl: "https://rebranding-playa.vercel.app",
+  qrProviderUrl: "https://api.qrserver.com/v1/create-qr-code/"
+};
 ```
 
 Mai inserire:
@@ -208,7 +257,7 @@ Nota operativa per il futuro frontend:
 
 ---
 
-## 10. Note operative
+## 11. Note operative
 
 - `phone_normalized` e il riferimento tecnico per login e controlli.
 - L'unicita del telefono e gestita sui profili non archiviati.
@@ -220,11 +269,13 @@ Nota operativa per il futuro frontend:
 - Le nuove tabelle `beach_layouts`, `beach_spots` e `beach_spot_overrides` estendono il backend senza rompere le booking esistenti.
 - `bookings` ora puo collegarsi a una postazione precisa tramite `spot_id` e snapshot (`spot_code_snapshot`, `umbrellas_snapshot`, `sunbeds_snapshot`).
 - `create_spot_booking(...)` usa sempre `GIORNATA_INTERA` e blocca collisioni sulla stessa postazione e data.
-- La mappa cliente usa solo RPC pubbliche controllate; le tabelle strutturali della spiaggia restano leggibili direttamente solo allo staff.
+- La mappa cliente usa solo RPC pubbliche controllate; le tabelle strutturali della piscina restano leggibili direttamente solo allo staff.
+- `vip-verify.html` e una pagina statica ma viene oscurata lato UI da `vip-staff-guard.js`; la sicurezza dati resta in RLS/RPC.
+- Le pagine staff sono `noindex` in Vercel e disallow in `robots.txt`.
 
 ---
 
-## 11. Formula corretta
+## 12. Formula corretta
 
 Stato atteso dopo il setup:
 

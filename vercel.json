@@ -1,4 +1,18 @@
 {
+  "headers": [
+    {
+      "source": "/vip-staff-login.html",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
+    },
+    {
+      "source": "/vip-verify.html",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
+    }
+  ],
   "rewrites": [
     { "source": "/", "destination": "/frontend/index.html" },
     { "source": "/index.html", "destination": "/frontend/index.html" },

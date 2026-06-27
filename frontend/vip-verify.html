@@ -13,8 +13,22 @@
     <link rel="stylesheet" href="assets/js/vip-club.css">
     <link rel="icon" type="image/png" href="assets/favicon.png">
 </head>
-<body class="vip-club-body">
-    <header class="vip-navbar">
+<body class="vip-club-body vip-staff-guard-pending">
+    <section class="vip-staff-gate" id="vipStaffGate" aria-live="polite">
+        <div class="vip-staff-gate-card">
+            <div class="vip-panel-kicker">Accesso protetto</div>
+            <h1 data-staff-gate-title>Controllo accesso staff</h1>
+            <p data-staff-gate-copy>
+                Stiamo verificando la sessione staff prima di mostrare gli strumenti riservati.
+            </p>
+            <div class="vip-actions">
+                <a class="vip-btn vip-btn-primary" data-staff-gate-login href="vip-staff-login.html?returnTo=vip-verify.html">Accedi come staff</a>
+                <a class="vip-btn vip-btn-plain" href="vip.html">Torna al VIP Club</a>
+            </div>
+        </div>
+    </section>
+
+    <header class="vip-navbar vip-staff-protected">
         <div class="vip-shell vip-navbar-inner">
             <a class="vip-brand" href="fiordacqua.html">
                 <img class="vip-brand-logo" src="assets/logos/fiordacqua-vip-logo.png" alt="Fior d'Acqua VIP Club">
@@ -27,7 +41,7 @@
         </div>
     </header>
 
-    <main class="vip-page">
+    <main class="vip-page vip-staff-protected">
         <div class="vip-shell">
             <section class="vip-hero-card">
                 <div class="vip-hero-grid">
@@ -876,6 +890,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/vip-club-config.js"></script>
     <script src="assets/js/vip-club-core.js"></script>
+    <script src="assets/js/vip-staff-guard.js"></script>
     <script src="assets/js/vip-admin-dashboard.js"></script>
     <script src="assets/js/vip-admin-clients.js"></script>
     <script src="assets/js/vip-admin-form.js"></script>

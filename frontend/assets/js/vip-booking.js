@@ -19,6 +19,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     const selectionMeta = document.getElementById("vipBookingSelectedSpotMeta");
     const spotIdInput = document.getElementById("vipBookingSpotId");
     const resetSelectionButton = document.getElementById("vipBookingResetSelection");
+    const passPanel = document.getElementById("vipBookingPassPanel");
+    const passIdNode = document.getElementById("vipBookingPassId");
+    const passSummaryNode = document.getElementById("vipBookingPassSummary");
+    const passStatusNode = document.getElementById("vipBookingPassStatus");
+    const qrImageNode = document.getElementById("vipBookingQrImage");
+    const staffLinkNode = document.getElementById("vipBookingStaffLink");
+    const emailStatusNode = document.getElementById("vipBookingEmailStatus");
 
     if (!window.FDAVip || !form) {
         return;
@@ -353,6 +360,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         submitButton.disabled = true;
         submitButton.textContent = "Invio richiesta...";
 
+        const selectedSpot = state.rows.find(function (row) {
+            return row.spot_id === spotIdInput.value;
+        }) || null;
+
         try {
             const { data, error } = await supabaseClient.rpc("create_spot_booking", {
                 p_token: token,
@@ -378,6 +389,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "success"
             );
 
+            hydrateBookingPass(result, selectedSpot);
+            await sendBookingEmail(result.booking_id);
+
             form.adults.value = "2";
             form.children.value = "0";
             form.client_notes.value = "";
@@ -387,6 +401,88 @@ document.addEventListener("DOMContentLoaded", async function () {
         } finally {
             submitButton.disabled = false;
             submitButton.textContent = "Invia richiesta VIP";
+        }
+    }
+
+    function hydrateBookingPass(result, selectedSpot) {
+        if (!passPanel || !result || !result.booking_id) {
+            return;
+        }
+
+        const bookingDate = dateInput ? dateInput.value : "";
+        const staffUrl = window.FDAVip.buildBookingStaffUrl(result.booking_id, bookingDate);
+        const qrUrl = window.FDAVip.buildQrImageUrl(staffUrl, 260);
+        const spotCode = result.spot_code || (selectedSpot ? selectedSpot.spot_code : "");
+        const peopleLabel = String(form.adults.value || "0") + " adulti, " + String(form.children.value || "0") + " bambini";
+
+        if (passIdNode) {
+            passIdNode.textContent = result.booking_id;
+        }
+        if (passSummaryNode) {
+            passSummaryNode.textContent = [
+                formatDateLabel(bookingDate),
+                spotCode ? "postazione " + spotCode : "postazione selezionata",
+                peopleLabel
+            ].join(" · ");
+        }
+        if (passStatusNode) {
+            passStatusNode.textContent = "Richiesta in attesa";
+        }
+        if (qrImageNode) {
+            qrImageNode.src = qrUrl;
+        }
+        if (staffLinkNode) {
+            staffLinkNode.href = staffUrl;
+        }
+        if (emailStatusNode) {
+            emailStatusNode.textContent = "Stiamo provando a inviare il QR all'email salvata sul profilo.";
+        }
+
+        passPanel.hidden = false;
+        passPanel.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
+
+    async function sendBookingEmail(bookingId) {
+        const functionName = window.FDAVip.getBookingEmailFunctionName();
+        if (!functionName || !bookingId) {
+            setEmailStatus("QR creato. Invio email non configurato su questo ambiente.");
+            return;
+        }
+
+        try {
+            const { data, error } = await supabaseClient.functions.invoke(functionName, {
+                body: {
+                    token,
+                    booking_id: bookingId
+                }
+            });
+
+            if (error) {
+                throw error;
+            }
+
+            if (data && data.success) {
+                setEmailStatus("Email inviata al recapito presente sul profilo cliente.");
+                return;
+            }
+
+            if (data && data.skipped) {
+                setEmailStatus(data.message || "QR creato. Email non inviata per configurazione o recapito mancante.");
+                return;
+            }
+
+            setEmailStatus("QR creato. Email non confermata dal servizio.");
+        } catch (err) {
+            setEmailStatus("QR creato. Email non ancora attiva: configura/deploya la Edge Function vip-booking-email.");
+        }
+    }
+
+    function setEmailStatus(message) {
+        if (emailStatusNode) {
+            emailStatusNode.textContent = message;
         }
     }
 

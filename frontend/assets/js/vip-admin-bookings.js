@@ -19,13 +19,17 @@ document.addEventListener("DOMContentLoaded", function () {
         status: "",
         search: ""
     };
+    const deepLink = getDeepLinkFilters();
 
     if (!dashboard || !listNode || !dateInput || !statusSelect) {
         return;
     }
 
     bindEvents();
-    initializeDate();
+    initializeDate(deepLink.date);
+    if (deepLink.bookingId && searchInput) {
+        searchInput.value = deepLink.bookingId;
+    }
     loadBookings();
 
     function bindEvents() {
@@ -52,12 +56,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function initializeDate() {
+    function initializeDate(preferredDate) {
         const today = formatDateForInput(new Date());
-        state.date = today;
+        const dateValue = isValidDateInput(preferredDate) ? preferredDate : today;
+        state.date = dateValue;
         if (dateInput) {
             dateInput.min = today;
-            dateInput.value = today;
+            dateInput.value = dateValue;
         }
     }
 
@@ -196,6 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return rows.filter(function (row) {
             const parts = [
+                row.id,
                 row.client ? row.client.full_name : "",
                 row.client ? row.client.phone : "",
                 row.client ? row.client.card_code : "",
@@ -523,6 +529,18 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         return (actions[nextStatus] || "Aggiornare la prenotazione di ") + clientName + "?";
+    }
+
+    function getDeepLinkFilters() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            bookingId: String(params.get("booking") || "").trim(),
+            date: String(params.get("date") || "").trim()
+        };
+    }
+
+    function isValidDateInput(value) {
+        return /^\d{4}-\d{2}-\d{2}$/.test(String(value || ""));
     }
 
     function humanizeBookingStatus(status) {

@@ -47,6 +47,23 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     setActiveTab(initialTab, false);
+
+    const staffGateResult = window.FDAVipStaffGuard
+        ? await window.FDAVipStaffGuard.requireStaffPage({
+            returnTo
+        })
+        : { allowed: true };
+
+    if (!staffGateResult.allowed) {
+        if (submitButton) {
+            submitButton.disabled = true;
+        }
+        if (resultBox) {
+            resultBox.hidden = true;
+        }
+        return;
+    }
+
     await hydrateAccessState();
 
     form.addEventListener("submit", async function (event) {
@@ -256,14 +273,16 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     async function hydrateAccessState() {
-        const { data } = await supabaseClient.auth.getSession();
-        const session = data ? data.session : null;
+        const guardResult = window.FDAVipStaffGuard
+            ? await window.FDAVipStaffGuard.checkStaffSession()
+            : null;
+        const session = guardResult ? guardResult.session : null;
 
         if (!accessStateNode) {
             return;
         }
 
-        if (!session) {
+        if (!session || (guardResult && !guardResult.isStaff)) {
             accessStateNode.textContent = "Nessuna sessione staff attiva nel browser.";
             return;
         }
@@ -274,6 +293,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     async function hasStaffSession() {
+        if (window.FDAVipStaffGuard) {
+            const guardResult = await window.FDAVipStaffGuard.checkStaffSession();
+            return Boolean(guardResult && guardResult.allowed);
+        }
+
         const { data } = await supabaseClient.auth.getSession();
         return Boolean(data && data.session);
     }

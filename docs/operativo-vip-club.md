@@ -1,6 +1,6 @@
 # Operativo VIP Club — Fior d'Acqua
 
-> Ultimo aggiornamento: 2026-06-27 15:09 CEST
+> Ultimo aggiornamento: 2026-06-27
 > Autore sessione: Codex
 > Branch: `main`
 > Remote: `https://github.com/antozz996/rebranding-PLAYA.git`
@@ -12,6 +12,8 @@
 **Completamento: ~98%**
 
 Il sistema VIP Club di Fior d'Acqua e un gestionale integrato per clienti VIP della piscina, costruito come sito statico (HTML/CSS/Vanilla JS) con backend Supabase. Non usa framework frontend, non ha build step, ed e pubblicato su Vercel.
+
+La parte Stripe resta fuori scope. L'invio email QR e pronto lato codice, ma richiede deploy Edge Function e configurazione Resend per l'invio reale.
 
 URL produzione: `https://rebranding-playa.vercel.app`
 
@@ -42,6 +44,8 @@ URL produzione: `https://rebranding-playa.vercel.app`
   - `admin_upsert_spot_override` — override giornaliero postazioni
   - `verify_client_by_staff` — verifica card rapida
   - `cleanup_expired_security_records` — pulizia sessioni/tentativi
+- [x] Edge Function `vip-client-photo` per foto cliente con signed URL temporanea
+- [x] Edge Function `vip-booking-email` per email QR prenotazione, con fallback `skipped` se Resend non e configurato
 
 ### Frontend Cliente (100%)
 
@@ -49,11 +53,13 @@ URL produzione: `https://rebranding-playa.vercel.app`
 - [x] Login cliente: `frontend/vip-login.html` + `frontend/assets/js/vip-login.js`
 - [x] Card digitale: `frontend/vip-card.html` + `frontend/assets/js/vip-card.js`
 - [x] Booking con mappa reale: `frontend/vip-booking.html` + `frontend/assets/js/vip-booking.js`
+- [x] QR pass prenotazione dopo richiesta booking
 - [x] Referral invita amico: `frontend/vip-referral.html` + `frontend/assets/js/vip-referral.js`
 
 ### Frontend Staff (100%)
 
 - [x] Login staff: `frontend/vip-staff-login.html` + `frontend/assets/js/vip-staff-auth.js`
+- [x] Guard staff centralizzato: `frontend/assets/js/vip-staff-guard.js`
 - [x] Pagina unificata admin: `frontend/vip-verify.html` (610 righe)
   - Verifica card rapida: `frontend/assets/js/vip-verify.js`
   - Dashboard KPI (8 metriche): `frontend/assets/js/vip-admin-dashboard.js`
@@ -62,6 +68,7 @@ URL produzione: `https://rebranding-playa.vercel.app`
   - Gestione piscina admin: layout permanente drag-and-drop + override giornalieri: `frontend/assets/js/vip-admin-beach.js`
 - [x] Export CSV clienti
 - [x] Tab prenotazioni staff: elenco completo, filtri, conferma/rifiuto/riapertura/completamento/no-show, note staff
+- [x] Deep link QR verso tab prenotazioni con filtro booking/date
 - [x] Editor piantina permanente: creazione, duplicazione, eliminazione, drag, resize, rotazione, salvataggio admin su Supabase
 
 ### Libreria condivisa
@@ -72,29 +79,13 @@ URL produzione: `https://rebranding-playa.vercel.app`
 
 ---
 
-## File modificati da Codex (non committati)
+## Documentazione di riferimento
 
-Questi file sono stati modificati da Codex nell'ultima sessione e NON sono ancora su GitHub:
+Per passaggio consegne completo leggere:
 
-### Modificati (tracked)
+- `docs/AI_HANDOFF_FIOR_DACQUA_VIP.md`
 
-| File | Righe cambiate | Descrizione |
-|------|---------------|-------------|
-| `frontend/assets/js/vip-booking.js` | aggiornato | Booking con mappa reale e selezione postazione |
-| `frontend/assets/js/vip-club.css` | aggiornato | Stili VIP, card, dashboard, gestione piscina e editor layout |
-| `frontend/vip-booking.html` | aggiornato | HTML mappa prenotabile con legenda e riepilogo |
-| `frontend/vip-verify.html` | aggiornato | Dashboard admin, clienti, gestione piscina e prenotazioni |
-| `skills-lock.json` | +12 | Lock file aggiornato |
-
-### Nuovi (untracked)
-
-| File | Descrizione |
-|------|-------------|
-| `frontend/assets/js/vip-admin-beach.js` | Logica admin gestione piscina, layout permanente e override giornalieri |
-| `.agents/skills/supabase-postgres-best-practices/` | Skill Supabase Postgres (da agent) |
-| `.agents/skills/supabase/` | Skill Supabase (da agent) |
-| `Fiordacqua.png` | Immagine (da valutare se committare) |
-| `ftftftfftft.pdf` | File temporaneo (NON committare) |
+Quel file descrive architettura, sicurezza, Supabase, frontend, QR/email, deploy, checklist e regole per future AI.
 
 ---
 
@@ -126,7 +117,7 @@ Questi file sono stati modificati da Codex nell'ultima sessione e NON sono ancor
 ### Priorita alta
 
 - [ ] **QA manuale completo su mobile reale** — verificare il flusso end-to-end su smartphone, soprattutto card, prenotazione e tab admin
-- [ ] **Push finale su GitHub** — riallineare il repository remoto quando Antonio conferma la release finale
+- [ ] **Deploy/test Edge Function email QR** — deployare `vip-booking-email`, configurare Resend e provare invio reale
 
 ### Priorita media
 
@@ -137,6 +128,7 @@ Questi file sono stati modificati da Codex nell'ultima sessione e NON sono ancor
 ### Roadmap concordata dopo MVP
 
 - [ ] Integrazione pagamenti Stripe
+- [ ] QR provider proprietario o self-hosted se non si vuole dipendere da `api.qrserver.com`
 - [ ] Polling/realtime sulla mappa prenotazioni
 - [ ] Spostare `vip-club.css` da `assets/js/` a `assets/css/`
 - [ ] Pulizia file temporanei: `ftftftfftft.pdf`, `test_page_temp.html`
@@ -158,6 +150,7 @@ Questi file sono stati modificati da Codex nell'ultima sessione e NON sono ancor
 |-----------|------|-------|
 | `window.FDAVip` | `vip-club-core.js` | Client Supabase, sessione, normalizzazione, UI helpers |
 | `window.FDAVipAdmin` | `vip-admin-dashboard.js` | Stato admin, sessione staff, KPI, selezione clienti |
+| `window.FDAVipStaffGuard` | `vip-staff-guard.js` | Protezione UI pagine staff |
 
 ### Custom Events (comunicazione moduli admin)
 
@@ -194,6 +187,16 @@ RICHIESTA → CONFERMATA → COMPLETATA
 
 Le booking nascono come `RICHIESTA`, lo staff conferma manualmente.
 
+### QR prenotazione
+
+Dopo una richiesta booking, il cliente vede un QR che punta alla dashboard staff:
+
+`/vip-verify.html?tab=bookings&booking=<BOOKING_ID>&date=<YYYY-MM-DD>`
+
+La pagina staff resta nascosta finche `vip-staff-guard.js` non conferma `is_staff()`.
+
+L'email QR viene gestita da `vip-booking-email`. Se Resend non e configurato o manca l'email cliente, la prenotazione non fallisce: la funzione restituisce `skipped`.
+
 ---
 
 ## Mappa dei file VIP
@@ -217,6 +220,7 @@ frontend/
     │   ├── vip-booking.js          # Logica booking + mappa (MODIFICATO)
     │   ├── vip-referral.js         # Logica referral
     │   ├── vip-staff-auth.js       # Logica auth staff
+    │   ├── vip-staff-guard.js      # Guard UI staff
     │   ├── vip-verify.js           # Logica verifica card
     │   ├── vip-admin-dashboard.js  # FDAVipAdmin namespace + KPI
     │   ├── vip-admin-clients.js    # Gestione lista clienti
@@ -232,10 +236,12 @@ supabase/
 ├── seed.sql                        # Dati test
 ├── tests.sql                       # Test automatici
 └── functions/
-    └── vip-client-photo/           # Edge Function foto cliente
+    ├── vip-client-photo/           # Edge Function foto cliente
+    └── vip-booking-email/          # Edge Function email QR booking
 
 docs/
 ├── fda-vip-club-spec-v4.md         # Specifica approvata
+├── AI_HANDOFF_FIOR_DACQUA_VIP.md   # Passaggio consegne completo per future AI
 ├── setup-supabase.md               # Guida setup
 ├── test-checklist.md               # Checklist QA backend
 └── operativo-vip-club.md           # QUESTO FILE

@@ -34,6 +34,9 @@ Riferimenti:
 - `public.is_staff(auth.uid())` restituisce `true`
 - `public.is_admin(auth.uid())` restituisce `true`
 - Un utente non presente in `staff_users` non viene trattato come staff
+- Un utente Supabase autenticato ma non presente in `staff_users` viene sloggato da `vip-staff-login.html`
+- `vip-verify.html` mostra il guard staff se aperta senza sessione staff
+- `vip-verify.html` non mostra dashboard, verifica card o clienti prima del controllo `is_staff()`
 
 ---
 
@@ -95,6 +98,27 @@ Riferimenti:
 - `children > 20` respinto
 - `time_slot` non valido respinto
 - La booking creata parte con stato `RICHIESTA`
+- Dopo `create_spot_booking()` il frontend mostra il QR pass
+- Il QR punta a `vip-verify.html?tab=bookings&booking=<BOOKING_ID>&date=<YYYY-MM-DD>`
+- Aprendo il QR da browser non staff compare il guard staff
+- Aprendo il QR da staff autenticato si apre la tab `Prenotazioni` filtrata sulla booking
+
+---
+
+## Email QR prenotazione
+
+- Edge Function `vip-booking-email` risponde a `OPTIONS`
+- Se Resend non e configurato, la funzione restituisce `skipped` e non rompe il booking
+- Se il cliente non ha email, la funzione restituisce `skipped`
+- Se il cliente ha email e Resend e configurato, arriva email con:
+  - nome cliente
+  - data prenotazione
+  - postazione
+  - codice richiesta
+  - immagine QR
+  - link operativo staff
+- La funzione respinge `booking_id` non appartenente alla sessione cliente
+- La funzione respinge token cliente scaduto
 
 ---
 

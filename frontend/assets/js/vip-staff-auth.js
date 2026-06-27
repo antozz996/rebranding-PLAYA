@@ -68,6 +68,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                 throw new Error("Sessione staff non disponibile.");
             }
 
+            const isStaff = await verifyStaffRole(data.session.user.id);
+            if (!isStaff) {
+                await supabaseClient.auth.signOut();
+                throw new Error("not_staff");
+            }
+
             await hydrateSessionState();
 
             window.FDAVip.showStatus(
@@ -118,6 +124,18 @@ document.addEventListener("DOMContentLoaded", async function () {
             return;
         }
 
+        const isStaff = await verifyStaffRole(session.user.id);
+        if (!isStaff) {
+            await supabaseClient.auth.signOut();
+            if (currentUserNode) {
+                currentUserNode.textContent = "Sessione non autorizzata";
+            }
+            if (sessionCopyNode) {
+                sessionCopyNode.textContent = "L'utente autenticato non risulta inserito tra gli staff autorizzati.";
+            }
+            return;
+        }
+
         if (currentUserNode) {
             currentUserNode.textContent = session.user && session.user.email
                 ? session.user.email
@@ -126,6 +144,22 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (sessionCopyNode) {
             sessionCopyNode.textContent = "Sessione staff attiva nel browser. Puoi proseguire direttamente con la verifica card.";
         }
+    }
+
+    async function verifyStaffRole(userId) {
+        if (!userId) {
+            return false;
+        }
+
+        const { data, error } = await supabaseClient.rpc("is_staff", {
+            p_user_id: userId
+        });
+
+        if (error) {
+            return false;
+        }
+
+        return Boolean(data);
     }
 
     function disableForm() {
@@ -171,6 +205,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
         if (message.includes("email not confirmed")) {
             return "L'email staff non risulta ancora confermata.";
+        }
+        if (message.includes("not_staff")) {
+            return "Questo utente non e abilitato come staff Fior d'Acqua.";
         }
 
         return "Non riusciamo a completare l'accesso staff in questo momento.";

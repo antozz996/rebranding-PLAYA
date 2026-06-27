@@ -99,6 +99,49 @@
         return config.photoFunctionName || "vip-client-photo";
     }
 
+    function getBookingEmailFunctionName() {
+        return config.bookingEmailFunctionName || "vip-booking-email";
+    }
+
+    function getPublicSiteUrl() {
+        const configuredUrl = String(config.publicSiteUrl || "").trim();
+        const fallbackUrl = window.location.origin || "";
+        return (configuredUrl || fallbackUrl).replace(/\/+$/, "");
+    }
+
+    function buildAbsoluteUrl(path) {
+        const rawPath = String(path || "").trim();
+        if (/^https?:\/\//i.test(rawPath)) {
+            return rawPath;
+        }
+
+        const cleanPath = rawPath.replace(/^\/+/, "");
+        return getPublicSiteUrl() + "/" + cleanPath;
+    }
+
+    function buildBookingStaffUrl(bookingId, bookingDate) {
+        const url = new URL(buildAbsoluteUrl("vip-verify.html"));
+        url.searchParams.set("tab", "bookings");
+        url.searchParams.set("booking", String(bookingId || "").trim());
+
+        if (bookingDate) {
+            url.searchParams.set("date", String(bookingDate).trim());
+        }
+
+        return url.toString();
+    }
+
+    function buildQrImageUrl(payload, size) {
+        const qrUrl = new URL(config.qrProviderUrl || "https://api.qrserver.com/v1/create-qr-code/");
+        const normalizedSize = Number.isFinite(Number(size)) ? Number(size) : 240;
+
+        qrUrl.searchParams.set("size", normalizedSize + "x" + normalizedSize);
+        qrUrl.searchParams.set("margin", "16");
+        qrUrl.searchParams.set("data", String(payload || ""));
+
+        return qrUrl.toString();
+    }
+
     function getInitials(value) {
         const clean = String(value || "")
             .trim()
@@ -132,6 +175,11 @@
         normalizeCardCode,
         normalizePhone,
         getPhotoFunctionName,
+        getBookingEmailFunctionName,
+        getPublicSiteUrl,
+        buildAbsoluteUrl,
+        buildBookingStaffUrl,
+        buildQrImageUrl,
         getInitials
     };
 })();
