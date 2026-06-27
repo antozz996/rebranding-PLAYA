@@ -108,8 +108,8 @@ Deno.serve(async (request) => {
         const sessionToken = String(token || "").trim();
         const bookingId = String(booking_id || "").trim();
 
-        if (!isUuid(sessionToken) || !isUuid(bookingId)) {
-            return jsonResponse({ error: "Invalid booking email payload." }, 400);
+        if (!isUuid(bookingId)) {
+            return jsonResponse({ error: "Invalid booking_id payload." }, 400);
         }
 
         const supabaseUrl = Deno.env.get("SUPABASE_URL");
@@ -139,20 +139,57 @@ Deno.serve(async (request) => {
             }
         });
 
-        const { data: session, error: sessionError } = await supabaseAdmin
-            .from("client_sessions")
-            .select("client_id, expires_at")
-            .eq("token", sessionToken)
-            .maybeSingle();
+        // 1. Authenticate caller (Hybrid: Staff Auth Header or Client Body Token)
+        let isStaff = false;
+        let clientId: string | null = null;
 
-        if (sessionError) {
-            throw sessionError;
+        const authHeader = request.headers.get("Authorization") || "";
+        const jwt = authHeader.replace(/^Bearer\s+/i, "").trim();
+
+        if (jwt && jwt !== Deno.env.get("SUPABASE_ANON_KEY")) {
+            const authClient = createClient(supabaseUrl, jwt, {
+                auth: {
+                    autoRefreshToken: false,
+                    persistSession: false
+                }
+            });
+
+            const { data: { user } } = await authClient.auth.getUser();
+            if (user) {
+                const { data: staff } = await supabaseAdmin
+                    .from("staff_users")
+                    .select("role")
+                    .eq("id", user.id)
+                    .maybeSingle();
+                if (staff) {
+                    isStaff = true;
+                }
+            }
         }
 
-        if (!session || new Date(session.expires_at).getTime() <= Date.now()) {
-            return jsonResponse({ error: "Client session is invalid or expired." }, 401);
+        if (!isStaff) {
+            if (!isUuid(sessionToken)) {
+                return jsonResponse({ error: "Unauthorized: Missing client session token or staff session." }, 401);
+            }
+
+            const { data: session, error: sessionError } = await supabaseAdmin
+                .from("client_sessions")
+                .select("client_id, expires_at")
+                .eq("token", sessionToken)
+                .maybeSingle();
+
+            if (sessionError) {
+                throw sessionError;
+            }
+
+            if (!session || new Date(session.expires_at).getTime() <= Date.now()) {
+                return jsonResponse({ error: "Client session is invalid or expired." }, 401);
+            }
+
+            clientId = session.client_id;
         }
 
+        // 2. Fetch booking
         const { data: booking, error: bookingError } = await supabaseAdmin
             .from("bookings")
             .select("id, client_id, booking_date, time_slot, adults, children, spot_code_snapshot, area_preference, status")
@@ -163,14 +200,20 @@ Deno.serve(async (request) => {
             throw bookingError;
         }
 
-        if (!booking || booking.client_id !== session.client_id) {
-            return jsonResponse({ error: "Booking not found for this client session." }, 404);
+        if (!booking) {
+            return jsonResponse({ error: "Booking not found." }, 404);
         }
 
+        // For client, ensure ownership
+        if (!isStaff && booking.client_id !== clientId) {
+            return jsonResponse({ error: "Forbidden: Booking not owned by this client session." }, 403);
+        }
+
+        // 3. Fetch client details
         const { data: client, error: clientError } = await supabaseAdmin
             .from("clients")
             .select("full_name, email")
-            .eq("id", session.client_id)
+            .eq("id", booking.client_id)
             .maybeSingle();
 
         if (clientError) {
@@ -182,7 +225,7 @@ Deno.serve(async (request) => {
             return jsonResponse({
                 success: false,
                 skipped: true,
-                message: "QR creato. Email non inviata perche il profilo cliente non ha un indirizzo email salvato."
+                message: "QR creato. Email non inviata perché il profilo cliente non ha un indirizzo email salvato."
             });
         }
 
@@ -192,10 +235,14 @@ Deno.serve(async (request) => {
         const spotLabel = String(booking.spot_code_snapshot || booking.area_preference || "postazione selezionata");
         const replyTo = Deno.env.get("BOOKING_EMAIL_REPLY_TO") || undefined;
 
+        const subjectLine = booking.status === "CONFERMATA"
+            ? "Conferma prenotazione Fior d'Acqua VIP"
+            : "QR richiesta prenotazione Fior d'Acqua VIP";
+
         const resendPayload: Record<string, unknown> = {
             from: emailFrom,
             to: [clientEmail],
-            subject: "QR richiesta prenotazione Fior d'Acqua VIP",
+            subject: subjectLine,
             html: buildEmailHtml({
                 clientName,
                 bookingId: booking.id,
@@ -203,6 +250,7 @@ Deno.serve(async (request) => {
                 spotLabel,
                 adults: Number(booking.adults || 0),
                 children: Number(booking.children || 0),
+                status: booking.status,
                 staffUrl,
                 qrImageUrl
             })
@@ -231,6 +279,7 @@ Deno.serve(async (request) => {
             success: true,
             sent_to: maskEmail(clientEmail),
             booking_id: booking.id,
+            status: booking.status,
             staff_url: staffUrl,
             qr_image_url: qrImageUrl
         });
@@ -247,6 +296,7 @@ function buildEmailHtml(input: {
     spotLabel: string;
     adults: number;
     children: number;
+    status: string;
     staffUrl: string;
     qrImageUrl: string;
 }) {
@@ -257,22 +307,42 @@ function buildEmailHtml(input: {
     const safeStaffUrl = escapeHtml(input.staffUrl);
     const safeQrImageUrl = escapeHtml(input.qrImageUrl);
 
+    const isConfirmed = input.status === "CONFERMATA";
+    
+    // Dynamic text based on status
+    const titleText = isConfirmed ? "Prenotazione Confermata" : "QR richiesta prenotazione";
+    const statusLabel = isConfirmed ? "Confermata" : "In attesa";
+    const bodyText = isConfirmed
+        ? `Ciao ${safeName}, la tua prenotazione per Fior d'Acqua VIP Club è stata confermata! Mostra questo QR code allo staff al tuo arrivo per effettuare il check-in.`
+        : `Ciao ${safeName}, abbiamo ricevuto la tua richiesta VIP. La prenotazione resta in attesa finché lo staff non la conferma.`;
+
+    const statusBadgeStyle = isConfirmed
+        ? "background: #d4edda; color: #155724; border: 1px solid #c3e6cb;"
+        : "background: #fff3cd; color: #856404; border: 1px solid #ffeeba;";
+
     return `
         <div style="font-family:Montserrat,Arial,sans-serif;background:#eefaff;padding:28px;color:#003f88;">
-            <div style="max-width:620px;margin:0 auto;background:#ffffff;border-radius:28px;padding:28px;border:1px solid #c7eef9;">
+            <div style="max-width:620px;margin:0 auto;background:#ffffff;border-radius:28px;padding:28px;border:1px solid #c7eef9;box-shadow:0 8px 30px rgba(0,0,0,0.03);">
                 <p style="margin:0 0 8px;text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:#0077b6;font-weight:800;">Fior d'Acqua VIP Club</p>
-                <h1 style="font-family:Fredoka,Montserrat,Arial,sans-serif;margin:0 0 12px;font-size:32px;color:#003f88;">QR richiesta prenotazione</h1>
-                <p style="font-size:16px;line-height:1.7;margin:0 0 20px;">Ciao ${safeName}, abbiamo ricevuto la tua richiesta VIP. La prenotazione resta in attesa finche lo staff non la conferma.</p>
+                <h1 style="font-family:Fredoka,Montserrat,Arial,sans-serif;margin:0 0 12px;font-size:32px;color:#003f88;">${titleText}</h1>
+                <p style="font-size:16px;line-height:1.7;margin:0 0 20px;">${bodyText}</p>
+                
                 <div style="display:grid;gap:10px;margin:22px 0;padding:18px;border-radius:20px;background:#eefaff;">
                     <strong>Data: ${safeDate}</strong>
                     <span>Postazione: ${safeSpot}</span>
                     <span>Persone: ${input.adults} adulti, ${input.children} bambini</span>
                     <span>Codice richiesta: ${safeBookingId}</span>
+                    <div style="margin-top: 8px;">
+                        <span style="display:inline-block;padding:4px 12px;border-radius:12px;font-size:13px;font-weight:700;${statusBadgeStyle}">
+                            Stato: ${statusLabel}
+                        </span>
+                    </div>
                 </div>
+                
                 <div style="text-align:center;margin:26px 0;">
                     <img src="${safeQrImageUrl}" width="260" height="260" alt="QR prenotazione Fior d'Acqua VIP" style="border-radius:18px;border:1px solid #c7eef9;background:#fff;padding:10px;">
                 </div>
-                <p style="font-size:14px;line-height:1.7;color:#466b92;">Il QR e pensato per il controllo operativo dello staff. Se non visualizzi l'immagine, puoi mostrare questo link allo staff: <br><a href="${safeStaffUrl}" style="color:#0077b6;">${safeStaffUrl}</a></p>
+                <p style="font-size:14px;line-height:1.7;color:#466b92;">Il QR è pensato per il controllo operativo dello staff. Se non visualizzi l'immagine, puoi mostrare questo link allo staff: <br><a href="${safeStaffUrl}" style="color:#0077b6;">${safeStaffUrl}</a></p>
             </div>
         </div>
     `;

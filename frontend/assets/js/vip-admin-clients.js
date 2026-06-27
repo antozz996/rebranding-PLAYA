@@ -273,20 +273,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const timestamp = new Date().toLocaleString("it-IT");
 
-            await Promise.all(selectedClients.map(function (client) {
+            await Promise.all(selectedClients.map(async function (client) {
                 const mergedNotes = noteValue
                     ? buildMergedNotes(client.notes, "[" + timestamp + "] " + noteValue)
                     : client.notes;
 
+                const targetStatus = nextStatus || client.status;
                 const payload = {
-                    status: nextStatus || client.status,
+                    status: targetStatus,
                     notes: mergedNotes
                 };
 
-                return supabaseClient
+                const { error } = await supabaseClient
                     .from("clients")
                     .update(payload)
                     .eq("id", client.id);
+
+                if (error) {
+                    throw error;
+                }
+
+                // If status transitioned to approved/VIP and client has email, trigger welcome email Edge Function
+                const isNowApproved = (targetStatus === "APPROVATO" || targetStatus === "VIP");
+                const wasApprovedBefore = (client.status === "APPROVATO" || client.status === "VIP");
+                if (isNowApproved && !wasApprovedBefore && client.email) {
+                    try {
+                        await supabaseClient.functions.invoke("vip-profile-email", {
+                            body: { client_id: client.id }
+                        });
+                    } catch (e) {
+                        console.error("Errore invio automatico email bulk per cliente", client.id, e);
+                    }
+                }
             }));
 
             if (bulkNote) {

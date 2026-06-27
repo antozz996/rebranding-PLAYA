@@ -279,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "  </div>",
                 "  <div class='vip-booking-admin-editor-panel'>",
                 "    <strong>Azioni operative</strong>",
-                "    <span>Conferma, rifiuta, riapri o chiudi la pratica mantenendo lo storico note nello stesso blocco.</span>",
+                "    <span>Conferma, segna arrivata, rifiuta, riapri o chiudi la pratica mantenendo lo storico note nello stesso blocco.</span>",
                 "    <div class='vip-actions vip-actions-compact vip-booking-admin-inline-actions'>",
                 "      <button type='button' class='vip-booking-admin-action is-neutral' data-action='save-notes'>Salva nota</button>",
                 (row.spot_id || row.spot_code_snapshot
@@ -297,6 +297,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const noteTextarea = item.querySelector(".vip-booking-admin-textarea");
             const openClientButton = item.querySelector("[data-action='open-client']");
             const confirmButton = item.querySelector("[data-action='confirm-booking']");
+            const arrivedButton = item.querySelector("[data-action='arrived-booking']");
             const rejectButton = item.querySelector("[data-action='reject-booking']");
             const unlockButton = item.querySelector("[data-action='unlock-booking']");
             const reopenButton = item.querySelector("[data-action='reopen-booking']");
@@ -308,6 +309,12 @@ document.addEventListener("DOMContentLoaded", function () {
             if (confirmButton) {
                 confirmButton.addEventListener("click", function () {
                     requestStatusChange(row, "CONFERMATA", noteTextarea);
+                });
+            }
+
+            if (arrivedButton) {
+                arrivedButton.addEventListener("click", function () {
+                    requestStatusChange(row, "ARRIVATA", noteTextarea);
                 });
             }
 
@@ -414,6 +421,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 throw error;
             }
 
+            if (nextStatus === "CONFERMATA" && row.status !== "CONFERMATA") {
+                try {
+                    await supabaseClient.functions.invoke("vip-booking-email", {
+                        body: {
+                            booking_id: row.id
+                        }
+                    });
+                } catch (e) {
+                    console.error("Errore invio automatico email conferma prenotazione", e);
+                }
+            }
+
             window.FDAVip.showStatus(
                 statusBox,
                 keepStatusMessage ? "Note staff aggiornate correttamente." : buildStatusFeedback(nextStatus),
@@ -450,7 +469,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function getStatusClass(status) {
-        if (status === "CONFERMATA") {
+        if (status === "CONFERMATA" || status === "ARRIVATA") {
             return "is-approved";
         }
         if (status === "RICHIESTA") {
@@ -475,6 +494,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (status === "RICHIESTA") {
             return "Prenotazione riportata in attesa.";
         }
+        if (status === "ARRIVATA") {
+            return "Prenotazione segnata come arrivata.";
+        }
         if (status === "COMPLETATA") {
             return "Prenotazione marcata come completata.";
         }
@@ -490,14 +512,22 @@ document.addEventListener("DOMContentLoaded", function () {
         if (row.status === "RICHIESTA") {
             actions.push(
                 "<button type='button' class='vip-booking-admin-action is-primary' data-action='confirm-booking'>Conferma</button>",
+                "<button type='button' class='vip-booking-admin-action is-primary' data-action='arrived-booking'>Arrivata</button>",
                 "<button type='button' class='vip-booking-admin-action is-danger' data-action='reject-booking'>Rifiuta</button>"
             );
         } else if (row.status === "CONFERMATA") {
             actions.push(
+                "<button type='button' class='vip-booking-admin-action is-primary' data-action='arrived-booking'>Arrivata</button>",
                 "<button type='button' class='vip-booking-admin-action is-primary' data-action='complete-booking'>Completa</button>",
                 "<button type='button' class='vip-booking-admin-action is-neutral' data-action='unlock-booking'>Riapri</button>",
                 "<button type='button' class='vip-booking-admin-action is-neutral' data-action='no-show-booking'>No show</button>",
                 "<button type='button' class='vip-booking-admin-action is-danger' data-action='reject-booking'>Rifiuta</button>"
+            );
+        } else if (row.status === "ARRIVATA") {
+            actions.push(
+                "<button type='button' class='vip-booking-admin-action is-primary' data-action='complete-booking'>Completa</button>",
+                "<button type='button' class='vip-booking-admin-action is-neutral' data-action='unlock-booking'>Riapri</button>",
+                "<button type='button' class='vip-booking-admin-action is-neutral' data-action='no-show-booking'>No show</button>"
             );
         } else if (row.status === "RIFIUTATA" || row.status === "ANNULLATA" || row.status === "NO_SHOW") {
             actions.push(
@@ -506,6 +536,12 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (row.status === "COMPLETATA") {
             actions.push(
                 "<button type='button' class='vip-booking-admin-action is-neutral' data-action='reopen-booking'>Riapri pratica</button>"
+            );
+        }
+
+        if (row.id) {
+            actions.push(
+                "<a class='vip-booking-admin-action' href='" + buildCheckinUrl(row) + "'>Check-in QR</a>"
             );
         }
 
@@ -518,12 +554,22 @@ document.addEventListener("DOMContentLoaded", function () {
         return actions;
     }
 
+    function buildCheckinUrl(row) {
+        const params = new URLSearchParams();
+        params.set("booking", String(row.id || ""));
+        if (row.booking_date) {
+            params.set("date", String(row.booking_date));
+        }
+        return "vip-checkin.html?" + params.toString();
+    }
+
     function buildStatusConfirmationMessage(row, nextStatus) {
         const clientName = row.client && row.client.full_name ? row.client.full_name : "questo cliente";
         const actions = {
             CONFERMATA: "Confermare la prenotazione di ",
             RIFIUTATA: "Rifiutare la prenotazione di ",
             RICHIESTA: "Riportare in attesa la prenotazione di ",
+            ARRIVATA: "Segnare come arrivata la prenotazione di ",
             COMPLETATA: "Segnare come completata la prenotazione di ",
             NO_SHOW: "Segnare come no show la prenotazione di "
         };
@@ -547,6 +593,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const labels = {
             RICHIESTA: "In attesa",
             CONFERMATA: "Confermata",
+            ARRIVATA: "Arrivata",
             RIFIUTATA: "Rifiutata",
             ANNULLATA: "Annullata",
             COMPLETATA: "Completata",

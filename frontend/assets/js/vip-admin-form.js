@@ -20,6 +20,11 @@ document.addEventListener("DOMContentLoaded", function () {
             resetButton.addEventListener("click", resetForm);
         }
 
+        const welcomeEmailBtn = document.getElementById("vipAdminSendWelcomeEmailButton");
+        if (welcomeEmailBtn) {
+            welcomeEmailBtn.addEventListener("click", sendManualWelcomeEmail);
+        }
+
         if (fileInput) {
             fileInput.addEventListener("change", updateLocalPhotoPreview);
         }
@@ -58,6 +63,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         try {
             const wasEditMode = isEditMode();
+            const oldClient = wasEditMode ? dashboard.getEditingClient() : null;
+            const oldStatus = oldClient ? oldClient.status : null;
+            const oldEmail = oldClient ? oldClient.email : null;
+
             let savedClient;
 
             if (wasEditMode) {
@@ -95,11 +104,35 @@ document.addEventListener("DOMContentLoaded", function () {
             dashboard.setEditingClient(savedClient);
             updateOutput(savedClient);
 
+            // Automatic welcome email check
+            const isNowApproved = (savedClient.status === "APPROVATO" || savedClient.status === "VIP");
+            const wasApprovedBefore = (oldStatus === "APPROVATO" || oldStatus === "VIP");
+            const hasEmail = Boolean(savedClient.email);
+
+            let emailFeedback = "";
+            if (isNowApproved && hasEmail && (!wasApprovedBefore || (savedClient.email !== oldEmail))) {
+                try {
+                    const { data: emailData, error: fnError } = await supabaseClient.functions.invoke("vip-profile-email", {
+                        body: { client_id: savedClient.id }
+                    });
+                    if (!fnError && emailData) {
+                        if (emailData.success) {
+                            emailFeedback = " Email di benvenuto inviata.";
+                        } else if (emailData.skipped) {
+                            emailFeedback = " " + (emailData.message || "Invio email saltato.");
+                        }
+                    }
+                } catch (e) {
+                    console.error("Errore invio automatico welcome email", e);
+                    emailFeedback = " Errore invio email benvenuto.";
+                }
+            }
+
             window.FDAVip.showStatus(
                 statusBox,
-                wasEditMode
+                (wasEditMode
                     ? "Profilo cliente aggiornato correttamente."
-                    : "Profilo cliente creato correttamente.",
+                    : "Profilo cliente creato correttamente.") + emailFeedback,
                 "success"
             );
 
@@ -194,6 +227,15 @@ document.addEventListener("DOMContentLoaded", function () {
         updatePhotoPreviewFromPath(client.photo_path, client.full_name);
         updateOutput(client);
 
+        const welcomeEmailBtn = document.getElementById("vipAdminSendWelcomeEmailButton");
+        if (welcomeEmailBtn) {
+            if (client.id && (client.status === "APPROVATO" || client.status === "VIP") && client.email) {
+                welcomeEmailBtn.style.display = "inline-flex";
+            } else {
+                welcomeEmailBtn.style.display = "none";
+            }
+        }
+
         if (saveButton) {
             saveButton.textContent = "Aggiorna profilo";
         }
@@ -224,6 +266,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         if (saveButton) {
             saveButton.textContent = "Crea profilo";
+        }
+
+        const welcomeEmailBtn = document.getElementById("vipAdminSendWelcomeEmailButton");
+        if (welcomeEmailBtn) {
+            welcomeEmailBtn.style.display = "none";
         }
 
         if (window.FDAVip) {
@@ -388,6 +435,47 @@ document.addEventListener("DOMContentLoaded", function () {
         const node = document.getElementById(id);
         if (node) {
             node.textContent = value;
+        }
+    }
+
+    async function sendManualWelcomeEmail() {
+        const welcomeEmailBtn = document.getElementById("vipAdminSendWelcomeEmailButton");
+        const clientId = getCurrentClientId();
+        if (!welcomeEmailBtn || !clientId) {
+            return;
+        }
+
+        const supabaseClient = dashboard.getSupabaseClient();
+        if (!supabaseClient || !(await dashboard.ensureStaffSession(statusBox))) {
+            return;
+        }
+
+        welcomeEmailBtn.disabled = true;
+        const originalText = welcomeEmailBtn.textContent;
+        welcomeEmailBtn.textContent = "Invio...";
+        window.FDAVip.hideStatus(statusBox);
+
+        try {
+            const { data, error } = await supabaseClient.functions.invoke("vip-profile-email", {
+                body: { client_id: clientId }
+            });
+
+            if (error) {
+                throw error;
+            }
+
+            if (data && data.success) {
+                window.FDAVip.showStatus(statusBox, "Email di benvenuto inviata al recapito del cliente.", "success");
+            } else if (data && data.skipped) {
+                window.FDAVip.showStatus(statusBox, data.message || "Invio email saltato.", "success");
+            } else {
+                window.FDAVip.showStatus(statusBox, "Email non confermata dal servizio.", "error");
+            }
+        } catch (err) {
+            window.FDAVip.showStatus(statusBox, "Impossibile inviare l'email: verifica la configurazione dell'Edge Function.", "error");
+        } finally {
+            welcomeEmailBtn.disabled = false;
+            welcomeEmailBtn.textContent = originalText;
         }
     }
 });
