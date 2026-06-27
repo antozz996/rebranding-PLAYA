@@ -502,6 +502,7 @@
                 <div class="vip-inline-tabs" id="vipPoolAdminTabs" role="tablist" aria-label="Sottosezioni gestione piscina">
                     <button class="vip-inline-tab is-active" type="button" data-pool-tab-target="layout" aria-selected="true">Layout permanente</button>
                     <button class="vip-inline-tab" type="button" data-pool-tab-target="overrides" aria-selected="false">Override giornalieri</button>
+                    <button class="vip-inline-tab" type="button" data-pool-tab-target="rules" aria-selected="false">Regole prenotazione</button>
                 </div>
 
                 <section class="vip-pool-subpanel is-active" data-pool-tab-panel="layout">
@@ -735,7 +736,8 @@
                             <div class="vip-booking-map-topbar">
                                 <div class="vip-booking-legend">
                                     <span class="vip-beach-legend-chip is-available">Disponibile</span>
-                                    <span class="vip-beach-legend-chip is-occupied">Occupata</span>
+                                    <span class="vip-beach-legend-chip is-booked">Prenotata</span>
+                                    <span class="vip-beach-legend-chip is-occupied">Riservata</span>
                                     <span class="vip-beach-legend-chip is-blocked">Bloccata</span>
                                     <span class="vip-beach-legend-chip is-maintenance">Manutenzione</span>
                                     <span class="vip-beach-legend-chip is-selected">Selezionata</span>
@@ -804,6 +806,54 @@
                                 <div class="vip-actions">
                                     <button class="vip-btn vip-btn-primary" id="vipBeachOverrideSave" type="submit">Salva override</button>
                                     <button class="vip-btn vip-btn-plain" id="vipBeachOverrideClear" type="button">Rimuovi override</button>
+                                </div>
+                            </form>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="vip-pool-subpanel" data-pool-tab-panel="rules" hidden>
+                    <div class="vip-grid-2">
+                        <article class="vip-helper-box">
+                            <strong>Limiti di prenotazione</strong><br>
+                            <span>Imposta le regole e i limiti che il frontend imporrà automaticamente ai clienti VIP durante la prenotazione.</span>
+                        </article>
+                        <article class="vip-helper-box">
+                            <strong>Sincronizzazione</strong><br>
+                            <span>Le regole vengono salvate in tempo reale nel database e hanno effetto immediato su tutte le nuove richieste.</span>
+                        </article>
+                    </div>
+
+                    <div class="vip-status-message" id="vipBookingRulesStatus" aria-live="polite"></div>
+
+                    <div class="vip-layout-workspace-grid" style="display: block; max-width: 800px; margin: 24px 0 0 0;">
+                        <article class="vip-panel">
+                            <form class="vip-form" id="vipBookingRulesForm" novalidate>
+                                <div class="vip-grid-2">
+                                    <div class="vip-field">
+                                        <label for="rule_booking_enabled">Stato Prenotazioni Online</label>
+                                        <select id="rule_booking_enabled" name="booking_enabled" required>
+                                            <option value="true">Attive (i clienti possono prenotare)</option>
+                                            <option value="false">Sospese (blocco globale)</option>
+                                        </select>
+                                    </div>
+                                    <div class="vip-field">
+                                        <label for="rule_max_guests_per_spot">Persone massime per postazione</label>
+                                        <input id="rule_max_guests_per_spot" name="max_guests_per_spot" type="number" min="1" max="10" required>
+                                    </div>
+                                </div>
+                                <div class="vip-grid-2">
+                                    <div class="vip-field">
+                                        <label for="rule_max_days_advance">Giorni massimi di anticipo</label>
+                                        <input id="rule_max_days_advance" name="max_days_advance" type="number" min="1" max="365" required>
+                                    </div>
+                                    <div class="vip-field">
+                                        <label for="rule_same_day_cutoff_hour">Ora limite per prenotare oggi stesso (0-23)</label>
+                                        <input id="rule_same_day_cutoff_hour" name="same_day_cutoff_hour" type="number" min="0" max="23" required>
+                                    </div>
+                                </div>
+                                <div class="vip-actions" style="margin-top: 24px;">
+                                    <button class="vip-btn vip-btn-primary" id="vipBookingRulesSave" type="submit">Salva regole operative</button>
                                 </div>
                             </form>
                         </article>

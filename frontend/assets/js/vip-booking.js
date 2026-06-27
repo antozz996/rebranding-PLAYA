@@ -60,8 +60,44 @@ document.addEventListener("DOMContentLoaded", async function () {
         selectedDate: ""
     };
 
+    // Default rules configuration
+    const rules = {
+        booking_enabled: "true",
+        max_days_advance: "30",
+        same_day_cutoff_hour: "12",
+        max_guests_per_spot: "4"
+    };
+
+    try {
+        const { data: rulesData } = await supabaseClient
+            .from("booking_rules")
+            .select("key, value");
+        if (rulesData && rulesData.length) {
+            rulesData.forEach(function (rule) {
+                rules[rule.key] = rule.value;
+            });
+        }
+    } catch (e) {
+        console.error("Non è stato possibile caricare le regole di prenotazione dal database.", e);
+    }
+
+    if (rules.booking_enabled !== "true") {
+        window.FDAVip.showStatus(statusBox, "Le prenotazioni online sono momentaneamente sospese dallo staff.", "error");
+        if (gateStatus) {
+            gateStatus.textContent = "Le prenotazioni online sono momentaneamente sospese dallo staff.";
+        }
+        disableForm();
+        return;
+    }
+
     if (dateInput) {
-        dateInput.min = formatDateForInput(new Date());
+        const today = new Date();
+        dateInput.min = formatDateForInput(today);
+
+        const maxDays = Number(rules.max_days_advance || 30);
+        const maxDate = new Date();
+        maxDate.setDate(today.getDate() + maxDays);
+        dateInput.max = formatDateForInput(maxDate);
     }
 
     try {
@@ -160,6 +196,24 @@ document.addEventListener("DOMContentLoaded", async function () {
             renderEmptyMap("Scegli una data per caricare la piantina prenotabile.");
             window.FDAVip.hideStatus(mapStatusBox);
             return;
+        }
+
+        const todayStr = formatDateForInput(new Date());
+        if (normalizedDate === todayStr) {
+            const currentHour = new Date().getHours();
+            const cutoffHour = Number(rules.same_day_cutoff_hour || 12);
+            if (currentHour >= cutoffHour) {
+                renderEmptyMap("Prenotazioni per oggi chiuse.");
+                window.FDAVip.showStatus(
+                    mapStatusBox,
+                    "Non è più consentito prenotare online per la giornata odierna dopo le ore " + cutoffHour + ":00.",
+                    "error"
+                );
+                if (mapTitle) {
+                    mapTitle.textContent = "Chiuso per oggi";
+                }
+                return;
+            }
         }
 
         window.FDAVip.hideStatus(mapStatusBox);
@@ -356,6 +410,16 @@ document.addEventListener("DOMContentLoaded", async function () {
             return;
         }
 
+        const adultsCount = Number(form.adults.value || 0);
+        const childrenCount = Number(form.children.value || 0);
+        const totalGuests = adultsCount + childrenCount;
+        const maxGuestsLimit = Number(rules.max_guests_per_spot || 4);
+
+        if (totalGuests > maxGuestsLimit) {
+            window.FDAVip.showStatus(statusBox, "Capienza massima superata: massimo " + maxGuestsLimit + " persone consentite per questa postazione.", "error");
+            return;
+        }
+
         window.FDAVip.hideStatus(statusBox);
         submitButton.disabled = true;
         submitButton.textContent = "Invio richiesta...";
@@ -542,6 +606,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         if (status === "DISPONIBILE") {
             classNames.push("is-available");
+        } else if (status === "OCCUPATA") {
+            classNames.push("is-booked");
         } else if (status === "RISERVATA") {
             classNames.push("is-occupied");
         } else if (status === "MANUTENZIONE") {

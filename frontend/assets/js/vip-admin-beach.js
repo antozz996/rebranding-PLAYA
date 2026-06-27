@@ -145,6 +145,11 @@ document.addEventListener("DOMContentLoaded", function () {
             overrideClearButton.addEventListener("click", clearOverride);
         }
 
+        const rulesForm = document.getElementById("vipBookingRulesForm");
+        if (rulesForm) {
+            rulesForm.addEventListener("submit", saveBookingRules);
+        }
+
         if (layoutRefreshButton) {
             layoutRefreshButton.addEventListener("click", function () {
                 loadStaffAccess().then(function () {
@@ -206,6 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
         await loadStaffAccess();
         await loadLayout();
         await loadAdminMap(initialDate);
+        await loadBookingRules();
     }
 
     async function loadStaffAccess() {
@@ -226,7 +232,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function setPoolTab(tabName) {
-        const target = tabName === "overrides" ? "overrides" : "layout";
+        const allowed = ["layout", "overrides", "rules"];
+        const target = allowed.includes(tabName) ? tabName : "layout";
         state.poolTab = target;
 
         poolTabButtons.forEach(function (button) {
@@ -240,6 +247,70 @@ document.addEventListener("DOMContentLoaded", function () {
             panel.hidden = !isActive;
             panel.classList.toggle("is-active", isActive);
         });
+    }
+
+    async function loadBookingRules() {
+        const supabaseClient = dashboard.getSupabaseClient();
+        if (!supabaseClient) return;
+
+        const rulesStatusBox = document.getElementById("vipBookingRulesStatus");
+        window.FDAVip.hideStatus(rulesStatusBox);
+
+        try {
+            const { data, error } = await supabaseClient
+                .from("booking_rules")
+                .select("key, value");
+
+            if (error) throw error;
+
+            if (data && data.length) {
+                data.forEach(function (rule) {
+                    const node = document.getElementById("rule_" + rule.key);
+                    if (node) {
+                        node.value = rule.value;
+                    }
+                });
+            }
+        } catch (err) {
+            console.error("Errore nel caricamento delle regole", err);
+            window.FDAVip.showStatus(rulesStatusBox, "Errore nel caricamento delle regole.", "error");
+        }
+    }
+
+    async function saveBookingRules(event) {
+        if (event) event.preventDefault();
+
+        const supabaseClient = dashboard.getSupabaseClient();
+        const rulesStatusBox = document.getElementById("vipBookingRulesStatus");
+        
+        if (!supabaseClient || !(await dashboard.ensureStaffSession(rulesStatusBox))) {
+            return;
+        }
+
+        window.FDAVip.hideStatus(rulesStatusBox);
+
+        const rulesKeys = ["booking_enabled", "max_guests_per_spot", "max_days_advance", "same_day_cutoff_hour"];
+        const updates = rulesKeys.map(function (key) {
+            const node = document.getElementById("rule_" + key);
+            return {
+                key: key,
+                value: node ? String(node.value).trim() : ""
+            };
+        });
+
+        try {
+            const { error } = await supabaseClient
+                .from("booking_rules")
+                .upsert(updates);
+
+            if (error) throw error;
+
+            window.FDAVip.showStatus(rulesStatusBox, "Regole salvate correttamente ed applicate in tempo reale.", "success");
+            window.dispatchEvent(new CustomEvent("fda-vip-admin:data-changed"));
+        } catch (err) {
+            console.error("Errore nel salvataggio delle regole", err);
+            window.FDAVip.showStatus(rulesStatusBox, "Impossibile salvare le regole.", "error");
+        }
     }
 
     async function loadLayout(preserveSelection) {
@@ -1451,6 +1522,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (status === "DISPONIBILE") {
             classNames.push("is-available");
+        } else if (status === "OCCUPATA") {
+            classNames.push("is-booked");
         } else if (status === "RISERVATA") {
             classNames.push("is-occupied");
         } else if (status === "MANUTENZIONE") {

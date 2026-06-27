@@ -1228,8 +1228,13 @@ body.vip-club-body {
 }
 
 .vip-beach-legend-chip.is-available {
-    border-color: rgba(46, 196, 182, 0.45);
-    background: rgba(46, 196, 182, 0.14);
+    border-color: rgba(40, 167, 69, 0.45);
+    background: rgba(40, 167, 69, 0.14);
+}
+
+.vip-beach-legend-chip.is-booked {
+    border-color: rgba(108, 117, 125, 0.45);
+    background: rgba(108, 117, 125, 0.14);
 }
 
 .vip-beach-legend-chip.is-occupied {
@@ -1586,8 +1591,13 @@ body.vip-club-body {
 }
 
 .vip-beach-spot.is-available {
-    border-color: rgba(46, 196, 182, 0.36);
-    background: linear-gradient(180deg, rgba(244, 255, 253, 0.98), rgba(46, 196, 182, 0.1));
+    border-color: rgba(40, 167, 69, 0.36);
+    background: linear-gradient(180deg, rgba(240, 250, 241, 0.98), rgba(40, 167, 69, 0.1));
+}
+
+.vip-beach-spot.is-booked {
+    border-color: rgba(108, 117, 125, 0.36);
+    background: linear-gradient(180deg, rgba(248, 249, 250, 0.98), rgba(108, 117, 125, 0.12));
 }
 
 .vip-beach-spot.is-occupied {
