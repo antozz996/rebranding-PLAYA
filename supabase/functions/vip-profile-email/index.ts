@@ -1,4 +1,4 @@
-import { createClient } from "npm:@supabase/supabase-js@2";
+import { createClient } from "npm:@supabase/supabase-js@2.112.3";
 
 const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
@@ -35,7 +35,7 @@ function getServiceRoleKey() {
 }
 
 function getPublicSiteUrl() {
-    return String(Deno.env.get("PUBLIC_SITE_URL") || "https://rebranding-playa.vercel.app")
+    return String(Deno.env.get("PUBLIC_SITE_URL") || "https://www.playaluna.it")
         .replace(/\/+$/, "");
 }
 

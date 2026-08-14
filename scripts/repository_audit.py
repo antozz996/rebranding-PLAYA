@@ -80,6 +80,11 @@ for forbidden in FORBIDDEN_PATHS:
     if forbidden.exists():
         ERRORS.append(f"Forbidden generated path is tracked/present: {forbidden.relative_to(ROOT)}")
 
+for source_file in list(FRONTEND.rglob("*.html")) + list((ROOT / "supabase" / "functions").rglob("*.ts")):
+    source_content = source_file.read_text(encoding="utf-8-sig")
+    if re.search(r"@supabase/supabase-js@2(?:[\"'/]|$)", source_content):
+        ERRORS.append(f"{source_file.relative_to(ROOT)}: Supabase dependency is not pinned")
+
 for page in production_pages():
     content = page.read_text(encoding="utf-8-sig")
     relative = page.relative_to(ROOT)

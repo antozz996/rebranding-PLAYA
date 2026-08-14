@@ -2,7 +2,7 @@
 
 > Ultimo aggiornamento: 2026-06-27
 > Progetto: `rebranding-PLAYA`
-> Produzione frontend: `https://rebranding-playa.vercel.app`
+> Produzione frontend: `https://www.playaluna.it`
 > Repository: `https://github.com/antozz996/rebranding-PLAYA`
 
 Questo documento e il passaggio di consegne completo per qualunque AI o sviluppatore che debba continuare il lavoro. Leggerlo prima di modificare il progetto.
@@ -74,18 +74,18 @@ Servizi esterni opzionali:
 
 Pubblico:
 
-- Home produzione: `https://rebranding-playa.vercel.app`
-- Fior d'Acqua: `https://rebranding-playa.vercel.app/fiordacqua.html`
-- VIP landing: `https://rebranding-playa.vercel.app/vip.html`
-- Login cliente: `https://rebranding-playa.vercel.app/vip-login.html`
-- Card cliente: `https://rebranding-playa.vercel.app/vip-card.html`
-- Prenotazione cliente: `https://rebranding-playa.vercel.app/vip-booking.html`
-- Referral cliente: `https://rebranding-playa.vercel.app/vip-referral.html`
+- Home produzione: `https://www.playaluna.it`
+- Fior d'Acqua: `https://www.playaluna.it/fiordacqua.html`
+- VIP landing: `https://www.playaluna.it/vip.html`
+- Login cliente: `https://www.playaluna.it/vip-login.html`
+- Card cliente: `https://www.playaluna.it/vip-card.html`
+- Prenotazione cliente: `https://www.playaluna.it/vip-booking.html`
+- Referral cliente: `https://www.playaluna.it/vip-referral.html`
 
 Staff:
 
-- Login staff: `https://rebranding-playa.vercel.app/vip-staff-login.html`
-- Dashboard staff/admin: `https://rebranding-playa.vercel.app/vip-verify.html`
+- Login staff: `https://www.playaluna.it/vip-staff-login.html`
+- Dashboard staff/admin: `https://www.playaluna.it/vip-verify.html`
 
 Nota sicurezza:
 
@@ -293,7 +293,7 @@ QR:
 - Il QR contiene un link staff del tipo:
 
 ```text
-https://rebranding-playa.vercel.app/vip-checkin.html?booking=<BOOKING_ID>&date=<YYYY-MM-DD>
+https://www.playaluna.it/vip-checkin.html?booking=<BOOKING_ID>&date=<YYYY-MM-DD>
 ```
 
 - Se aperto da staff autenticato, apre il check-in della prenotazione e mostra dati cliente, card, telefono, stato, postazione, note e azioni operative.
@@ -313,7 +313,7 @@ SUPABASE_SERVICE_ROLE_KEY oppure SUPABASE_SECRET_KEYS
 RESEND_API_KEY
 BOOKING_EMAIL_FROM
 BOOKING_EMAIL_REPLY_TO opzionale
-PUBLIC_SITE_URL=https://rebranding-playa.vercel.app
+PUBLIC_SITE_URL=https://www.playaluna.it
 ```
 
 ---
@@ -382,7 +382,7 @@ Stati postazione:
 Frontend Vercel:
 
 - Config: `vercel.json`.
-- Root produzione: `https://rebranding-playa.vercel.app`.
+- Root produzione: `https://www.playaluna.it`.
 - Rewrite principali mappano `/pagina.html` verso `/frontend/pagina.html`.
 
 Comandi tipici:
@@ -401,7 +401,7 @@ supabase functions deploy vip-booking-email
 Impostazione segreti Edge Function:
 
 ```bash
-supabase secrets set PUBLIC_SITE_URL=https://rebranding-playa.vercel.app
+supabase secrets set PUBLIC_SITE_URL=https://www.playaluna.it
 supabase secrets set RESEND_API_KEY=INSERISCI_CHIAVE_RESEND
 supabase secrets set BOOKING_EMAIL_FROM="Fior d'Acqua VIP <vip@tuodominio.it>"
 supabase secrets set BOOKING_EMAIL_REPLY_TO=info@tuodominio.it

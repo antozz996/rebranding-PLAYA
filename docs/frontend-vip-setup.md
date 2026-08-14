@@ -30,7 +30,7 @@ window.FDA_VIP_CONFIG = window.FDA_VIP_CONFIG || {
   storageKey: "fda_vip_session_token",
   photoFunctionName: "vip-client-photo",
   bookingEmailFunctionName: "vip-booking-email",
-  publicSiteUrl: "https://rebranding-playa.vercel.app",
+  publicSiteUrl: "https://www.playaluna.it",
   qrProviderUrl: "https://api.qrserver.com/v1/create-qr-code/"
 };
 ```
@@ -55,21 +55,21 @@ window.FDA_VIP_CONFIG = window.FDA_VIP_CONFIG || {
 
 Deploy Vercel attivo:
 
-- `https://rebranding-playa.vercel.app/fiordacqua.html`
-- `https://rebranding-playa.vercel.app/vip.html`
-- `https://rebranding-playa.vercel.app/vip-login.html`
-- `https://rebranding-playa.vercel.app/vip-card.html`
-- `https://rebranding-playa.vercel.app/vip-booking.html`
-- `https://rebranding-playa.vercel.app/vip-referral.html`
-- `https://rebranding-playa.vercel.app/vip-staff-login.html`
-- `https://rebranding-playa.vercel.app/vip-verify.html`
+- `https://www.playaluna.it/fiordacqua.html`
+- `https://www.playaluna.it/vip.html`
+- `https://www.playaluna.it/vip-login.html`
+- `https://www.playaluna.it/vip-card.html`
+- `https://www.playaluna.it/vip-booking.html`
+- `https://www.playaluna.it/vip-referral.html`
+- `https://www.playaluna.it/vip-staff-login.html`
+- `https://www.playaluna.it/vip-verify.html`
 
 ## Dashboard Staff
 
 Per usare la dashboard:
 
-1. accedi da `https://rebranding-playa.vercel.app/vip-staff-login.html`
-2. apri `https://rebranding-playa.vercel.app/vip-verify.html`
+1. accedi da `https://www.playaluna.it/vip-staff-login.html`
+2. apri `https://www.playaluna.it/vip-verify.html`
 3. usa i tab `Verifica`, `Clienti`, `Gestione piscina`, `Prenotazioni`
 
 Il tab `Gestione piscina` contiene due sottosezioni:
@@ -106,7 +106,7 @@ supabase functions deploy vip-booking-email
 Secret richieste per invio reale:
 
 ```bash
-supabase secrets set PUBLIC_SITE_URL=https://rebranding-playa.vercel.app
+supabase secrets set PUBLIC_SITE_URL=https://www.playaluna.it
 supabase secrets set RESEND_API_KEY=INSERISCI_CHIAVE_RESEND
 supabase secrets set BOOKING_EMAIL_FROM="Fior d'Acqua VIP <vip@tuodominio.it>"
 supabase secrets set BOOKING_EMAIL_REPLY_TO=info@tuodominio.it
