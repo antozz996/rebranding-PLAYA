@@ -4,6 +4,6 @@ window.FDA_VIP_CONFIG = window.FDA_VIP_CONFIG || {
     storageKey: "fda_vip_session_token",
     photoFunctionName: "vip-client-photo",
     bookingEmailFunctionName: "vip-booking-email",
-    publicSiteUrl: "https://rebranding-playa.vercel.app",
+    publicSiteUrl: "https://www.playaluna.it",
     qrProviderUrl: "https://api.qrserver.com/v1/create-qr-code/"
 };

@@ -5,11 +5,20 @@
 .venv
 .venv-linux
 .git
+.github
 docs
 editor
 execution
+scripts
 public-preview
 supabase
+frontend/.agents
+frontend/backups
+frontend/scratch
+frontend/**/*.bak.html
+frontend/**/*.bak.nav
+frontend/test_page_temp.html
+frontend/en/test_page_temp.html
 FOTO EVENTI PRIVATI
 Foto video sito Playa
 Selezione materiale sito FDA

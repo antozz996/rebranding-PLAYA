@@ -161,7 +161,7 @@ Secret necessarie per `vip-booking-email`:
 Esempio senza valori reali:
 
 ```bash
-supabase secrets set PUBLIC_SITE_URL=https://rebranding-playa.vercel.app
+supabase secrets set PUBLIC_SITE_URL=https://www.playaluna.it
 supabase secrets set RESEND_API_KEY=INSERISCI_CHIAVE_RESEND
 supabase secrets set BOOKING_EMAIL_FROM="Fior d'Acqua VIP <vip@tuodominio.it>"
 supabase secrets set BOOKING_EMAIL_REPLY_TO=info@tuodominio.it
@@ -243,7 +243,7 @@ window.FDA_VIP_CONFIG = window.FDA_VIP_CONFIG || {
   storageKey: "fda_vip_session_token",
   photoFunctionName: "vip-client-photo",
   bookingEmailFunctionName: "vip-booking-email",
-  publicSiteUrl: "https://rebranding-playa.vercel.app",
+  publicSiteUrl: "https://www.playaluna.it",
   qrProviderUrl: "https://api.qrserver.com/v1/create-qr-code/"
 };
 ```
