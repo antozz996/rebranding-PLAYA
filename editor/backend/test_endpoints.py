@@ -1,4 +1,6 @@
 import os
+
+os.environ["EDITOR_DISABLE_OPTIMIZATIONS"] = "1"
 import shutil
 from datetime import datetime
 from fastapi.testclient import TestClient
@@ -34,7 +36,12 @@ def test_api():
         print("-> [OK] Scansione ricorsiva corretta.")
 
         # 3. Test GET /preview/test_page_temp.html (base href root)
-        print("\n[TEST] GET /preview/test_page_temp.html (Root Page Preview)")
+        print("\n[TEST] Path traversal is rejected")
+        traversal = client.get("/preview/%2E%2E/%2E%2E/vercel.json")
+        assert traversal.status_code in (400, 404), "Path traversal non bloccato"
+        print("-> [OK] Path traversal bloccato.\n")
+
+        print("[TEST] GET /preview/test_page_temp.html (Root Page Preview)")
         res = client.get("/preview/test_page_temp.html")
         assert res.status_code == 200, f"Status code errato: {res.status_code}"
         html_out = res.text

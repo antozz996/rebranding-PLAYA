@@ -76,7 +76,7 @@ URL produzione: `https://rebranding-playa.vercel.app`
 
 - [x] Config Supabase: `frontend/assets/js/vip-club-config.js`
 - [x] Core client: `frontend/assets/js/vip-club-core.js` (namespace `window.FDAVip`)
-- [x] CSS design system: `frontend/assets/js/vip-club.css` (1501 righe)
+- [x] CSS design system: `frontend/assets/css/vip-club.css` (1501 righe)
 
 ---
 

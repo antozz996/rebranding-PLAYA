@@ -139,7 +139,7 @@ Script condivisi:
 
 - `frontend/assets/js/vip-club-config.js`: configurazione Supabase, Edge Function, URL produzione, QR provider.
 - `frontend/assets/js/vip-club-core.js`: namespace `window.FDAVip`, helper Supabase, sessioni cliente, URL staff/QR.
-- `frontend/assets/js/vip-club.css`: design system VIP.
+- `frontend/assets/css/vip-club.css`: design system VIP.
 
 Script cliente:
 
